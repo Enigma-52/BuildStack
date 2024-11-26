@@ -44,6 +44,7 @@ docker-compose up -d
 POST /api/auth/signup    # Register user
 POST /api/auth/login     # Login user
 GET /api/auth/profile    # Get profile (Protected)
+```
 
 ## Database Schema
 
