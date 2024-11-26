@@ -36,6 +36,7 @@ npm install
 
 # Start services
 docker-compose up -d
+```
 
 ## API Endpoints
 
