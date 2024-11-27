@@ -15,7 +15,7 @@ const Menu = () => {
 
     return (
         <div className="hidden lg:flex items-center relative">
-            <div className="space-x-6 text-gray-500 text-sm flex items-center">
+            <div className="space-x-6 text-gray-500 flex items-center">
                 <div
                     onMouseEnter={() => setShowLaunchesMenu(true)}
                     onMouseLeave={() => setShowLaunchesMenu(false)}
