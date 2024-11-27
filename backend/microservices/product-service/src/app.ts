@@ -3,6 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { healthRoutes } from './routes/healthRoutes'
 import { errorMiddleware } from './middleware/errorMiddleware'
+import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware'
 
 const app = express()
 
@@ -11,9 +12,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(helmet())
+app.use(metricsMiddleware)
+
 
 // Routes
 app.use('/api/health', healthRoutes)
+app.get('/metrics', getMetrics)
 
 // Error Handler
 app.use(errorMiddleware)
