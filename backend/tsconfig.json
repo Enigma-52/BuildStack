@@ -5,12 +5,9 @@
       "lib": ["ES2020"],
       "baseUrl": "./",
       "outDir": "./dist",
-      "rootDir": "./src",
+      "rootDir": "./",
       
       // Path aliases
-      "paths": {
-        "@/*": ["src/*"],
-      },
   
       // Strict Checks
       "strict": true,
@@ -55,11 +52,7 @@
       // Build
       "incremental": true,
       "tsBuildInfoFile": "./dist/.tsbuildinfo"
-    },
-    "include": [
-      "src/**/*"
-    ],
-    "exclude": [
+    },    "exclude": [
       "node_modules",
       "dist",
       "coverage",
