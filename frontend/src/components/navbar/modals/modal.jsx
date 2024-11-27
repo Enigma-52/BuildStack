@@ -16,7 +16,8 @@ const Modal = ({ visible, setVisible, children }) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 z-50 transition-opacity bg-black bg-opacity-75 backdrop-filter backdrop-blur" />
+					<div className="fixed inset-0 z-50 transition-opacity
+					 bg-black bg-opacity-50 backdrop-filter" />
 				</TransitionChild>
 
 				<div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -30,21 +31,30 @@ const Modal = ({ visible, setVisible, children }) => {
 						leaveTo="opacity-0 scale-95"
 					>
 						<div className='fixed inset-0 z-50 flex items-center justify-center'>
-						<div className="absolute top-0 left-1 mt-4 mr-4 ml-4">
-									<Button
-										onClick={() => setVisible(false)}
-										className="hover:text-red-600 focus:outline-none
+							<div className="absolute top-0 left-1 mt-4 mr-4 ml-4 max-sm:hidden">
+								<Button
+									onClick={() => setVisible(false)}
+									className="hover:text-red-600 focus:outline-none
 										 bg-white rounded-full"
-									>
-										<X className="w-5 h-5" aria-hidden="true" />
-									</Button>
-								</div>
-							<DialogPanel className="relative h-full xl:h-[600px] w-full
-						 max-w-md mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
+								>
+									<X className="w-5 h-5" aria-hidden="true" />
+								</Button>
+							</div>
+							<div className="absolute top-0 left-0 mt-4 mr-4 sm:hidden">
+								<Button
+									onClick={() => setVisible(false)}
+									className="hover:text-red-600 focus:outline-none
+										 bg-black text-white rounded-l-none rounded-r-full"
+								>
+									<X className="w-5 h-5" aria-hidden="true" />
+								</Button>
+							</div>
+							<DialogPanel className="relative h-[500px] 
+						  max-sm:w-[550px] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
 						 rounded-sm 
 						 shadow-md"
 							>
-								
+
 								<div className="flex justify-center flex-col flex-1 px-8
 							 py-10 text-left rounded-t-md">
 									{children}
