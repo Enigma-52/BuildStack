@@ -33,7 +33,7 @@ const Modal = ({ visible, setVisible, children }) => {
 						<div className="absolute top-0 left-1 mt-4 mr-4 ml-4">
 									<Button
 										onClick={() => setVisible(false)}
-										className="hover:opacity-70 focus:outline-none
+										className="hover:text-red-600 focus:outline-none
 										 bg-white rounded-full"
 									>
 										<X className="w-5 h-5" aria-hidden="true" />
