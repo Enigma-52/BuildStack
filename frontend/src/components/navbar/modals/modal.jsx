@@ -1,6 +1,7 @@
 import { Dialog, Transition, TransitionChild, DialogPanel } from '@headlessui/react';
 import { Fragment } from 'react';
 import { X } from 'lucide-react';
+import { Button } from '../../ui/button';
 
 const Modal = ({ visible, setVisible, children }) => {
 	return (
@@ -15,7 +16,7 @@ const Modal = ({ visible, setVisible, children }) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-black bg-opacity-75 backdrop-filter backdrop-blur" />
+					<div className="fixed inset-0 z-50 transition-opacity bg-black bg-opacity-75 backdrop-filter backdrop-blur" />
 				</TransitionChild>
 
 				<div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -28,19 +29,28 @@ const Modal = ({ visible, setVisible, children }) => {
 						leaveFrom="opacity-100 scale-100"
 						leaveTo="opacity-0 scale-95"
 					>
-						<DialogPanel className="relative h-full w-full max-w-md mt-auto sm:mt-0 flex flex-col bg-white rounded-sm shadow-md">
-							<div className="absolute top-0 right-0 mt-4 mr-4">
-								<button
-									onClick={() => setVisible(false)}
-									className="hover:opacity-70 focus:outline-none"
-								>
-									<X className="w-5 h-5" aria-hidden="true" />
-								</button>
-							</div>
-							<div className="flex justify-center flex-col flex-1 px-8 py-10 text-left rounded-t-md">
-								{children}
-							</div>
-						</DialogPanel>
+						<div className='fixed inset-0 z-50 flex items-center justify-center'>
+						<div className="absolute top-0 left-1 mt-4 mr-4 ml-4">
+									<Button
+										onClick={() => setVisible(false)}
+										className="hover:opacity-70 focus:outline-none
+										 bg-white rounded-full"
+									>
+										<X className="w-5 h-5" aria-hidden="true" />
+									</Button>
+								</div>
+							<DialogPanel className="relative h-full xl:h-[600px] w-full
+						 max-w-md mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
+						 rounded-sm 
+						 shadow-md"
+							>
+								
+								<div className="flex justify-center flex-col flex-1 px-8
+							 py-10 text-left rounded-t-md">
+									{children}
+								</div>
+							</DialogPanel>
+						</div>
 					</TransitionChild>
 				</div>
 			</Dialog>
