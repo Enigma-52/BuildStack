@@ -5,7 +5,7 @@
       "lib": ["ES2020"],
       "baseUrl": "./",
       "outDir": "./dist",
-      "rootDir": "./src",
+      "rootDir": "./",
       
       // Path aliases
       "paths": {
