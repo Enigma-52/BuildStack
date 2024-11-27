@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import Menu from "./menu";
 import Search from "./search";
 import SignInButton from "./sign-in-button";
-import SignInModal from "../modals/SigninModal";
+import Modal from "./modals/modal";
 
 
 
@@ -36,13 +36,15 @@ const Navbar = () => {
 							Subscribe
 						</Button>
 
-						<SignInButton
-							onClick={handleButtonClick} />
+						<div onClick={handleButtonClick}><SignInButton/></div>
 					</div>
+					<Modal visible={authModalVisible} setVisible={setAuthModalVisible}>
+						Hi
+					</Modal>
 
 				</div>
 			</div>
-			<SignInModal></SignInModal>
+			
 		</>
 	);
 }
