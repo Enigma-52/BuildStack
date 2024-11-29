@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '../../ui/button';
 
-const Modal = ({ visible, setVisible, children }) => {
+const SearchModal = ({ visible, setVisible, children }) => {
 	return (
 		<Transition appear show={visible} as={Fragment}>
 			<Dialog as="div" className="relative z-50" onClose={() => setVisible(false)}>
@@ -68,4 +68,4 @@ const Modal = ({ visible, setVisible, children }) => {
 	);
 };
 
-export default Modal;
+export default SearchModal;
