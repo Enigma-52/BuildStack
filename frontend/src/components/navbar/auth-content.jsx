@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContent = () => {
     const [email, setEmail] = useState('');
-    const [password, setPasword] = useState('');
+    const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -45,7 +45,7 @@ const AuthContent = () => {
             // Clear form
             setName('');
             setEmail('');
-            setPasword('');
+            setPassword('');
 
             window.location.href = '/profile';
             
@@ -107,7 +107,7 @@ const AuthContent = () => {
                         className="mt-1 p-2 border rounded w-full m-1" 
                         value={password}
                         placeholder="Password" 
-                        onChange={(e) => setPasword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                     <Button 
