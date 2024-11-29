@@ -42,10 +42,10 @@ const AuthContent = () => {
                 <div className="flex flex-col ">
                     <input
                         type="email" id="email" className="mt-1 p-2 border rounded w-full m-1" value={email}
-                        placeholder="Email"
+                        placeholder="Email" onChange={(e) => setEmail(e.target.value)}
                     />
-                    <input type="password" id="password" className="mt-1 p-2 border rounded w-full m-1"
-                        placeholder="Password"
+                    <input type="password" id="password" className="mt-1 p-2 border rounded w-full m-1" value={password}
+                        placeholder="Password" onChange={(e) => setPasword(e.target.value)}
                     />
                     <Button className="bg-red-400 text-white left-1 hover:bg-red-600">
                         Sign in
