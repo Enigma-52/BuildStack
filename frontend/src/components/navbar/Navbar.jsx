@@ -11,6 +11,7 @@ import AuthContent from "./auth-content";
 import SearchModal from "./modals/searchModal";
 import SearchContent from "./search-content";
 import { User, Rocket } from "lucide-react";
+import { IoMenuOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -66,11 +67,12 @@ const Navbar = () => {
       <div className="border-b py-2 md:py-0 px-4 md:px-6">
         <div className="flex items-center justify-between my-6">
           <div className="flex items-center">
+			<IoMenuOutline className="w-8 h-8 text-black mr-4 sm:hidden"/>
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
               <Rocket className="w-8 h-8 text-orange-500 relative" />
             </div>
-            <span className="mx-2 text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400 max-sm:hidden">
+            <span className="mx-1 text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400 max-sm:hidden">
               BuildStack
             </span>
             {/*<Logo />*/}
