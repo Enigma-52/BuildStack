@@ -120,7 +120,7 @@ const AuthContent = () => {
                     />
                     <Button 
                         type="submit"
-                        className="bg-red-400 text-white left-1 hover:bg-red-600"
+                        className="mt-2 bg-gradient-to-r from-orange-600 to-orange-400 text-white left-1 transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30"
                         disabled={loading}
                     >
                         {loading ? 'Signing up...' : 'Sign up'}
