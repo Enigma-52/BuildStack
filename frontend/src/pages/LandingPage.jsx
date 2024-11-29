@@ -158,14 +158,12 @@ const LandingPage = () => {
             <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
               Join the community of developers discovering and sharing tomorrow's most innovative development tools.
             </p>
-            <Link href="/home">
-            <button className="group px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
+            <button onClick={() => window.location.href = '/home'} className="group px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
               <span className="flex items-center gap-2">
                 Get Started Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
-            </Link>
           </div>
         </div>
       </div>
