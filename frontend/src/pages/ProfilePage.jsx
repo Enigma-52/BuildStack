@@ -45,10 +45,10 @@ const ProfilePage = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        router('/');
+        router('/home');
     };
     const handleRedirect = () => {
-        router('/');
+        router('/home');
     };
 
     if (loading) {
