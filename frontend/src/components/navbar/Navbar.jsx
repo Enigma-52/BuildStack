@@ -12,6 +12,9 @@ import SearchModal from "./modals/searchModal";
 import SearchContent from "./search-content";
 import { User, Rocket, X } from "lucide-react";
 import { IoMenuOutline } from "react-icons/io5";
+import { PiBellBold } from "react-icons/pi";
+import Subscribe from "./subscribe";
+import { FiPlusCircle } from "react-icons/fi";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -35,7 +38,7 @@ const Navbar = () => {
 		setIsSignedIn(!!token);
 	}, []);
 
-	const handleButtonClick = () => {
+	const handleSignInButtonClick = () => {
 		setAuthModalVisible(true);
 	};
 
@@ -67,6 +70,7 @@ const Navbar = () => {
 
 	return (
 		<>
+			
 			<nav
 				className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-lg' : 'bg-transparent'
 					}`}
@@ -102,22 +106,36 @@ const Navbar = () => {
 						</div>
 
 						<div className="flex items-center mx-4">
-							<button className="group px-6 py-2 mx-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/30">
-								<span className="flex items-center gap-2">Subscribe</span>
-							</button>
+
 
 							{isSignedIn ? (
-								<Button
-									onClick={handleProfileClick}
-									variant="ghost"
-									className="rounded-full p-2 hover:bg-gray-100"
-								>
-									<User className="h-6 w-6 text-gray-600" />
-								</Button>
+								<>
+									<Button className="hover:bg-gray-100 rounded-full border-2 px-4 py-2 mx-2 text-black p" 
+										onClick={() => window.location.href='/createProduct'}
+									>
+										<FiPlusCircle className="w-5 h-5"/>
+										Submit
+									</Button>
+									<Button className="rounded-full p-2 border-2 hover:bg-gray-100 mx-2 text-black">
+										<PiBellBold className="w-5 h-5 "/>
+									</Button>
+									<Button
+										onClick={handleProfileClick}
+										variant="ghost"
+										className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
+									>
+										<User className="h-6 w-6 text-gray-600" />
+									</Button>
+								</>
 							) : (
-								<div onClick={handleButtonClick}>
-									<SignInButton />
-								</div>
+								<>
+									<div onClick={() => window.location.href = '/newsletter'}>
+										<Subscribe />
+									</div>
+									<div onClick={handleSignInButtonClick}>
+										<SignInButton />
+									</div>
+								</>
 							)}
 						</div>
 					</div>
@@ -128,7 +146,7 @@ const Navbar = () => {
 			<div
 				className={`fixed sm:hidden top-0 left-0 w-full h-full bg-white z-40 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
 					}`}
-					
+
 			>
 				<div className="h-full flex flex-col justify-center items-center">
 					{/* Add your mobile menu items here */}
