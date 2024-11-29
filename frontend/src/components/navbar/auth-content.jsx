@@ -3,7 +3,7 @@ import { Image } from "../Image";
 import { Button } from "../ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
-
+import { Rocket } from "lucide-react";
 
 const AuthContent = () => {
     const [email, setEmail] = useState('');
@@ -58,13 +58,21 @@ const AuthContent = () => {
 
     return (
         <div className="flex items-center justify-center flex-col text-black">
-            <Image
+            {/*<Image
                 src={'/logo/Logo.png'}
                 alt="logo"
                 width={200}
                 height={200}
                 className="p-10 rounded-full"
+            />*/}
+            <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
+                <Rocket
+                className="w-20 h-20 text-orange-500 relative"
             />
+              </div>
+            
+
             <div className="flex flex-col items-center justify-center text-center">
                 <div className="text-2xl font-medium py-4">
                     Sign up on Build Stack
