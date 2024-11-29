@@ -30,7 +30,7 @@ const Modal = ({ visible, setVisible, children }) => {
 						leaveFrom="opacity-100 scale-100"
 						leaveTo="opacity-0 scale-95"
 					>
-						<div className='fixed inset-0 z-50 flex items-center justify-center'>
+						<div className='fixed inset-0 z-50 flex items-center justify-center absolute'>
 							<div className="absolute top-0 left-1 mt-4 mr-4 ml-4 max-sm:hidden">
 								<Button
 									onClick={() => setVisible(false)}
@@ -49,7 +49,7 @@ const Modal = ({ visible, setVisible, children }) => {
 									<X className="w-5 h-5" aria-hidden="true" />
 								</Button>
 							</div>
-							<DialogPanel className="relative h-[500px] 
+							<DialogPanel className="relative h-[600px] 
 						  max-sm:w-[550px] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
 						 rounded-sm 
 						 shadow-md"
