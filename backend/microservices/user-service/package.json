@@ -34,6 +34,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.0",
     "@types/supertest": "^6.0.2",
     "@types/typescript": "^2.0.0",
