@@ -7,6 +7,7 @@ import Menu from "./menu";
 import Search from "./search";
 import SignInButton from "./sign-in-button";
 import Modal from "./modals/modal";
+import AuthContent from "./auth-content";
 
 
 
@@ -39,7 +40,7 @@ const Navbar = () => {
 						<div onClick={handleButtonClick}><SignInButton/></div>
 					</div>
 					<Modal visible={authModalVisible} setVisible={setAuthModalVisible}>
-						Hi
+						<AuthContent/>
 					</Modal>
 
 				</div>
