@@ -1,25 +1,13 @@
 import React from 'react'
-import { Button } from './components/ui/button'
-import Navbar from './components/navbar/Navbar'
-import Left from './components/home/Left'
-import Right from './components/home/Right'
-import Footer from './components/Footer'
+import { Route, Routes } from "react-router-dom";
+import HomePage from './pages/HomePage'
 
-
-
-const App = () => {
-
-
-	return (
-		<>
-			<Navbar/>
-			<div className='flex min-h-screen' id='Main'>
-			<Left/>
-			<Right/>
-			</div>
-			<Footer/>
-		</>
-	)
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+    </Routes>
+  );
 }
 
 export default App
