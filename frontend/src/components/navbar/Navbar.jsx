@@ -64,7 +64,7 @@ const Navbar = () => {
         scrolled ? 'bg-white/80 backdrop-blur-md shadow-lg' : 'bg-transparent'
       }`}>
       <div className="border-b py-2 md:py-0 px-4 md:px-6">
-        <div className="flex items-center justify-between my-3">
+        <div className="flex items-center justify-between my-6">
           <div className="flex items-center">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
