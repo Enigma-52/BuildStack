@@ -21,10 +21,13 @@ export const signup = async (userData: IUserSignup) => {
     }
   })
 
+  const token = generateToken(user.id)
+
   return {
     id: user.id,
     name: user.name,
     email: user.email,
+    token
   }
 }
 
