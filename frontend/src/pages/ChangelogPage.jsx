@@ -263,7 +263,7 @@ const ChangelogPage = () => {
               Subscribe to our newsletter to receive product updates directly in your inbox.
             </p>
             <Button
-              onClick={() => router('/newsletter')}
+              onClick={() => window.location.href = '/newsletter'}
               className="bg-white text-gray-900 hover:bg-gray-100 rounded-lg"
             >
               <span className="flex items-center gap-2 px-3">Subscribe to Updates
