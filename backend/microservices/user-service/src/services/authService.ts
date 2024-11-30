@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { IUserSignup, IUserLogin } from '../interfaces/user.interface'
+import { AuthLog } from '../logger/authLogger';
 
 const prisma = new PrismaClient()
 const JWT_SECRET = process.env['JWT_SECRET'] as string;
@@ -11,25 +12,51 @@ if (!JWT_SECRET) {
 }
 
 export const signup = async (userData: IUserSignup) => {
-  const hashedPassword = await bcrypt.hash(userData.password, 10)
+  try {
+    const hashedPassword = await bcrypt.hash(userData.password, 10)
 
-  const user = await prisma.user.create({
-    data: {
-      name: userData.name,
+    const user = await prisma.user.create({
+      data: {
+        name: userData.name,
+        email: userData.email,
+        password: hashedPassword,
+      }
+    })
+
+    const token = generateToken(user.id);
+
+    await AuthLog.create({
+      eventType: 'SIGNUP',
       email: userData.email,
-      password: hashedPassword,
-    }
-  })
+      userId: user.id,
+      status: 'SUCCESS',
+      metadata: {
+        name: userData.name,
+        timestamp: new Date()
+      }
+    });
 
-  const token = generateToken(user.id)
-
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    token
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      token
+    };
+  } catch (error) {
+    // Log failed signup
+    await AuthLog.create({
+      eventType: 'SIGNUP',
+      email: userData.email,
+      status: 'FAILURE',
+      failureReason: error,
+      metadata: {
+        name: userData.name,
+        timestamp: new Date()
+      }
+    });
+    throw error;
   }
-}
+};
 
 export const login = async (credentials: IUserLogin) => {
   const user = await prisma.user.findUnique({
@@ -37,16 +64,49 @@ export const login = async (credentials: IUserLogin) => {
   })
 
   if (!user) {
-    throw new Error('User not found')
+    await AuthLog.create({
+      eventType: 'LOGIN_ATTEMPT',
+      email: credentials.email,
+      status: 'FAILURE',
+      failureReason: 'User not found',
+      metadata: {
+        timestamp: new Date()
+      }
+    });
+    throw new Error('User not found');
   }
 
   const validPassword = await bcrypt.compare(credentials.password, user.password)
 
   if (!validPassword) {
+    await AuthLog.create({
+      eventType: 'LOGIN_ATTEMPT',
+      email: credentials.email,
+      userId: user.id,
+      status: 'FAILURE',
+      failureReason: 'Invalid password',
+      metadata: {
+        timestamp: new Date()
+      }
+    });
+    throw new Error('Invalid password');
+  }
+
+  if (!validPassword) {
     throw new Error('Invalid password')
   }
 
-  const token = generateToken(user.id)
+  const token = generateToken(user.id);
+
+  await AuthLog.create({
+    eventType: 'LOGIN_SUCCESS',
+    email: credentials.email,
+    userId: user.id,
+    status: 'SUCCESS',
+    metadata: {
+      timestamp: new Date()
+    }
+  });
 
   return {
     id: user.id,

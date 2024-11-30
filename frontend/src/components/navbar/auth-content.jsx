@@ -40,6 +40,7 @@ const AuthContent = () => {
             // Store the token if it exists in the response
             if (data.token) {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('email', data.email);
             }
 
             // Clear form
