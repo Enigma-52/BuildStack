@@ -263,14 +263,14 @@ const ChangelogPage = () => {
             <p className="text-gray-300 mb-6">
               Subscribe to our newsletter to receive product updates directly in your inbox.
             </p>
-              <Button
-                onClick={() => window.location.href='/newsletter'}
-                className="bg-white text-gray-900 hover:bg-gray-100 rounded-lg"
-              >
-                <span className="flex items-center gap-2 px-3">Subscribe to Updates
-                  <ArrowUpRight className="w-4 h-4 ml-2" />
-                </span>
-              </Button>
+            <Button
+              onClick={() => window.location.href = '/newsletter'}
+              className="bg-white text-gray-900 hover:bg-gray-100 rounded-lg"
+            >
+              <span className="flex items-center gap-2 px-3">Subscribe to Updates
+              <ArrowUpRight className="w-4 h-4 ml-2" />
+              </span>
+            </Button>
           </div>
         </div>
       </div>
