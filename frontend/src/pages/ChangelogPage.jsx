@@ -17,6 +17,9 @@ import {
 const ChangelogPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const handleNewsletterClick = () => {
+    window.locationhref = "/newsletter"
+  }
 
   const changeTypes = {
     feature: {
@@ -150,11 +153,10 @@ const ChangelogPage = () => {
               <div className="flex gap-3">
                 <Button
                   onClick={() => setSelectedFilter("all")}
-                  className={`px-4 py-2 rounded-lg ${
-                    selectedFilter === "all"
+                  className={`px-4 py-2 rounded-lg ${selectedFilter === "all"
                       ? "bg-gray-900 text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
+                    }`}
                 >
                   All Updates
                 </Button>
@@ -162,11 +164,10 @@ const ChangelogPage = () => {
                   <Button
                     key={key}
                     onClick={() => setSelectedFilter(key)}
-                    className={`px-4 py-2 rounded-lg ${
-                      selectedFilter === key
+                    className={`px-4 py-2 rounded-lg ${selectedFilter === key
                         ? `${value.bgColor} ${value.textColor} border ${value.borderColor}`
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     <value.icon className="w-4 h-4 mr-2" />
                     {value.label}
@@ -273,7 +274,7 @@ const ChangelogPage = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

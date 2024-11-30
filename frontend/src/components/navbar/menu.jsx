@@ -20,13 +20,13 @@ const Menu = () => {
                     onMouseEnter={() => setShowLaunchesMenu(true)}
                     onMouseLeave={() => setShowLaunchesMenu(false)}
                     onClick={() => window.location.href = '/home'}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer hover:text-red-500"
                 >
                     Launches {/*{showLaunchesMenu && <LaunchesMenu />}*/}
                 </div>
-                <Link href={'/categories'} className="hover:text-red-500">
+                <div onClick={() => window.location.href='/categories'} className="hover:text-red-500 hover:cursor-pointer">
                     Products
-                </Link>
+                </div>
 
                 <div
                     onMouseEnter={() => setShowNewsMenu(true)}
@@ -44,9 +44,9 @@ const Menu = () => {
                     Community {showCommunityMenu && <CommunityMenu/>}
                 </div>
 
-                <Link href={'/sponsor'} className="hover:text-red-500">
+                <div onClick={() => window.location.href='/sponsor'} className="hover:text-red-500 hover:cursor-pointer">
                     Advertise
-                </Link>
+                </div>
             </div>
 
         </div>
