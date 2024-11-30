@@ -6,7 +6,7 @@ import LandingPage from './pages/LandingPage'
 import NewsletterPage from './pages/NewsletterPage';
 import ProductCreationPage from './pages/ProductCreationPage';
 import Navbar from './components/navbar/Navbar';
-
+import EditProfilePage from './pages/EditProfilePage';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/newsletter" element={<NewsletterPage />} />
         <Route path="createProduct" element={<ProductCreationPage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
       </Routes>
     </>
   );
