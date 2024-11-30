@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import { Button } from "../components/ui/button";
+import Footer from "../components/Footer";
 import {
   Sparkles,
   Zap,
@@ -120,7 +121,7 @@ const ChangelogPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32">
+      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32 pb-10">
         <div className="max-w-5xl mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-12">
@@ -263,14 +264,16 @@ const ChangelogPage = () => {
             </p>
             <Button
               onClick={() => router('/newsletter')}
-              className="bg-white text-gray-900 hover:bg-gray-100"
+              className="bg-white text-gray-900 hover:bg-gray-100 rounded-lg"
             >
-              Subscribe to Updates
+              <span className="flex items-center gap-2 px-3">Subscribe to Updates
               <ArrowUpRight className="w-4 h-4 ml-2" />
+              </span>
             </Button>
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

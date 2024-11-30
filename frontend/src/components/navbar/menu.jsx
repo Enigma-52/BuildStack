@@ -19,9 +19,10 @@ const Menu = () => {
                 <div
                     onMouseEnter={() => setShowLaunchesMenu(true)}
                     onMouseLeave={() => setShowLaunchesMenu(false)}
+                    onClick={() => window.location.href = '/home'}
                     className="hover:cursor-pointer"
                 >
-                    Launches {showLaunchesMenu && <LaunchesMenu />}
+                    Launches {/*{showLaunchesMenu && <LaunchesMenu />}*/}
                 </div>
                 <Link href={'/categories'} className="hover:text-red-500">
                     Products
