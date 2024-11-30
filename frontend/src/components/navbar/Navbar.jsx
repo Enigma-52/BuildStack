@@ -180,8 +180,8 @@ const Navbar = () => {
 
 			<Modal visible={authModalVisible} setVisible={setAuthModalVisible}>
 				<AuthContent />
-				<div onClick={handleLoginModalButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer">
-					Hello
+				<div onClick={handleLoginModalButtonClick} className="hover:text-orange-600 text-grey-600 font-medium items-center justify-center hover:cursor-pointer">
+					<p className="items-center justify-center flex">Have Account? Login </p>
 				</div>
 			</Modal>
 			<SearchModal
@@ -192,8 +192,8 @@ const Navbar = () => {
 			</SearchModal>
 			<LoginModal visible={loginModalVisible} setVisible={setLoginModalVisible}>
 				<LoginContent />
-				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer items-center justify-center">
-					hello
+				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-grey-600 font-medium hover:cursor-pointer items-center justify-center">
+					<p className="items-center justify-center flex">Don't Have Account? Sign Up</p>
 				</div>
 			</LoginModal>
 		</>

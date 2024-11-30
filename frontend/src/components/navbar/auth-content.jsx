@@ -123,8 +123,7 @@ const AuthContent = () => {
                             disabled={loading}
                         >
                             {loading ? 'Signing up...' : 'Sign up'}
-                        </Button>
-                        
+                        </Button> 
                     </div>
                 </form>
 
