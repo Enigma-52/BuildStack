@@ -113,7 +113,7 @@ const NewsletterPage = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 group-hover:border-orange-300"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 group-hover:border-orange-300"
                     required
                   />
                   <Button
@@ -253,9 +253,9 @@ const NewsletterPage = () => {
                       <p className="text-gray-600 mb-4">
                         Want to get featured in next week's newsletter? Submit your product now.
                       </p>
-                      <Button className="bg-white text-orange-600 hover:text-orange-700">
+                      <Button className="bg-white text-orange-600 hover:text-orange-700 px-2 rounded-lg">
                         Submit Product 
-                        <ArrowUpRight className="w-4 h-4 ml-1" />
+                        <ArrowUpRight className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>

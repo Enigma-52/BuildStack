@@ -8,6 +8,7 @@ import Navbar from '../components/navbar/Navbar'
 import { ReviewsTab} from '../components/profile/ReviewTab'
 import { ActivityTab} from '../components/profile/ActivityTab'
 import { UpvotesTab} from '../components/profile/UpvotesTab'
+import { Image } from "../components/Image";
 
 // Mock data
 const mockUser = {
@@ -121,7 +122,7 @@ const ProfilePage = () => {
           <main className="max-w-4xl mx-auto px-4">
             {profile && (
               <div className="flex items-start space-x-6">
-                <img
+                <Image
                   src="/api/placeholder/120/120"
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
@@ -145,12 +146,12 @@ const ProfilePage = () => {
                         </span>
                       </div>
                     </div>
-                    <button
+                    <Button
                       onClick={() => router('/profile/edit')}
                       className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:border-orange-300 transition-colors duration-200"
                     >
                       Edit my profile
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

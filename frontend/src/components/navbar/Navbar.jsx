@@ -15,6 +15,8 @@ import { IoMenuOutline } from "react-icons/io5";
 import { PiBellBold } from "react-icons/pi";
 import Subscribe from "./subscribe";
 import { FiPlusCircle } from "react-icons/fi";
+import LoginModal from "./modals/LoginModal";
+import LoginContent from "./login-content";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -22,6 +24,7 @@ const Navbar = () => {
 	const [isSignedIn, setIsSignedIn] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [loginModalVisible, setLoginModalVisible] = useState(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -40,6 +43,7 @@ const Navbar = () => {
 
 	const handleSignInButtonClick = () => {
 		setAuthModalVisible(true);
+		setLoginModalVisible(false);
 	};
 
 	const handleSearchButtonClick = () => {
@@ -68,9 +72,14 @@ const Navbar = () => {
 		};
 	}, []);
 
+	const handleLoginModalButtonClick = () => {
+		setLoginModalVisible(true);
+		setAuthModalVisible(false);
+	}
+
 	return (
 		<>
-			
+
 			<nav
 				className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md shadow-lg' : 'bg-transparent'
 					}`}
@@ -110,14 +119,14 @@ const Navbar = () => {
 
 							{isSignedIn ? (
 								<>
-									<Button className="hover:bg-gray-100 rounded-full border-2 px-4 py-2 mx-2 text-black p" 
-										onClick={() => window.location.href='/createProduct'}
+									<Button className="hover:bg-gray-100 rounded-full border-2 px-4 py-2 mx-2 text-black p"
+										onClick={() => window.location.href = '/createProduct'}
 									>
-										<FiPlusCircle className="w-5 h-5"/>
+										<FiPlusCircle className="w-5 h-5" />
 										Submit
 									</Button>
 									<Button className="rounded-full p-2 border-2 hover:bg-gray-100 mx-2 text-black">
-										<PiBellBold className="w-5 h-5 "/>
+										<PiBellBold className="w-5 h-5 " />
 									</Button>
 									<Button
 										onClick={handleProfileClick}
@@ -165,6 +174,9 @@ const Navbar = () => {
 
 			<Modal visible={authModalVisible} setVisible={setAuthModalVisible}>
 				<AuthContent />
+				<div onClick={handleLoginModalButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer">
+					Hello
+				</div>
 			</Modal>
 			<SearchModal
 				visible={searchModalVisible}
@@ -172,6 +184,12 @@ const Navbar = () => {
 			>
 				<SearchContent />
 			</SearchModal>
+			<LoginModal visible={loginModalVisible} setVisible={setLoginModalVisible}>
+				<LoginContent />
+				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer items-center justify-center right-1/2">
+					hello
+				</div>
+			</LoginModal>
 		</>
 	);
 };
