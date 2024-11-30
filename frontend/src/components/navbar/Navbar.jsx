@@ -17,6 +17,7 @@ import Subscribe from "./subscribe";
 import { FiPlusCircle } from "react-icons/fi";
 import LoginModal from "./modals/LoginModal";
 import LoginContent from "./login-content";
+import UserMenu from "./menus/user-menu";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -25,6 +26,7 @@ const Navbar = () => {
 	const [scrolled, setScrolled] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [loginModalVisible, setLoginModalVisible] = useState(false);
+	const [showUserMenu, setShowUserMenu] = useState(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -128,13 +130,16 @@ const Navbar = () => {
 									<Button className="rounded-full p-2 border-2 hover:bg-gray-100 mx-2 text-black">
 										<PiBellBold className="w-5 h-5 " />
 									</Button>
-									<Button
-										onClick={handleProfileClick}
-										variant="ghost"
-										className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
-									>
-										<User className="h-6 w-6 text-gray-600" />
-									</Button>
+									<div onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>
+										<Button
+											onClick={handleProfileClick}
+											variant="ghost"
+											className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
+										>
+											<User className="h-6 w-6 text-gray-600" />
+											{ showUserMenu && <UserMenu/> }
+										</Button>
+									</div>
 								</>
 							) : (
 								<>
@@ -186,7 +191,7 @@ const Navbar = () => {
 			</SearchModal>
 			<LoginModal visible={loginModalVisible} setVisible={setLoginModalVisible}>
 				<LoginContent />
-				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer items-center justify-center right-1/2">
+				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-black font-medium hover:cursor-pointer items-center justify-center">
 					hello
 				</div>
 			</LoginModal>
