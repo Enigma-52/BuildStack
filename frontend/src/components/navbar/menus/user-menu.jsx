@@ -11,13 +11,16 @@ const UserMenu = () => {
         localStorage.removeItem("token");
         router("/home");
     };
+    const handleProfileClick = () => {
+		window.location.href = "/profile";
+	};
 
     return (
         <div className="border rounded-sm shadow-md bg-white absolute top-full
          text-gray-600">
             <div className="flex cursor-pointer p-2 my-1">
                 <div className="flex flex-col items-start space-y-3 m-0.5 mr-10">
-                    <div>
+                    <div onClick={handleProfileClick}>
                         Profile
                     </div>
                     <div>

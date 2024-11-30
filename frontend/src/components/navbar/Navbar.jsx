@@ -52,9 +52,7 @@ const Navbar = () => {
 		setSearchModalVisible(true);
 	};
 
-	const handleProfileClick = () => {
-		window.location.href = "/profile";
-	};
+	
 
 	const toggleMobileMenu = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -79,6 +77,10 @@ const Navbar = () => {
 		setAuthModalVisible(false);
 	}
 
+	const handleHomepageClick = () => {
+		window.location.href="/home"
+	}
+
 	return (
 		<>
 
@@ -99,7 +101,7 @@ const Navbar = () => {
 									<IoMenuOutline className="w-8 h-8 text-black mr-4" />
 								)}
 							</button>
-							<div className="relative group">
+							<div className="relative group cursor-pointer" onClick={handleHomepageClick} >
 								<div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
 								<Rocket className="w-8 h-8 text-orange-500 relative" />
 							</div>
@@ -132,7 +134,6 @@ const Navbar = () => {
 									</Button>
 									<div onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>
 										<Button
-											onClick={handleProfileClick}
 											variant="ghost"
 											className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
 										>
