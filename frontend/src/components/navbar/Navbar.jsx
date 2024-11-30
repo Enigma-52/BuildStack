@@ -18,6 +18,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import LoginModal from "./modals/LoginModal";
 import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
+import { useNavigate } from "react-router";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -27,6 +28,16 @@ const Navbar = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [loginModalVisible, setLoginModalVisible] = useState(false);
 	const [showUserMenu, setShowUserMenu] = useState(false);
+
+	const router = useNavigate();
+
+	const handleNewsletterClick = () => {
+		router('/newsletter');
+	}
+
+	const handleCreateProductClick = () => {
+		router('/createProduct');
+	}
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -52,7 +63,7 @@ const Navbar = () => {
 		setSearchModalVisible(true);
 	};
 
-	
+
 
 	const toggleMobileMenu = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -78,7 +89,7 @@ const Navbar = () => {
 	}
 
 	const handleHomepageClick = () => {
-		window.location.href="/home"
+		router("/home");
 	}
 
 	return (
@@ -124,7 +135,7 @@ const Navbar = () => {
 							{isSignedIn ? (
 								<>
 									<Button className="hover:bg-gray-100 rounded-full border-2 px-4 py-2 mx-2 text-black p"
-										onClick={() => window.location.href = '/createProduct'}
+										onClick={handleCreateProductClick}
 									>
 										<FiPlusCircle className="w-5 h-5" />
 										Submit
@@ -138,13 +149,13 @@ const Navbar = () => {
 											className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
 										>
 											<User className="h-6 w-6 text-gray-600" />
-											{ showUserMenu && <UserMenu/> }
+											{showUserMenu && <UserMenu />}
 										</Button>
 									</div>
 								</>
 							) : (
 								<>
-									<div onClick={() => window.location.href = '/newsletter'}>
+									<div onClick={handleNewsletterClick}>
 										<Subscribe />
 									</div>
 									<div onClick={handleSignInButtonClick}>
@@ -180,8 +191,11 @@ const Navbar = () => {
 
 			<Modal visible={authModalVisible} setVisible={setAuthModalVisible}>
 				<AuthContent />
-				<div onClick={handleLoginModalButtonClick} className="hover:text-orange-600 text-grey-600 font-medium items-center justify-center hover:cursor-pointer">
-					<p className="items-center justify-center flex">Have Account? Login </p>
+				<div className="text-grey-600 font-medium items-center justify-center">
+					<p className="items-center justify-center flex">Already have an Account?</p>
+					<p onClick={handleLoginModalButtonClick} className="hover:text-orange-600 items-center justify-center flex hover:cursor-pointer">
+						Login
+					</p>
 				</div>
 			</Modal>
 			<SearchModal
@@ -192,8 +206,9 @@ const Navbar = () => {
 			</SearchModal>
 			<LoginModal visible={loginModalVisible} setVisible={setLoginModalVisible}>
 				<LoginContent />
-				<div onClick={handleSignInButtonClick} className="hover:text-orange-600 text-grey-600 font-medium hover:cursor-pointer items-center justify-center">
-					<p className="items-center justify-center flex">Don't Have Account? Sign Up</p>
+				<div onClick={handleSignInButtonClick} className=" text-grey-600 font-medium items-center justify-center">
+					<p className="items-center justify-center flex">First time using BuildStack?</p>
+					<p className="hover:text-orange-600 hover:cursor-pointer items-center justify-center flex"> Create an account</p>
 				</div>
 			</LoginModal>
 		</>

@@ -9,10 +9,10 @@ const UserMenu = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        router("/home");
+        window.location.href = "/home";
     };
     const handleProfileClick = () => {
-		window.location.href = "/profile";
+		router("/profile");
 	};
 
     return (

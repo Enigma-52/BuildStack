@@ -1,16 +1,20 @@
 import { VscMail } from "react-icons/vsc";
 import { PiBookOpenTextLight, PiNotebookLight  } from "react-icons/pi";
+import { useNavigate } from "react-router";
 
 
-const handleNewsletterClick = () => {
-    window.location.href="/newsletter"
-}
 
-const handleChangelogClick = () => {
-    window.location.href="/changelog"
-}
 
 const NewsMenu = () => {
+    const router = useNavigate();
+
+    const handleNewsletterClick = () => {
+        router("/newsletter")
+    }
+    
+    const handleChangelogClick = () => {
+        router("/changelog")
+    }
     return ( 
         <div className="border rounded-sm shadow-md bg-white absolute top-full
          text-gray-600">

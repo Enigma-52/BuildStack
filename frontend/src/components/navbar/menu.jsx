@@ -5,9 +5,24 @@ import LaunchesMenu from "./menus/launches-menu";
 import CommunityMenu from "./menus/community-menu";
 import NewsMenu from "./menus/news-menu";
 import { Link } from "../Link";
+import { useNavigate } from "react-router";
 
 
 const Menu = () => {
+
+    const router = useNavigate();
+
+    const handleHomepageClick = () => {
+        router('/home');
+    }
+
+    const handleCategoriesClick = () => {
+        router('/categories');
+    }
+
+    const handleSponsorClick = () => {
+        router('/sponsor');
+    }
 
     const [showLaunchesMenu, setShowLaunchesMenu] = useState(false);
     const [showCommunityMenu, setShowCommunityMenu] = useState(false);
@@ -19,12 +34,12 @@ const Menu = () => {
                 <div
                     onMouseEnter={() => setShowLaunchesMenu(true)}
                     onMouseLeave={() => setShowLaunchesMenu(false)}
-                    onClick={() => window.location.href = '/home'}
+                    onClick={handleHomepageClick}
                     className="hover:cursor-pointer hover:text-red-500"
                 >
                     Launches {/*{showLaunchesMenu && <LaunchesMenu />}*/}
                 </div>
-                <div onClick={() => window.location.href='/categories'} className="hover:text-red-500 hover:cursor-pointer">
+                <div onClick={handleCategoriesClick} className="hover:text-red-500 hover:cursor-pointer">
                     Products
                 </div>
 
@@ -44,7 +59,7 @@ const Menu = () => {
                     Community {showCommunityMenu && <CommunityMenu/>}
                 </div>
 
-                <div onClick={() => window.location.href='/sponsor'} className="hover:text-red-500 hover:cursor-pointer">
+                <div onClick={handleSponsorClick} className="hover:text-red-500 hover:cursor-pointer">
                     Advertise
                 </div>
             </div>
