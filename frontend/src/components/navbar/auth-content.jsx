@@ -10,7 +10,7 @@ const AuthContent = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const router = useNavigate();
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -47,7 +47,7 @@ const AuthContent = () => {
             setEmail('');
             setPassword('');
 
-            window.location.href = '/profile';
+            router('/profile');
 
         } catch (error) {
             setError(error.message || 'Failed to sign up');

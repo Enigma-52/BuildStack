@@ -17,8 +17,9 @@ import {
 const ChangelogPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const router = useNavigate();
   const handleNewsletterClick = () => {
-    window.locationhref = "/newsletter"
+    router('/newsletter');
   }
 
   const changeTypes = {
@@ -120,6 +121,7 @@ const ChangelogPage = () => {
         change.tags.some((tag) => tag.toLowerCase().includes(query))
     );
   };
+
 
   return (
     <div>
@@ -264,7 +266,8 @@ const ChangelogPage = () => {
               Subscribe to our newsletter to receive product updates directly in your inbox.
             </p>
             <Button
-              onClick={() => window.location.href = '/newsletter'}
+              //onClick={() => window.location.href = '/newsletter'}
+              onClick={handleNewsletterClick}
               className="bg-white text-gray-900 hover:bg-gray-100 rounded-lg"
             >
               <span className="flex items-center gap-2 px-3">Subscribe to Updates

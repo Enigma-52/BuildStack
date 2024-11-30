@@ -16,6 +16,7 @@ import {
   Award,
   Gauge
 } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const BackgroundGlow = ({ children }) => (
   <div className="group relative">
@@ -48,6 +49,10 @@ const AnimatedNumber = ({ value, suffix = '' }) => {
 };
 
 const LandingPage = () => {
+  const router = useNavigate();
+  const handleHomepageClick = () => {
+    router('/home');
+  }
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -130,7 +135,7 @@ const LandingPage = () => {
                 BuildStack
               </span>
             </div>
-            <button onClick={() => window.location.href = '/home'} className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30">
+            <button onClick={handleHomepageClick} className="group px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30">
               <span className="flex items-center gap-2">
                 Get Started 
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -158,7 +163,7 @@ const LandingPage = () => {
             <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
               Join the community of developers discovering and sharing tomorrow's most innovative development tools.
             </p>
-            <button onClick={() => window.location.href = '/home'} className="group px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
+            <button onClick={handleHomepageClick} className="group px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
               <span className="flex items-center gap-2">
                 Get Started Now
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -327,7 +332,7 @@ const LandingPage = () => {
               <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
                 Join thousands of developers already using BuildStack to discover and evaluate the best tools for their projects.
               </p>
-              <button onClick={() => window.location.href = '/home'} className="group px-8 py-4 bg-white text-orange-600 rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
+              <button onClick={handleHomepageClick} className="group px-8 py-4 bg-white text-orange-600 rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
                 <span className="flex items-center gap-2">
                   Get Started Now
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
