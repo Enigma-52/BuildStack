@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/navbar/Navbar";
+import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ArrowUpRight, Mail, Zap, Star, ArrowRight, Check, Clock, Trophy, Users } from "lucide-react";
 
@@ -50,7 +51,7 @@ const NewsletterPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32">
+      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32 pb-10">
         <div className="max-w-6xl mx-auto px-4">
           {/* Hero Section */}
           <div className={`text-center mb-12 transition-all duration-1000 ${
@@ -351,7 +352,8 @@ const NewsletterPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>  
+      <Footer/>  
       </div>
   );
 };
