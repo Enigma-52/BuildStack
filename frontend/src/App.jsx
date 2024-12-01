@@ -11,6 +11,8 @@ import ChangelogPage from './pages/ChangelogPage';
 import CategoriesPage from './pages/CategoriesPage';
 import SponsorPage from './pages/SponsorPage';
 import ProductPage from './pages/ProductPage';
+import AdminPage from './pages/AdminPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 function App() {
   return (
     <>
@@ -26,6 +28,8 @@ function App() {
         <Route path='/categories/:id' element={<CategoriesPage/>} />
         <Route path='/sponsor' element={<SponsorPage/>}/>
         <Route path='/product/:id' element={<ProductPage/>}/>
+        <Route path='/admin' element={<AdminPage/>}/>
+        <Route path="/admin/analytics" element={<AnalyticsPage/>} />
 
       </Routes>
     </>
