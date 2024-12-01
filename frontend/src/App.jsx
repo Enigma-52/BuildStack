@@ -10,7 +10,7 @@ import EditProfilePage from './pages/EditProfilePage';
 import ChangelogPage from './pages/ChangelogPage';
 import CategoriesPage from './pages/CategoriesPage';
 import SponsorPage from './pages/SponsorPage';
-
+import ProductPage from './pages/ProductPage';
 function App() {
   return (
     <>
@@ -25,6 +25,8 @@ function App() {
         <Route path="/changelog" element={<ChangelogPage />} />
         <Route path='/categories' element={<CategoriesPage/>} />
         <Route path='/sponsor' element={<SponsorPage/>}/>
+        <Route path='/product/:id' element={<ProductPage/>}/>
+
       </Routes>
     </>
   );
