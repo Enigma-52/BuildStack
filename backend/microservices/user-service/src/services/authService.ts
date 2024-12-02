@@ -3,13 +3,100 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { IUserSignup, IUserLogin } from '../interfaces/user.interface'
 import { AuthLog } from '../logger/authLogger';
-
+import nodemailer from 'nodemailer';
+import { LocalStorage } from 'node-localstorage';
 const prisma = new PrismaClient()
 const JWT_SECRET = process.env['JWT_SECRET'] as string;
 
 if (!JWT_SECRET) {
     console.warn('Warning: JWT_SECRET not set in environment variables')
 }
+
+const localStorage = new LocalStorage('./scratch');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // Or your email service
+
+  auth: {
+    user: process.env['EMAIL_USER'],
+    pass: process.env['EMAIL_PASS'],
+  }
+});
+
+const generateOTP = (): string => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+export const sendOTP = async (email: string) => {
+  try {
+    // Check if user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if(existingUser) {
+      throw new Error("User already exists!");
+    }
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Store OTP in database with expiration
+    const otpData = {
+      email,
+      otp,
+      expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes from now
+    };
+
+    await transporter.verify()
+    console.log('SMTP server is ready');
+
+    // Send OTP via email
+    await transporter.sendMail({
+      from: process.env['EMAIL_USER'],
+      to: email,
+      subject: 'Your OTP for Build Stack',
+      html: `Your OTP is: ${otp}. It will expire in 10 minutes.`
+    });
+
+    localStorage.setItem(`otp_${email}`, JSON.stringify(otpData));
+
+    return { message: 'OTP sent successfully' };
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw new Error('Failed to send OTP');
+  }
+};
+
+
+export const verifyOTP = async (email: string, otp: string) => {
+  try {
+    // Find OTP record
+    const storedOtpString = localStorage.getItem(`otp_${email}`);
+
+    if (!storedOtpString) {
+      throw new Error('No OTP found for this email');
+    }
+
+    const storedOtpData = JSON.parse(storedOtpString);
+
+    // Check if OTP is valid and not expired
+    if (
+      storedOtpData.otp !== otp || 
+      storedOtpData.expiresAt < Date.now()
+    ) {
+      throw new Error('Invalid or expired OTP');
+    }
+
+    // Remove the OTP from local storage after successful verification
+    localStorage.removeItem(`otp_${email}`);
+
+    return { message: 'OTP verified successfully' };
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
+};
+
 
 export const signup = async (userData: IUserSignup) => {
   try {

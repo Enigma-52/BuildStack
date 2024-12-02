@@ -10,10 +10,68 @@ const AuthContent = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [otp, setOtp] = useState('');
+    const [otpSent, setOtpSent] = useState(false);
     const router = useNavigate();
 
+    const sendOTPHandler = async () => {
+        setError('');
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/send-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to send OTP');
+            }
+
+            setOtpSent(true);
+            setError('');
+        } catch (error) {
+            setError(error.message || 'Failed to send OTP');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const verifyOTPHandler = async () => {
+        setError('');
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, otp }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'OTP verification failed');
+            }
+
+            // Proceed with signup after OTP verification
+            submitHandler();
+        } catch (error) {
+            setError(error.message || 'OTP verification failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const submitHandler = async (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         setError('');
         setLoading(true);
 
@@ -47,6 +105,7 @@ const AuthContent = () => {
             setName('');
             setEmail('');
             setPassword('');
+            setOtp('');
 
             router('/profile');
 
@@ -57,7 +116,7 @@ const AuthContent = () => {
         }
     };
 
-    
+
 
     return (
         <>
@@ -118,13 +177,43 @@ const AuthContent = () => {
                             placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)}
                             required />
-                        <Button
+                        {/*<Button
                             type="submit"
                             className="mt-2 bg-gradient-to-r from-orange-600 to-orange-400 text-white left-1 transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30"
                             disabled={loading}
                         >
                             {loading ? 'Signing up...' : 'Sign up'}
-                        </Button> 
+                        </Button> */}
+                        {!otpSent ? (
+                            <button
+                                type="button"
+                                className="mt-2 bg-gradient-to-r from-orange-600 to-orange-400 text-white p-2 rounded left-1 transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30"
+                                onClick={sendOTPHandler}
+                                disabled={loading || !email}
+                            >
+                                {loading ? 'Sending OTP...' : 'Send OTP'}
+                            </button>
+                        ) : (
+                            <>
+                                <input
+                                    type="text"
+                                    id="otp"
+                                    className="mt-1 p-2 border rounded w-full m-1"
+                                    value={otp}
+                                    placeholder="Enter 6-digit OTP"
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="mt-2 bg-gradient-to-r from-orange-600 to-orange-400 text-white p-2 rounded left-1 transition-all duration-200 hover:shadow-lg hover:shadow-orange-500/30"
+                                    onClick={verifyOTPHandler}
+                                    disabled={loading || otp.length !== 6}
+                                >
+                                    {loading ? 'Verifying...' : 'Verify OTP'}
+                                </button>
+                            </>
+                        )}
                     </div>
                 </form>
 
