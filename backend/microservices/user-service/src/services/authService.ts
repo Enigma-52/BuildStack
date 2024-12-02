@@ -13,6 +13,17 @@ if (!JWT_SECRET) {
 
 export const signup = async (userData: IUserSignup) => {
   try {
+
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: userData.email,
+      }
+    });
+
+    if(existingUser) {
+      throw new Error("User already exists!");
+    }
+
     const hashedPassword = await bcrypt.hash(userData.password, 10)
 
     const user = await prisma.user.create({

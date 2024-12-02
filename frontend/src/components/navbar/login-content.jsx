@@ -10,22 +10,62 @@ const LoginContent = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const router = useNavigate();
 
     const submitHandler = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
 
+
         try {
-            
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle different types of login failures
+                if (data.type === 'verification_required') {
+                    // If email verification is pending
+                    localStorage.setItem('userId', data.userId);
+                    router('/verify-email');
+                    return;
+                }
+
+                throw new Error(data.message || 'Login failed');
+            }
+
+            // Successful login
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('email', data.email);
+            localStorage.setItem('userId', data.id);
+            localStorage.setItem('userName', data.name);
+
+            // Clear form
+            setEmail('');
+            setPassword('');
+
+            // Redirect to profile or dashboard
+            router('/profile');
 
         } catch (error) {
-            
+            setError(error.message || 'Failed to log in');
+        }
+        finally {
+            setLoading(false);
         }
     };
 
-    
+
 
     return (
         <>
@@ -85,11 +125,11 @@ const LoginContent = () => {
                         >
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
-                        
+
                     </div>
                 </form>
 
-                
+
             </div>
         </>
     );
