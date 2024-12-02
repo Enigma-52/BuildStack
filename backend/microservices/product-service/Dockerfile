@@ -10,7 +10,6 @@ RUN npm install
 COPY . .
 
 RUN npm run prisma:generate
-RUN npm run build
 
 EXPOSE 3001
 EXPOSE 50051
