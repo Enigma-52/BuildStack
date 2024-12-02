@@ -17,7 +17,7 @@ const Menu = () => {
     }
 
     const handleCategoriesClick = () => {
-        router('/categories');
+        router('/categories/:id');
     }
 
     const handleSponsorClick = () => {

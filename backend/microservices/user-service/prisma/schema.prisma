@@ -23,4 +23,5 @@ model User {
     is_maker          Boolean  @default(false)
     location          String?
     skills            String[] @default([])
+    isVerified        Boolean @default(false)
 }
