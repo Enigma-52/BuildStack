@@ -1,36 +1,24 @@
 import React from 'react'
 import { Route, Routes } from "react-router-dom";
-import HomePage from './pages/HomePage'
-import ProfilePage from './pages/ProfilePage'
-import LandingPage from './pages/LandingPage'
-import NewsletterPage from './pages/NewsletterPage';
-import ProductCreationPage from './pages/ProductCreationPage';
-import Navbar from './components/navbar/Navbar';
-import EditProfilePage from './pages/EditProfilePage';
-import ChangelogPage from './pages/ChangelogPage';
-import CategoriesPage from './pages/CategoriesPage';
-import SponsorPage from './pages/SponsorPage';
-import ProductPage from './pages/ProductPage';
-import AdminPage from './pages/AdminPage';
-import AnalyticsPage from './pages/AnalyticsPage';
+import pages from './pages';
 function App() {
   return (
     <>
       
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/newsletter" element={<NewsletterPage />} />
-        <Route path="/createProduct" element={<ProductCreationPage />} />
-        <Route path="/profile/edit" element={<EditProfilePage />} />
-        <Route path="/changelog" element={<ChangelogPage />} />
-        <Route path='/categories/:id' element={<CategoriesPage/>} />
-        <Route path='/sponsor' element={<SponsorPage/>}/>
-        <Route path='/product/:id' element={<ProductPage/>}/>
-        <Route path='/admin' element={<AdminPage/>}/>
-        <Route path="/admin/analytics" element={<AnalyticsPage/>} />
-
+        <Route path="/" element={<pages.LandingPage />} />
+        <Route path="/home" element={<pages.HomePage />} />
+        <Route path="/profile" element={<pages.ProfilePage />} />
+        <Route path="/newsletter" element={<pages.NewsletterPage />} />
+        <Route path="/createProduct" element={<pages.ProductCreationPage />} />
+        <Route path="/profile/edit" element={<pages.EditProfilePage />} />
+        <Route path="/changelog" element={<pages.ChangelogPage />} />
+        <Route path='/categories/:id' element={<pages.CategoriesPage/>} />
+        <Route path='/sponsor' element={<pages.SponsorPage/>}/>
+        <Route path='/product/:id' element={<pages.ProductPage/>}/>
+        <Route path='/admin' element={<pages.AdminPage/>}/>
+        <Route path="/admin/analytics" element={<pages.AnalyticsPage/>} />
+        <Route path="/discussions" element={<pages.DiscussionsPage/>} />
       </Routes>
     </>
   );
