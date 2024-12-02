@@ -1,3 +1,12 @@
+
+## Backend Deployment Links
+
+### User-Service
+https://final-year-project-hitk.onrender.com/api/health
+
+### Product-Service
+https://final-year-project-hitk-dt27.onrender.com/api/health
+
 # Frontend
 
 ## To Be Added
