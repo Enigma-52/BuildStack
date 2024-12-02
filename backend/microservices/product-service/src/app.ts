@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import { healthRoutes } from './routes/healthRoutes'
 import { errorMiddleware } from './middleware/errorMiddleware'
 import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware'
+import { productRoutes } from './routes/productRoutes';
 
 const app = express()
 
@@ -18,6 +19,8 @@ app.use(metricsMiddleware)
 // Routes
 app.use('/api/health', healthRoutes)
 app.get('/metrics', getMetrics)
+app.use('/api/products', productRoutes);
+
 
 // Error Handler
 app.use(errorMiddleware)
