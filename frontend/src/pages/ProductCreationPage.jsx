@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Camera, Link, Users, Settings, Trophy, Clock, Star, ChevronRight, Bell } from 'lucide-react';
 import Navbar from '../components/navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast , Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Alert = ({ children, className = '' }) => (
     <div className={`rounded-lg border p-4 ${className}`}>
@@ -37,6 +40,109 @@ const Card = ({ children, className = '' }) => (
 const ProductCreationPage = () => {
     const [activeTab, setActiveTab] = useState('main');
     const [submitted, setSubmitted] = useState(false);
+    const router = useNavigate();
+
+    const [formData, setFormData] = useState({
+      name: '',
+      tagline: '',
+      description: '',
+      websiteUrl: '',
+      category: '',
+      images: [],
+      videoUrl: '',
+      teamMembers: [],
+      techStack: '',
+      targetAudience: '',
+      pricing: {
+        free: '',
+        pro: ''
+      }
+    });
+
+    const handleInputChange = (field, value) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    };
+  
+    const handlePricingChange = (tier, value) => {
+      setFormData(prev => ({
+        ...prev,
+        pricing: {
+          ...prev.pricing,
+          [tier]: value
+        }
+      }));
+    };
+  
+    const handleImageUpload = (e) => {
+      const files = Array.from(e.target.files);
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, ...files]
+      }));
+    };
+
+  
+    const handleSubmit = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        console.log("IDDDDD " ,userId);
+        const formattedData = {
+          ...formData,
+          userId: userId,
+          techStack: formData.techStack.split(',').map(item => item.trim()),
+          pricing: {
+            tiers: [
+              { tier: 'free', features: formData.pricing.free.split('\n') },
+              { tier: 'pro', features: formData.pricing.pro.split('\n') }
+            ]
+          }
+        };
+    
+        console.log('Submitting data:', formattedData);
+    
+        const response = await fetch('http://localhost:3001/api/products/createProduct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formattedData),
+        });
+
+    
+        if (!response.ok) {
+          toast.error('❌ Failed to create product', {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "colored"
+          });
+          throw new Error('Submission failed');
+         }
+        
+        toast.success('🎉 Product created successfully!', {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored"
+        });
+   
+        setTimeout(() => {
+          router(`/product/${formData.name.toLowerCase().replace(/\s+/g, '-')}`);
+        }, 2300);
+
+        console.log('Product submitted successfully');
+        
+      } catch (error) {
+        console.error('Error submitting product:', error);
+      }
+    };
   
     const tabs = [
       { id: 'main', icon: <Link className="w-4 h-4" />, label: 'Main Info', description: 'Basic product details' },
@@ -47,6 +153,19 @@ const ProductCreationPage = () => {
   
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50">
+        <ToastContainer 
+       position="bottom-right"
+       autoClose={3000}
+       hideProgressBar={false}
+       newestOnTop={false}
+       closeOnClick
+       rtl={false}
+       pauseOnFocusLoss
+       draggable
+       pauseOnHover
+       theme="colored"
+       style={{ zIndex: 9999 }}
+     />
         <Navbar/>
   
         <div className="max-w-6xl mx-auto px-6 py-8">
@@ -124,180 +243,207 @@ const ProductCreationPage = () => {
                   </Alert>
   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Product Name
-                    </label>
-                    <Input 
-                      placeholder="What's your product called?"
-                      className="w-full"
-                    />
-                  </div>
-                  
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Product Name
+                  </label>
+                  <Input 
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    placeholder="What's your product called?"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tagline
+                  </label>
+                  <Input 
+                    value={formData.tagline}
+                    onChange={(e) => handleInputChange('tagline', e.target.value)}
+                    placeholder="Describe your product in a few words"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description
+                  </label>
+                  <Textarea 
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder="Tell us more about your product..."
+                    className="h-32"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tagline
-                      <span className="text-gray-500 text-sm ml-2">Make it memorable</span>
+                      Website
                     </label>
                     <Input 
-                      placeholder="Describe your product in a few words"
-                      className="w-full"
+                      value={formData.websiteUrl}
+                      onChange={(e) => handleInputChange('websiteUrl', e.target.value)}
+                      placeholder="https://"
                     />
                   </div>
-  
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
+                      Category
                     </label>
-                    <Textarea 
-                      placeholder="Tell us more about your product..."
-                      className="h-32"
+                    <Input 
+                      value={formData.category}
+                      onChange={(e) => handleInputChange('category', e.target.value)}
+                      placeholder="Select a category"
                     />
-                    <p className="mt-2 text-sm text-gray-500">
-                      Markdown supported. Be clear and concise.
-                    </p>
-                  </div>
-  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Website
-                      </label>
-                      <Input 
-                        placeholder="https://"
-                        className="w-full"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Category
-                      </label>
-                      <Input 
-                        placeholder="Select a category"
-                        className="w-full"
-                      />
-                    </div>
                   </div>
                 </div>
-              )}
-  
-              {activeTab === 'media' && (
-                <div className="space-y-6">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-300 transition-colors">
-                    <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                    <div className="mt-4">
-                      <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-                        Upload Images
-                      </Button>
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500">
-                      PNG, JPG, GIF up to 2MB
-                    </p>
+              </div>
+            )}
+
+            {activeTab === 'media' && (
+              <div className="space-y-6">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-300 transition-colors">
+                  <Camera className="mx-auto h-12 w-12 text-gray-400" />
+                  <div className="mt-4">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <Button 
+                      onClick={() => document.getElementById('image-upload').click()}
+                      className="bg-orange-500 hover:bg-orange-600 text-white"
+                    >
+                      Upload Images
+                    </Button>
                   </div>
-  
+                </div>
+
+                <div>
+                  <h3 className="font-medium text-gray-900 mb-4">Video Demo</h3>
+                  <Input 
+                    value={formData.videoUrl}
+                    onChange={(e) => handleInputChange('videoUrl', e.target.value)}
+                    placeholder="YouTube or Vimeo URL"
+                  />
+                </div>
+
+                {formData.images.length > 0 && (
                   <div>
                     <h3 className="font-medium text-gray-900 mb-4">Media Gallery</h3>
                     <div className="grid grid-cols-3 gap-4">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                          <p className="text-gray-400">Image {i}</p>
+                      {formData.images.map((image, index) => (
+                        <div key={index} className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                          <p className="text-gray-400">{image.name}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-  
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Video Demo</h3>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'makers' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="font-medium text-gray-900 mb-4">Team Members</h3>
+                  <div className="space-y-4">
                     <Input 
-                      placeholder="YouTube or Vimeo URL"
-                      className="w-full"
+                      value={formData.teamMembers.join(', ')}
+                      onChange={(e) => handleInputChange('teamMembers', e.target.value.split(',').map(m => m.trim()))}
+                      placeholder="Add team member by username or email"
                     />
                   </div>
                 </div>
-              )}
-  
-              {activeTab === 'makers' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Team Members</h3>
-                    <div className="space-y-4">
-                      <Input 
-                        placeholder="Add team member by username or email"
-                        className="w-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-  
-              {activeTab === 'extras' && (
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Pricing Plans</h3>
-                    <div className="grid grid-cols-2 gap-6">
-                      <Card className="p-6">
-                        <h4 className="font-medium mb-2">Free Tier</h4>
-                        <Textarea 
-                          placeholder="List the features included in the free tier"
-                          className="h-24"
-                        />
-                      </Card>
-                      <Card className="p-6">
-                        <h4 className="font-medium mb-2">Pro Tier</h4>
-                        <Textarea 
-                          placeholder="List the features included in the pro tier"
-                          className="h-24"
-                        />
-                      </Card>
-                    </div>
-                  </div>
-  
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Additional Details</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Input placeholder="Tech stack" />
-                      <Input placeholder="Target audience" />
-                    </div>
-                  </div>
-                </div>
-              )}
-  
-              <div className="mt-8 flex justify-between pt-6 border-t">
-                <Button 
-                  variant="outline"
-                  onClick={() => {
-                    const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
-                    if (currentIndex > 0) {
-                      setActiveTab(tabs[currentIndex - 1].id);
-                    }
-                  }}
-                >
-                  Previous
-                </Button>
-                <Button 
-                  className="bg-orange-500 hover:bg-orange-600 text-white"
-                  onClick={() => {
-                    const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
-                    if (currentIndex < tabs.length - 1) {
-                      setActiveTab(tabs[currentIndex + 1].id);
-                    } else {
-                      setSubmitted(true);
-                    }
-                  }}
-                >
-                  {activeTab === tabs[tabs.length - 1].id ? (
-                    <span className="flex items-center">
-                      Submit Product
-                      <ChevronRight className="ml-2 w-4 h-4" />
-                    </span>
-                  ) : (
-                    'Next'
-                  )}
-                </Button>
               </div>
-            </Card>
-          </div>
+            )}
+
+            {activeTab === 'extras' && (
+              <div className="space-y-8">
+                <div>
+                  <h3 className="font-medium text-gray-900 mb-4">Pricing Plans</h3>
+                  <div className="grid grid-cols-2 gap-6">
+                    <Card className="p-6">
+                      <h4 className="font-medium mb-2">Free Tier</h4>
+                      <Textarea 
+                        value={formData.pricing.free}
+                        onChange={(e) => handlePricingChange('free', e.target.value)}
+                        placeholder="List the features included in the free tier"
+                        className="h-24"
+                      />
+                    </Card>
+                    <Card className="p-6">
+                      <h4 className="font-medium mb-2">Pro Tier</h4>
+                      <Textarea 
+                        value={formData.pricing.pro}
+                        onChange={(e) => handlePricingChange('pro', e.target.value)}
+                        placeholder="List the features included in the pro tier"
+                        className="h-24"
+                      />
+                    </Card>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-medium text-gray-900 mb-4">Additional Details</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input 
+                      value={formData.techStack}
+                      onChange={(e) => handleInputChange('techStack', e.target.value)}
+                      placeholder="Tech stack"
+                    />
+                    <Input 
+                      value={formData.targetAudience}
+                      onChange={(e) => handleInputChange('targetAudience', e.target.value)}
+                      placeholder="Target audience"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-8 flex justify-between pt-6 border-t">
+              <Button 
+                variant="outline"
+                onClick={() => {
+                  const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+                  if (currentIndex > 0) {
+                    setActiveTab(tabs[currentIndex - 1].id);
+                  }
+                }}
+              >
+                Previous
+              </Button>
+              <Button 
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={() => {
+                  const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
+                  if (currentIndex < tabs.length - 1) {
+                    setActiveTab(tabs[currentIndex + 1].id);
+                  } else {
+                    handleSubmit();
+                  }
+                }}
+              >
+                {activeTab === tabs[tabs.length - 1].id ? (
+                  <span className="flex items-center">
+                    Submit Product
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </span>
+                ) : (
+                  'Next'
+                )}
+              </Button>
+            </div>
+          </Card>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 export default ProductCreationPage;

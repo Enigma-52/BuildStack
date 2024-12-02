@@ -25,3 +25,4 @@ model User {
     skills            String[] @default([])
     isVerified        Boolean @default(false)
 }
+
