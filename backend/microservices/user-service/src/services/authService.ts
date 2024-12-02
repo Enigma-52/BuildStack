@@ -29,7 +29,7 @@ const generateOTP = (): string => {
 
 export const sendOTP = async (email: string) => {
   try {
-    // Check if user exists
+    
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
@@ -37,10 +37,10 @@ export const sendOTP = async (email: string) => {
     if(existingUser) {
       throw new Error("User already exists!");
     }
-    // Generate OTP
+   
     const otp = generateOTP();
 
-    // Store OTP in database with expiration
+    
     const otpData = {
       email,
       otp,
@@ -50,7 +50,7 @@ export const sendOTP = async (email: string) => {
     await transporter.verify()
     console.log('SMTP server is ready');
 
-    // Send OTP via email
+    
     await transporter.sendMail({
       from: process.env['EMAIL_USER'],
       to: email,
@@ -70,7 +70,7 @@ export const sendOTP = async (email: string) => {
 
 export const verifyOTP = async (email: string, otp: string) => {
   try {
-    // Find OTP record
+  
     const storedOtpString = localStorage.getItem(`otp_${email}`);
 
     if (!storedOtpString) {
@@ -79,7 +79,7 @@ export const verifyOTP = async (email: string, otp: string) => {
 
     const storedOtpData = JSON.parse(storedOtpString);
 
-    // Check if OTP is valid and not expired
+    
     if (
       storedOtpData.otp !== otp || 
       storedOtpData.expiresAt < Date.now()
@@ -87,7 +87,7 @@ export const verifyOTP = async (email: string, otp: string) => {
       throw new Error('Invalid or expired OTP');
     }
 
-    // Remove the OTP from local storage after successful verification
+    
     localStorage.removeItem(`otp_${email}`);
 
     return { message: 'OTP verified successfully' };
