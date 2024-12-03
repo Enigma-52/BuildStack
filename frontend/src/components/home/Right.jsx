@@ -22,7 +22,7 @@ const Right = () => {
 
   return (
     <div className="hidden md:block w-96 pt-28">
-      <div className="space-y-8">
+      <div className="space-y-8 mr-6">
         {/* Categories */}
         <div className="bg-gradient-to-br from-orange-50 to-pink-50 rounded-2xl p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Categories</h3>
@@ -46,7 +46,7 @@ const Right = () => {
         </div>
 
         {/* Top Makers */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg">
+        <div className="bg-slate-50 rounded-2xl p-6 shadow-lg">
           <h3 className="text-xl font-bold text-gray-900 mb-4">Top Makers</h3>
           <div className="space-y-4">
             {topMakers.map(maker => (

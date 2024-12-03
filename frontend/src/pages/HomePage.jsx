@@ -9,11 +9,13 @@ const HomePage = () => {
 	return (
 		<>
 			<Navbar/>
-			<div className='flex min-h-screen' id='Main'>
+			<div className='flex min-h-screen pb-12 pt-10' id='Main'>
 			<Left/>
 			<Right/>
 			</div>
+			<div className='bg-orange-50'>
 			<Footer/>
+			</div>
 		</>
 	)
 }
