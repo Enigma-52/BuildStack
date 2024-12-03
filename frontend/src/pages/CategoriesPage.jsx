@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Share2, ArrowUpRight, MessageCircle, ChevronUp, BookmarkPlus, Clock, Users, ArrowRight } from 'lucide-react';
-
+import Navbar from '../components/navbar/Navbar';
+import Footer from '../components/Footer';
 const placeholderProductImage = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23f3f4f6"/><text x="32" y="32" font-family="Arial" font-size="24" fill="%236b7280" text-anchor="middle" dominant-baseline="middle">P</text></svg>';
 
 const placeholderScreenshot = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"><rect width="800" height="450" fill="%23f3f4f6"/><text x="400" y="225" font-family="Arial" font-size="24" fill="%236b7280" text-anchor="middle" dominant-baseline="middle">Screenshot Preview</text></svg>';
@@ -83,7 +84,9 @@ const CategoriesPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+    <Navbar/>
+    <div className="min-h-screen bg-gray-50 relative pt-28 pb-20 overflow-hidden ">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-orange-500 via-orange-400 to-orange-500 text-white">
         <div className="max-w-7xl mx-auto px-4 py-16">
@@ -289,6 +292,10 @@ const CategoriesPage = () => {
         </button>
       )}
     </div>
+    <div className='bg-orange-50'>
+			<Footer/>
+			</div>
+    </>
   );
 };
 

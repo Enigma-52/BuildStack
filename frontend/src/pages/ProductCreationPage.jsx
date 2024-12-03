@@ -316,7 +316,7 @@ const ProductCreationPage = () => {
                     />
                     <Button 
                       onClick={() => document.getElementById('image-upload').click()}
-                      className="bg-orange-500 hover:bg-orange-600 text-white"
+                      className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 rounded-lg"
                     >
                       Upload Images
                     </Button>
@@ -409,6 +409,7 @@ const ProductCreationPage = () => {
             <div className="mt-8 flex justify-between pt-6 border-t">
               <Button 
                 variant="outline"
+                className="group px-8 py-4 bg-orange-100 hover:bg-orange-300 text-black rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105"
                 onClick={() => {
                   const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
                   if (currentIndex > 0) {
@@ -419,7 +420,7 @@ const ProductCreationPage = () => {
                 Previous
               </Button>
               <Button 
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="group px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-full transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105"
                 onClick={() => {
                   const currentIndex = tabs.findIndex(tab => tab.id === activeTab);
                   if (currentIndex < tabs.length - 1) {
