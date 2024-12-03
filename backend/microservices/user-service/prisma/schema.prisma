@@ -9,20 +9,63 @@ generator client {
 }
 
 model User {
-    id                String   @id @default(uuid())
-    name              String   @unique
-    email             String   @unique
+    id                String       @id @default(uuid())
+    name              String       @unique
+    email             String       @unique
     password          String
     bio               String?
     profile_image_url String?
     website_url       String?
     twitter_handle    String?
-    createdAt         DateTime @default(now())
-    updatedAt         DateTime @updatedAt
-    karma_points      Int      @default(0)
-    is_maker          Boolean  @default(false)
+    createdAt         DateTime     @default(now())
+    updatedAt         DateTime     @updatedAt
+    karma_points      Int          @default(0)
+    is_maker          Boolean      @default(false)
     location          String?
-    skills            String[] @default([])
-    isVerified        Boolean @default(false)
+    skills            String[]     @default([])
+    isVerified        Boolean      @default(false)
+    products          Product[]
+    teamProducts      TeamMember[]
 }
 
+model Product {
+    id             String       @id @default(uuid())
+    name           String       @unique
+    tagline        String
+    description    String       @db.Text
+    websiteUrl     String?
+    category       String
+    images         Image[]
+    videoUrl       String?
+    techStack      String[]
+    targetAudience String?
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime     @updatedAt
+    userId         String
+    user           User         @relation(fields: [userId], references: [id])
+    pricing        Pricing[]
+    makers         TeamMember[]
+}
+
+model Image {
+    id        String  @id @default(uuid())
+    url       String
+    productId String
+    product   Product @relation(fields: [productId], references: [id])
+}
+
+model Pricing {
+    id        String   @id @default(uuid())
+    tier      String
+    features  String[]
+    productId String
+    product   Product  @relation(fields: [productId], references: [id])
+}
+
+model TeamMember {
+    id        String  @id @default(uuid())
+    userId    String
+    productId String
+    product   Product @relation(fields: [productId], references: [id])
+    user      User    @relation(fields: [userId], references: [id])
+}
