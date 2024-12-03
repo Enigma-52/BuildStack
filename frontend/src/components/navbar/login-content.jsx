@@ -10,7 +10,7 @@ const LoginContent = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+    const router = useNavigate();
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -18,10 +18,43 @@ const LoginContent = () => {
         setLoading(true);
 
         try {
-            
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password,
+                    email,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Something went wrong');
+            }
+
+            await console.log(data);
+
+            // Store the token if it exists in the response
+            if (data.token) {
+                await localStorage.setItem('token', data.token);
+                await localStorage.setItem('email', data.email);
+                await localStorage.setItem('userId', data.id);
+            }
+
+            // Clear form
+            setName('');
+            setEmail('');
+            setPassword('');
+
+            router('/profile');
 
         } catch (error) {
-            
+            setError(error.message || 'Failed to sign up');
+        } finally {
+            setLoading(false);
         }
     };
 
