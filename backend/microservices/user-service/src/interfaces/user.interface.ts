@@ -12,6 +12,7 @@ export interface IUser {
   is_maker: boolean
   location?: string
   skills: string[]
+  isVerified: boolean
 }
 
 export interface IUserSignup {
@@ -31,4 +32,9 @@ export interface IUserResponse {
   email: string
   full_name: string
   token: string
+}
+
+export interface IUserOTPVerification {
+  id: string
+  email: string
 }

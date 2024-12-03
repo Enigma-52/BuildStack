@@ -29,7 +29,7 @@ const generateOTP = (): string => {
 
 export const sendOTP = async (email: string) => {
   try {
-    
+    // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
@@ -37,10 +37,10 @@ export const sendOTP = async (email: string) => {
     if(existingUser) {
       throw new Error("User already exists!");
     }
-   
+    // Generate OTP
     const otp = generateOTP();
 
-    
+    // Store OTP in database with expiration
     const otpData = {
       email,
       otp,
@@ -50,7 +50,7 @@ export const sendOTP = async (email: string) => {
     await transporter.verify()
     console.log('SMTP server is ready');
 
-    
+    // Send OTP via email
     await transporter.sendMail({
       from: process.env['EMAIL_USER'],
       to: email,
@@ -70,7 +70,7 @@ export const sendOTP = async (email: string) => {
 
 export const verifyOTP = async (email: string, otp: string) => {
   try {
-  
+    // Find OTP record
     const storedOtpString = localStorage.getItem(`otp_${email}`);
 
     if (!storedOtpString) {
@@ -79,7 +79,7 @@ export const verifyOTP = async (email: string, otp: string) => {
 
     const storedOtpData = JSON.parse(storedOtpString);
 
-    
+    // Check if OTP is valid and not expired
     if (
       storedOtpData.otp !== otp || 
       storedOtpData.expiresAt < Date.now()
@@ -87,7 +87,7 @@ export const verifyOTP = async (email: string, otp: string) => {
       throw new Error('Invalid or expired OTP');
     }
 
-    
+    // Remove the OTP from local storage after successful verification
     localStorage.removeItem(`otp_${email}`);
 
     return { message: 'OTP verified successfully' };
@@ -174,9 +174,32 @@ export const login = async (credentials: IUserLogin) => {
     throw new Error('User not found');
   }
 
-  const validPassword = await bcrypt.compare(credentials.password, user.password)
+  const validPassword = await prisma.user.findUnique({
+    where: { email: credentials.email },
+    select: {
+      password: true
+    }
+  })
 
   if (!validPassword) {
+    await AuthLog.create({
+      eventType: 'LOGIN_ATTEMPT',
+      email: credentials.email,
+      status: 'FAILURE',
+      failureReason: 'User not found',
+      metadata: {
+        timestamp: new Date()
+      }
+    });
+    throw new Error('User not found');
+  }
+  console.log('credentials.password:', credentials.password);
+  console.log('user.password:', validPassword.password);
+
+
+  const isValid = await bcrypt.compare(credentials.password, validPassword.password)
+
+  if (!isValid) {
     await AuthLog.create({
       eventType: 'LOGIN_ATTEMPT',
       email: credentials.email,
@@ -206,12 +229,16 @@ export const login = async (credentials: IUserLogin) => {
     }
   });
 
-  return {
+  const responseObject = {
     id: user.id,
     name: user.name,
     email: user.email,
-    token
-  }
+    token: token
+  };
+
+  console.log('responseObject:', responseObject);
+
+  return responseObject;
 }
 
 export const getUserById = async (userId: string) => {

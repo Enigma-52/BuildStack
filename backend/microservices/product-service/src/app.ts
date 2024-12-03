@@ -5,7 +5,7 @@ import { healthRoutes } from './routes/healthRoutes'
 import { errorMiddleware } from './middleware/errorMiddleware'
 import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware'
 import { productRoutes } from './routes/productRoutes';
-
+import { miscRoutes } from './routes/miscRoutes';
 const app = express()
 
 // Middleware
@@ -20,6 +20,8 @@ app.use(metricsMiddleware)
 app.use('/api/health', healthRoutes)
 app.get('/metrics', getMetrics)
 app.use('/api/products', productRoutes);
+app.use('/api/misc', miscRoutes);
+
 
 
 // Error Handler

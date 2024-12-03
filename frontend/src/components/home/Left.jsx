@@ -135,7 +135,7 @@ const Left = () => {
   return (
     <div className="flex-grow px-6 pt-24">
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
               Today's Products
@@ -150,7 +150,7 @@ const Left = () => {
             </select>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-12 p-6">
           {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}

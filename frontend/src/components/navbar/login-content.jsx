@@ -25,42 +25,36 @@ const LoginContent = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    password,
                     email,
-                    password
                 }),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                // Handle different types of login failures
-                if (data.type === 'verification_required') {
-                    // If email verification is pending
-                    localStorage.setItem('userId', data.userId);
-                    router('/verify-email');
-                    return;
-                }
-
-                throw new Error(data.message || 'Login failed');
+                throw new Error(data.message || 'Something went wrong');
             }
 
-            // Successful login
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('email', data.email);
-            localStorage.setItem('userId', data.id);
-            localStorage.setItem('userName', data.name);
+            await console.log(data);
+
+            // Store the token if it exists in the response
+            if (data.token) {
+                await localStorage.setItem('token', data.token);
+                await localStorage.setItem('email', data.email);
+                await localStorage.setItem('userId', data.id);
+            }
 
             // Clear form
+            setName('');
             setEmail('');
             setPassword('');
 
-            // Redirect to profile or dashboard
             router('/profile');
 
         } catch (error) {
-            setError(error.message || 'Failed to log in');
-        }
-        finally {
+            setError(error.message || 'Failed to sign up');
+        } finally {
             setLoading(false);
         }
     };

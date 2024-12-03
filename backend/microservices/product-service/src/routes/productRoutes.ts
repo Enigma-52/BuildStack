@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import { createProduct } from '../controllers/productController'
+import { createProduct , getProduct } from '../controllers/productController'
 const router = Router()
 
 router.post('/createProduct', createProduct)
+router.get('/getProduct/:name', getProduct)
+
 
 export { router as productRoutes };
 

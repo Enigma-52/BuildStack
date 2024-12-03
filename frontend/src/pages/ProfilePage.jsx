@@ -57,11 +57,13 @@ const ProfilePage = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("No authentication token found");
+      const userId = localStorage.getItem("userId");
+      
+      if (!token || !userId) {
+        throw new Error("No authentication token or user ID found");
       }
 
-      const response = await fetch("http://localhost:3000/api/auth/profile", {
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

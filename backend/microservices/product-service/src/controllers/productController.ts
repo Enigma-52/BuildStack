@@ -53,3 +53,36 @@ export const createProduct = async (req: Request, res: Response) => {  try {
     return res.status(500).json({ error: error });
   }
 };
+
+export const getProduct = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.params;
+
+    // Validate if name exists
+    if (!name) {
+      return res.status(400).json({ error: 'Product name is required' });
+    }
+
+    // Fetch product with all related data
+    const product = await prisma.product.findFirst({
+      where: {
+        name: name
+      },
+      include: {
+        images: true,
+        pricing: true,
+        makers: true
+      }
+    });
+
+    // Check if product exists
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    return res.status(200).json(product);
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
