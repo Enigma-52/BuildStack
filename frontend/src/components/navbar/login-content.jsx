@@ -17,6 +17,7 @@ const LoginContent = () => {
         setError('');
         setLoading(true);
 
+
         try {
             const response = await fetch('http://localhost:3000/api/auth/login', {
                 method: 'POST',
@@ -58,7 +59,7 @@ const LoginContent = () => {
         }
     };
 
-    
+
 
     return (
         <>
@@ -118,11 +119,11 @@ const LoginContent = () => {
                         >
                             {loading ? 'Logging in...' : 'Login'}
                         </Button>
-                        
+
                     </div>
                 </form>
 
-                
+
             </div>
         </>
     );
