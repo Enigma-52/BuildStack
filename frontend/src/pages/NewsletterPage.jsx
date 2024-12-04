@@ -3,6 +3,7 @@ import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ArrowUpRight, Mail, Zap, Star, ArrowRight, Check, Clock, Trophy, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const NewsletterPage = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,8 @@ const NewsletterPage = () => {
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState("");
   const [animationPlayed, setAnimationPlayed] = useState(false);
+
+  const router = useNavigate();
 
   useEffect(() => {
     setAnimationPlayed(true);
@@ -254,9 +257,9 @@ const NewsletterPage = () => {
                       <p className="text-gray-600 mb-4">
                         Want to get featured in next week's newsletter? Submit your product now.
                       </p>
-                      <Button className="bg-white text-orange-600 hover:text-orange-700 px-2 rounded-lg">
+                      <Button onClick={() => router('/createProduct')} className="bg-white text-orange-600 hover:text-orange-700 px-3 rounded-lg">
                         Submit Product 
-                        <ArrowUpRight className="w-4 h-4" />
+                        <span className="flex"><ArrowUpRight className="w-4 h-4" /></span>
                       </Button>
                     </div>
                   </div>
