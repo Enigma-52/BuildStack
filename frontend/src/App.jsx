@@ -19,7 +19,7 @@ function App() {
         <Route path='/admin' element={<pages.AdminPage/>}/>
         <Route path="/admin/analytics" element={<pages.AnalyticsPage/>} />
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
-        <Route path="/advertise" element={<pages.Advertise />} />
+        <Route path="/advertise" element={<pages.AdvertisePage />} />
 
       </Routes>
     </>
