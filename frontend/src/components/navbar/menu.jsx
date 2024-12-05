@@ -17,14 +17,14 @@ const Menu = () => {
     }
 
     const handleCategoriesClick = () => {
-        router('/categories/:id');
+        router('/categories');
     }
     const handleDiscussionsClick = () => {
         router('/discussions');
     }
 
     const handleSponsorClick = () => {
-        router('/sponsor');
+        router('/advertise');
     }
 
     const [showLaunchesMenu, setShowLaunchesMenu] = useState(false);
