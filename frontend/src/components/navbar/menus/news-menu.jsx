@@ -33,19 +33,7 @@ const NewsMenu = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex items-center gap-4 group hover:bg-red-100 transition-colors duration-500 ease-in-out rounded-md p-2">
-                        <div className='bg-red-200 p-2 rounded-sm shadow-sm group-hover:bg-red-100 transition-colors duration-500 ease-in-out'>
-                            <PiBookOpenTextLight className="w-6 h-6 text-gray-500 group-hover:text-red-600 transition-colors duration-500 ease-in-out" />
-                        </div>
-                        <div>
-                            <div className='font-semibold group-hover:text-red-600 transition-colors duration-500 ease-in-out'>
-                            Stories
-                            </div>
-                            <div className='text-xs w-60 group-hover:text-red-700 transition-colors duration-500 ease-in-out'>
-                            Tech news, interviews, and tips from makers
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div className="flex items-center gap-4 group hover:bg-blue-100 transition-colors duration-500 ease-in-out rounded-md p-2" onClick={handleChangelogClick}>
                         <div className='bg-blue-200 p-2 rounded-sm shadow-sm group-hover:bg-blue-100 transition-colors duration-500 ease-in-out'>
                             <PiNotebookLight className="w-6 h-6 text-gray-500 group-hover:text-blue-600 transition-colors duration-500 ease-in-out" />
