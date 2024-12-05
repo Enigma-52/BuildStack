@@ -19,6 +19,9 @@ const Menu = () => {
     const handleCategoriesClick = () => {
         router('/categories/:id');
     }
+    const handleDiscussionsClick = () => {
+        router('/discussions');
+    }
 
     const handleSponsorClick = () => {
         router('/sponsor');
@@ -54,9 +57,10 @@ const Menu = () => {
                 <div
                     onMouseEnter={() => setShowCommunityMenu(true)}
                     onMouseLeave={() => setShowCommunityMenu(false)}
+                    onClick={handleDiscussionsClick}
                     className="hover:cursor-pointer"
                 >
-                    Community {showCommunityMenu && <CommunityMenu/>}
+                    Discussion {/*showCommunityMenu && <CommunityMenu/>*/}
                 </div>
 
                 <div onClick={handleSponsorClick} className="hover:text-red-500 hover:cursor-pointer">
