@@ -10,8 +10,8 @@ import ProductPage from './ProductPage';
 import AdminPage from './AdminPage';
 import AnalyticsPage from './AnalyticsPage';
 import DiscussionsPage from './DiscussionsPage';
-import AllCategoriesPage from './AllCategoriesPage';
 import AdvertisePage from './Advertise';
+import AllCategoriesPage from './AllCategoriesPage';
 
 const pages = {
     HomePage,
@@ -27,7 +27,7 @@ const pages = {
     AnalyticsPage,
     DiscussionsPage,
     AllCategoriesPage,
-    Advertise,
+    AdvertisePage,
 };
 
 export default pages;
