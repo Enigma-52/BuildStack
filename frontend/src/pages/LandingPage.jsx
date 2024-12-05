@@ -330,10 +330,10 @@ const LandingPage = () => {
           <div className="relative rounded-2xl bg-gradient-to-r from-orange-600 to-orange-400 p-12 shadow-xl">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white mb-4">
-                Ready to Transform Your Development Workflow?
+              Ready to Discover the Next Big Thing?
               </h2>
               <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands of developers already using BuildStack to discover and evaluate the best tools for their projects.
+              Join BuildStack and explore the latest tools, products, and innovations for all kinds of creators.
               </p>
               <button onClick={handleHomepageClick} className="group px-8 py-4 bg-white text-orange-600 rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
                 <span className="flex items-center gap-2">
