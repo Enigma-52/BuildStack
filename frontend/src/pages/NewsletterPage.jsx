@@ -254,8 +254,8 @@ const NewsletterPage = () => {
                       <p className="text-gray-600 mb-4">
                         Want to get featured in next week's newsletter? Submit your product now.
                       </p>
-                      <Button className="bg-white text-orange-600 hover:text-orange-700 px-2 rounded-lg">
-                        Submit Product 
+                      <Button className="bg-white text-orange-600 hover:text-orange-700 px-2 rounded-lg" href="/createProduct">
+                        Submit Product
                         <ArrowUpRight className="w-4 h-4" />
                       </Button>
                     </div>
