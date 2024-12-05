@@ -14,11 +14,13 @@ function App() {
         <Route path="/profile/edit" element={<pages.EditProfilePage />} />
         <Route path="/changelog" element={<pages.ChangelogPage />} />
         <Route path='/categories/:id' element={<pages.CategoriesPage/>} />
-        <Route path='/sponsor' element={<pages.SponsorPage/>}/>
+        <Route path='/categories' element={<pages.AllCategoriesPage/>} />
         <Route path='/product/:id' element={<pages.ProductPage/>}/>
         <Route path='/admin' element={<pages.AdminPage/>}/>
         <Route path="/admin/analytics" element={<pages.AnalyticsPage/>} />
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
+        <Route path="/advertise" element={<pages.Advertise />} />
+
       </Routes>
     </>
   );
