@@ -9,6 +9,7 @@ import { ReviewsTab} from '../components/profile/ReviewTab'
 import { ActivityTab} from '../components/profile/ActivityTab'
 import { UpvotesTab} from '../components/profile/UpvotesTab'
 import { Image } from "../components/Image";
+import Footer from "../components/Footer";
 
 // Mock data
 const mockUser = {
@@ -120,7 +121,7 @@ const ProfilePage = () => {
   return (
       <div>
         <Navbar/>
-        <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-28">
+        <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-28 pb-20">
           <main className="max-w-4xl mx-auto px-4">
             {profile && (
               <div className="flex items-start space-x-6">
@@ -207,6 +208,7 @@ const ProfilePage = () => {
         </div>
       </main>
     </div>
+        <Footer/>
     </div>
   );
 };
