@@ -1,14 +1,18 @@
 import { LuCalendarCheck } from "react-icons/lu";
 import { PiFireLight, PiChatsLight } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 
 const CommunityMenu = () => {
+
+    const router = useNavigate();
+
     return (
         <div className="border rounded-sm shadow-md bg-white absolute top-full
          text-gray-600">
             <div className="flex cursor-pointer p-2 my-1">
                 <div className="flex flex-col items-start space-y-3 m-0.5">
-                    <div className="flex items-center gap-4 group hover:bg-green-100 origin-left transition-colors duration-500 ease-in-out rounded-md p-2">
+                    <div className="flex items-center gap-4 group hover:bg-green-100 origin-left transition-colors duration-500 ease-in-out rounded-md p-2" onClick={() => router('/discussions')}>
                         <div className='bg-green-200 p-2 rounded-sm shadow-sm group-hover:bg-green-100 transition-colors duration-500 ease-in-out'>
                             <PiChatsLight className="w-6 h-6 text-gray-500 group-hover:text-green-600 transition-colors duration-500 ease-in-out" />
                         </div>
