@@ -146,7 +146,7 @@ const EditProfilePage = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32 mb-20">
+      <div className="min-h-screen bg-gradient-to-r from-pink-50 via-blue-50 to-orange-50 pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
             <div className="flex justify-between items-center mb-8">
