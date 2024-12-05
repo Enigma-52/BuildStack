@@ -18,7 +18,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import LoginModal from "./modals/LoginModal";
 import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
