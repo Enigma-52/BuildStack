@@ -6,9 +6,11 @@ import {
   TrendingUp, 
   Users, 
   Zap,
-  Globe,
+  Brain,
   Code,
+  ChartNoAxesCombined,
   Database,
+  Palette,
   Cloud,
   Search,
   MessageSquare,
@@ -89,10 +91,10 @@ const LandingPage = () => {
   ];
 
   const categories = [
-    { name: "Frontend", count: 856, icon: Globe, color: "from-blue-500 to-blue-600" },
-    { name: "Backend", count: 731, icon: Database, color: "from-green-500 to-green-600" },
-    { name: "DevOps", count: 642, icon: Cloud, color: "from-purple-500 to-purple-600" },
-    { name: "AI Tools", count: 534, icon: Code, color: "from-red-500 to-red-600" }
+    { name: "AI Tools", count: 856, icon:Brain , color: "from-blue-500 to-blue-600" },
+    { name: "Design Tools", count: 731, icon: Palette , color: "from-green-500 to-green-600" },
+    { name: "Marketing", count: 642, icon: ChartNoAxesCombined, color: "from-purple-500 to-purple-600" },
+    { name: "Developer Tools", count: 534, icon: Code, color: "from-red-500 to-red-600" }
   ];
 
   const testimonials = [
@@ -100,21 +102,21 @@ const LandingPage = () => {
       name: "Sarah Chen",
       role: "Senior Developer at TechCorp",
       image: "/api/placeholder/64/64",
-      content: "BuildStack has completely transformed how I discover new development tools. The curated lists and community insights are invaluable.",
+      content: "BuildStack is my go-to platform for discovering new tools and products. It's where I find the most innovative solutions that truly make a difference.",
       rating: 5
     },
     {
       name: "Marcus Rodriguez",
       role: "Lead Engineer at StartupX",
       image: "/api/placeholder/64/64",
-      content: "As a tech lead, I rely on BuildStack to stay ahead of the curve. It's my go-to platform for finding the best tools for my team.",
+      content: "As a developer, BuildStack has helped me stay ahead of the curve. The community and resources here are unmatched. It's the perfect place to discover new tools.",
       rating: 5
     },
     {
       name: "Emily Thompson",
-      role: "Full Stack Developer",
+      role: "Product Manager",
       image: "/api/placeholder/64/64",
-      content: "The detailed reviews and comparisons have saved me countless hours in tool evaluation. Absolutely essential for modern developers.",
+      content: "I’ve found some incredible ideas and products here. It’s a must-visit platform for anyone passionate about innovation and tech",
       rating: 5
     }
   ];
@@ -147,22 +149,22 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative pt-32 pb-20 overflow-hidden">
+      <div className="relative pt-32 pb-20 overflow-hidden ">
         <div className="absolute inset-0 bg-gradient-to-b from-orange-50 to-white -z-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 rounded-full text-orange-600 mb-8">
               <Star className="w-4 h-4" />
-              <span>Trusted by 25,000+ developers worldwide</span>
+              <span>Trusted by 25,000+ users worldwide</span>
             </div>
             <h1 className="text-7xl font-bold text-gray-900 mb-8 leading-tight">
-              Discover the Future of
+            Discover Products That Are 
               <div className="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 to-orange-400 mt-2">
-                Development Tools
+              Redefining Innovation
               </div>
             </h1>
             <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-              Join the community of developers discovering and sharing tomorrow's most innovative development tools.
+            Join the community to discover and share the latest innovations, products, and ideas shaping the future.
             </p>
             <button onClick={handleHomepageClick} className="group px-8 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-full font-medium transition-all duration-200 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-105">
               <span className="flex items-center gap-2">
@@ -179,14 +181,14 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose BuildStack?</h2>
-            <p className="text-gray-600">Everything you need to discover and evaluate development tools</p>
+            <p className="text-gray-600">Because it's where the next big ideas are discovered, shared, and built</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: Search, title: "Smart Discovery", description: "AI-powered tool recommendations based on your tech stack and preferences" },
-              { icon: Star, title: "Verified Reviews", description: "Authentic feedback from real developers who've used the tools" },
-              { icon: MessageSquare, title: "Active Community", description: "Engage with other developers and share your experiences" },
-              { icon: TrendingUp, title: "Trending Analysis", description: "Stay updated with the latest trends in development tools" },
+              { icon: Search, title: "Smart Discovery", description: "Access a handpicked selection of the latest and most exciting products." },
+              { icon: Star, title: "Verified Reviews", description: "Authentic feedback from real users who've used the product" },
+              { icon: MessageSquare, title: "Active Community", description: "Engage with other users and share your experiences" },
+              { icon: TrendingUp, title: "Trending Analysis", description: "Stay updated with the latest trends in tools and websites" },
               { icon: Users, title: "Expert Insights", description: "Detailed analysis from industry experts and tool creators" },
               { icon: Zap, title: "Quick Compare", description: "Side-by-side comparison of similar tools and features" }
             ].map((feature, index) => (
@@ -207,7 +209,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
-            <p className="text-gray-600">Find the perfect tools for your tech stack</p>
+            <p className="text-gray-600">Find the perfect product for your need</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {categories.map((category, index) => (
@@ -231,7 +233,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Trending Today</h2>
-            <p className="text-gray-600">Most upvoted tools in the last 24 hours</p>
+            <p className="text-gray-600">Most upvoted products in the last 24 hours</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {popularTools.map((tool, index) => (
@@ -292,7 +294,7 @@ const LandingPage = () => {
       <div className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Loved by Developers</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Loved by People</h2>
             <p className="text-gray-600">Here's what our community has to say</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
