@@ -50,7 +50,7 @@ const SearchModal = ({ visible, setVisible, children }) => {
 								</Button>
 							</div>
 							<DialogPanel className="relative h-[600px] 
-						  max-sm:w-[550px] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
+						  max-sm:w-full max-sm:h-[90vh] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
 						 rounded-sm 
 						 shadow-md"
 							>

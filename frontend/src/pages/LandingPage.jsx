@@ -54,7 +54,7 @@ const AnimatedNumber = ({ value, suffix = '' }) => {
 const LandingPage = () => {
   const router = useNavigate();
   const handleHomepageClick = () => {
-    router('/home');
+    window.location.href = '/home';
   }
   const [scrolled, setScrolled] = useState(false);
 

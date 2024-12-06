@@ -19,6 +19,7 @@ import LoginModal from "./modals/LoginModal";
 import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
 import { useNavigate } from "react-router-dom";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -172,20 +173,50 @@ const Navbar = () => {
 			<div
 				className={`fixed sm:hidden top-0 left-0 w-full h-full bg-white z-40 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
 					}`}
-
 			>
-				<div className="h-full flex flex-col justify-center items-center">
-					{/* Add your mobile menu items here */}
-					hello
-					<a href="/" className="text-2xl font-bold mb-4">
-						Home
-					</a>
-					<a href="/about" className="text-2xl font-bold mb-4">
-						About
-					</a>
-					<a href="/contact" className="text-2xl font-bold mb-4">
-						Contact
-					</a>
+				<div className="w-full h-full flex flex-col items-center justify-center px-4 py-6">
+					<div className="w-full mb-8 items-center justify-center">
+						{/* Add responsive width to Search */}
+						<div className="rounded-full flex items-center text-gray-500 m-auto bg-slate-100 relative">
+							<div className="flex flex-row flex-1" onClick={handleSearchButtonClick}>
+								<FaMagnifyingGlass className="m-auto ml-3" />
+								<input
+									type="text"
+									placeholder="Search"
+									className="p-2 rounded-full focus:outline-none text-base bg-slate-100 flex-1"
+								/>
+							</div>
+						</div>
+					</div>
+
+					{/* Add other menu items if needed */}
+					{/* Menu Items */}
+					<div className="w-full h-[60vh]">
+						<div className="space-y-4">
+							{["Launches", "Products", "News", "Discussions", "Advertise"].map((item) => (
+								<div
+									key={item}
+									className="flex items-center justify-between text-gray-800 text-lg font-medium px-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+								>
+									<span>{item}</span>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										strokeWidth="1.5"
+										stroke="currentColor"
+										className="w-5 h-5 text-gray-500"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M8.25 4.5l7.5 7.5-7.5 7.5"
+										/>
+									</svg>
+								</div>
+							))}
+						</div>
+					</div>
 				</div>
 			</div>
 
