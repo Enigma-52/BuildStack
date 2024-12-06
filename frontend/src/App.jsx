@@ -20,7 +20,7 @@ function App() {
         <Route path="/admin/analytics" element={<pages.AnalyticsPage/>} />
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
         <Route path="/advertise" element={<pages.AdvertisePage />} />
-
+        <Route path='/contactus' element={<pages.ContactUsPage/>} />
       </Routes>
     </>
   );
