@@ -23,15 +23,6 @@ const UserMenu = () => {
                     <div onClick={handleProfileClick}>
                         Profile
                     </div>
-                    <div>
-                        My products
-                    </div>
-                    <div>
-                        Settings
-                    </div>
-                    <div>
-                        API dashboard
-                    </div>
                     <hr className="border-[1px] border-black w-full" />
 
 
