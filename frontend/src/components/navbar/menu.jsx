@@ -40,7 +40,7 @@ const Menu = () => {
                     onClick={handleHomepageClick}
                     className="hover:cursor-pointer hover:text-red-500"
                 >
-                    Launches {/*{showLaunchesMenu && <LaunchesMenu />}*/}
+                    Home {/*{showLaunchesMenu && <LaunchesMenu />}*/}
                 </div>
                 <div onClick={handleCategoriesClick} className="hover:text-red-500 hover:cursor-pointer">
                     Products

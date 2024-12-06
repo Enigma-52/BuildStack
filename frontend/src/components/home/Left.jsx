@@ -1,163 +1,195 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Star, MessageSquare, Calendar, ArrowUpRight, ChevronRight } from 'lucide-react';
 
-const ProductCard = ({ product }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    whileHover={{ y: -4 }}
-    className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-  >
-    <div className="relative">
-      <img 
-        src={product.image} 
-        alt={product.name}
-        className="w-full h-48 object-cover"
-      />
-      <div className="absolute top-4 left-4 flex space-x-2">
-        {product.featured && (
-          <span className="bg-orange-500 text-white text-xs px-3 py-1 rounded-full font-medium shadow-md">
-            Featured 🔥
-          </span>
-        )}
-        <span className="bg-white/90 backdrop-blur-sm text-gray-800 text-xs px-3 py-1 rounded-full font-medium">
-          {product.category}
-        </span>
-      </div>
-      <div className="absolute top-4 right-4">
-        <motion.button 
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg group"
-        >
-          <svg className="w-5 h-5 text-orange-500 group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
-        </motion.button>
-        <div className="bg-white/90 backdrop-blur-sm mt-2 px-2 py-1 rounded-full text-center text-sm font-semibold">
-          {product.upvotes}
-        </div>
-      </div>
-    </div>
-    
-    <div className="p-6">
-      <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
-        {product.name}
-      </h3>
-      <p className="text-gray-600 mb-4 line-clamp-2">
-        {product.description}
-      </p>
-      
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="flex -space-x-2">
-            {product.makers.map((maker, index) => (
-              <img
-                key={index}
-                src={maker.avatar}
-                alt={maker.name}
-                className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-              />
-            ))}
-          </div>
-          <div className="text-sm">
-            <span className="text-orange-500 font-medium">{product.makers.length} maker{product.makers.length > 1 ? 's' : ''}</span>
-          </div>
-        </div>
-        <div className="flex items-center space-x-4 text-sm text-gray-500">
-          <div className="flex items-center space-x-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>{product.launchDate}</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-            </svg>
-            <span>{product.comments}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-);
+const Button = ({
+  children,
+  variant = 'default',
+  size = 'default',
+  className = '',
+  ...props
+}) => {
+  const baseStyles = 'rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+  
+  const variants = {
+    default: 'bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-500',
+    ghost: 'bg-transparent hover:bg-gray-100 focus:ring-gray-500',
+    outline: 'border border-gray-300 bg-transparent hover:bg-gray-50 focus:ring-gray-500',
+  };
 
-const Left = () => {
-  const products = [
-    {
-      id: 1,
-      name: "Productify AI",
-      description: "AI-powered product management assistant for modern teams. Streamline your workflow and boost productivity.",
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-      category: "Productivity",
-      featured: true,
-      upvotes: 248,
-      makers: [
-        { name: "John Doe", avatar: "https://i.pravatar.cc/150?u=john" },
-        { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?u=jane" }
-      ],
-      launchDate: "Today",
-      comments: 42
-    },
-    {
-      id: 2,
-      name: "Productify AI",
-      description: "AI-powered product management assistant for modern teams. Streamline your workflow and boost productivity.",
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-      category: "Productivity",
-      featured: true,
-      upvotes: 248,
-      makers: [
-        { name: "John Doe", avatar: "https://i.pravatar.cc/150?u=john" },
-        { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?u=jane" }
-      ],
-      launchDate: "Today",
-      comments: 42
-    },
-    {
-      id: 3,
-      name: "Productify AI",
-      description: "AI-powered product management assistant for modern teams. Streamline your workflow and boost productivity.",
-      image: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-      category: "Productivity",
-      featured: true,
-      upvotes: 248,
-      makers: [
-        { name: "John Doe", avatar: "https://i.pravatar.cc/150?u=john" },
-        { name: "Jane Smith", avatar: "https://i.pravatar.cc/150?u=jane" }
-      ],
-      launchDate: "Today",
-      comments: 42
-    }
-  ];
+  const sizes = {
+    default: 'px-4 py-2',
+    sm: 'px-3 py-1.5 text-sm',
+    lg: 'px-6 py-3 text-lg',
+  };
 
   return (
-    <div className="flex-grow px-6 pt-24">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-              Today's Products
-            </h1>
-            <p className="text-gray-600 mt-2">Discover the latest and greatest in tech</p>
-          </div>
-          <div className="flex space-x-4">
-            <select className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-              <option>Popular</option>
-              <option>Recent</option>
-              <option>Most Upvoted</option>
-            </select>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-12 p-6">
-          {products.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
+    <button
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+const Input = ({ className = '', ...props }) => {
+  return (
+    <input
+      className={`w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent ${className}`}
+      {...props}
+    />
+  );
+};
+
+const Alert = ({ children, variant = 'default', className = '' }) => {
+  const variants = {
+    default: 'bg-green-50 text-green-800 border-green-200',
+    destructive: 'bg-red-50 text-red-800 border-red-200',
+  };
+
+  return (
+    <div className={`p-4 rounded-lg border ${variants[variant]} ${className}`}>
+      {children}
     </div>
   );
 };
 
-export default Left;
+const AlertDescription = ({ children }) => {
+  return <p className="text-sm">{children}</p>;
+};
+
+// ProductCard Component
+const ProductCard = ({ product }) => {
+  const [isUpvoted, setIsUpvoted] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4 }}
+      className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
+    >
+      <div className="relative aspect-video">
+        <img 
+          src={product.image || "/api/placeholder/400/300"} 
+          alt={product.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+        <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+          {product.featured && (
+            <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs px-3 py-1 rounded-full font-medium shadow-md">
+              Featured 🔥
+            </span>
+          )}
+          <span className="bg-white/90 backdrop-blur-sm text-gray-800 text-xs px-3 py-1 rounded-full font-medium">
+            {product.category}
+          </span>
+        </div>
+      </div>
+      
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1 hover:text-orange-500 transition-colors">
+          {product.name}
+        </h3>
+        <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+          {product.description}
+        </p>
+        
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`gap-2 ${isUpvoted ? 'text-orange-500' : 'text-gray-500'}`}
+              onClick={() => setIsUpvoted(!isUpvoted)}
+            >
+              <Star className={`w-4 h-4 ${isUpvoted ? 'fill-orange-500' : ''}`} />
+              {product.upvotes}
+            </Button>
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <MessageSquare className="w-4 h-4" />
+              {product.comments}
+            </div>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-orange-500 hover:text-orange-600 gap-1"
+          >
+            View Details
+            <ArrowUpRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Left Component
+export default Left = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('popular');
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`/api/products`);
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    //fetchProducts();
+  }, [sortBy]);
+
+  return (
+    <div className="flex-grow px-6 pt-24">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+              Discover Amazing Products
+            </h1>
+            <p className="text-gray-600 mt-2 text-lg">
+              Explore the latest innovations in tech and beyond
+            </p>
+          </div>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          >
+            <option value="popular">Popular</option>
+            <option value="recent">Recent</option>
+            <option value="trending">Trending</option>
+          </select>
+        </div>
+
+        {loading ? (
+          <div className="grid grid-cols-1 gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="bg-gray-200 h-48 rounded-2xl mb-4" />
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-8">
+            {products.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
