@@ -6,11 +6,12 @@ import ProductCreationPage from './ProductCreationPage';
 import EditProfilePage from './EditProfilePage';
 import ChangelogPage from './ChangelogPage';
 import CategoriesPage from './CategoriesPage';
-import SponsorPage from './SponsorPage';
 import ProductPage from './ProductPage';
 import AdminPage from './AdminPage';
 import AnalyticsPage from './AnalyticsPage';
 import DiscussionsPage from './DiscussionsPage';
+import AdvertisePage from './Advertise';
+import AllCategoriesPage from './AllCategoriesPage';
 
 const pages = {
     HomePage,
@@ -21,11 +22,12 @@ const pages = {
     EditProfilePage,
     ChangelogPage,
     CategoriesPage,
-    SponsorPage,
     ProductPage,
     AdminPage,
     AnalyticsPage,
-    DiscussionsPage
+    DiscussionsPage,
+    AllCategoriesPage,
+    AdvertisePage,
 };
 
 export default pages;
