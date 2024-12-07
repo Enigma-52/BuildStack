@@ -36,12 +36,10 @@ const EditProfilePage = () => {
         if (!token) {
           throw new Error("No authentication token found");
         }
+
+        const targetUserId = localStorage.getItem("userId");  
   
-        const response = await fetch("http://localhost:3000/api/auth/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+        const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`, {
         });
   
         if (!response.ok) {
@@ -103,15 +101,19 @@ const EditProfilePage = () => {
     }
   };
 
+  const handleCancel = () => {
+    const userId = localStorage.getItem("userId");
+    router(`/profile/${userId}`)
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/api/auth/profile/update", {
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${userId}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -124,7 +126,7 @@ const EditProfilePage = () => {
         throw new Error("Failed to update profile");
       }
 
-      router("/profile");
+      router(`/profile/${userId}`);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -151,13 +153,6 @@ const EditProfilePage = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl font-bold text-gray-900">Edit Profile</h1>
-              <Button
-                onClick={() => router("/profile")}
-                variant="outline"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Cancel
-              </Button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -333,7 +328,7 @@ const EditProfilePage = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => router("/profile")}
+                  onClick={() => handleCancel()}
                   className="px-6"
                 >
                   Cancel

@@ -2,21 +2,17 @@ version: '3.8'
 
 services:
   user-service:
-    container_name: user-service
-    build:
-      context: ./microservices/user-service
-      dockerfile: Dockerfile
+    build: ./microservices/user-service
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
     volumes:
-      - ./user-service:/app
+      - ./microservices/user-service:/app
       - /app/node_modules
     networks:
       - microservices-network
-    command: npm run dev
-
+  
   product-service:
     container_name: product-service
     build:
