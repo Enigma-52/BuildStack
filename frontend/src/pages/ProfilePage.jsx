@@ -95,7 +95,7 @@ const ProfilePage = () => {
           {profile && (
             <div className="flex items-start space-x-6">
               <Image
-                src={profile.avatarUrl || "/api/placeholder/120/120"}
+                src={profile.avatarUrl || `https://api.dicebear.com/9.x/dylan/svg?seed=${profile.name}`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
               />
@@ -104,11 +104,7 @@ const ProfilePage = () => {
                   <div>
                     <h1 className="text-2xl font-bold flex items-center gap-2">
                       {profile.name}
-                      <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                        Active
-                      </span>
                     </h1>
-                    <p className="text-gray-600 mt-1">{profile.email}</p>
                     {profile.headline && (
                       <p className="text-gray-700 mt-2 text-lg">{profile.headline}</p>
                     )}
