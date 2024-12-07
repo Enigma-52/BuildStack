@@ -20,6 +20,7 @@ function App() {
         <Route path="/admin/analytics" element={<pages.AnalyticsPage/>} />
         <Route path='/admin/issues' element={<pages.AdminIssuesPage/>}/>
         <Route path="/admin/reports" element={<pages.AdminReportsPage/>} />
+        <Route path="/admin/settings" element={<pages.AdminSettingsPage/>} />
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
         <Route path="/advertise" element={<pages.AdvertisePage />} />
         <Route path='/contactus' element={<pages.ContactUsPage/>} />

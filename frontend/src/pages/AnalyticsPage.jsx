@@ -20,7 +20,8 @@ import {
   BarChart3,
   CheckCircle,
   XCircle,
-  Clock
+  Clock,
+  Settings
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -84,7 +85,8 @@ const AnalyticsPage = () => {
             { name: 'Dashboard', icon: Star, path: '/admin' },
             { name: 'Analytics', icon: BarChart3, path: '/admin/analytics' },
             { name: 'Issues', icon: MessageSquare, path: '/admin/issues' },
-            { name: 'Reports', icon: Flag, path: '/admin/reports' }
+            { name: 'Reports', icon: Flag, path: '/admin/reports' },
+            { name: 'Settings', icon: Settings, path: '/admin/settings' }
           ].map((item) => (
             <button
               key={item.name}
