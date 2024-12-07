@@ -41,7 +41,7 @@ const CategoriesPage = () => {
         { name: "Alex Rivera", role: "Lead Dev", avatar: placeholderAvatar }
       ],
       launchDate: "2024-01-15",
-      featuredOn: ["ProductHunt", "TechCrunch", "Forbes"]
+      featuredOn: ["BuildStack", "TechCrunch", "Forbes"]
     },
     {
       id: 2,
@@ -67,7 +67,7 @@ const CategoriesPage = () => {
         { name: "Mike Johnson", role: "Designer", avatar: placeholderAvatar }
       ],
       launchDate: "2024-02-01",
-      featuredOn: ["DesignerNews", "ProductHunt"]
+      featuredOn: ["DesignerNews", "BuildStack"]
     }
   ];
 

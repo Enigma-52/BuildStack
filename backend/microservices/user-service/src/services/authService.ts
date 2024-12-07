@@ -265,7 +265,7 @@ export const getUserById = async (userId: string) => {
       throw new Error('User not found')
     }
   
-    return user
+    return user;
   }
   
   export const generateToken = (userId: string): string => {

@@ -50,7 +50,7 @@ const LoginContent = () => {
             setEmail('');
             setPassword('');
 
-            router('/profile');
+            router(`/profile/${data.id}`);
 
         } catch (error) {
             setError(error.message || 'Failed to sign up');

@@ -8,7 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<pages.LandingPage />} />
         <Route path="/home" element={<pages.HomePage />} />
-        <Route path="/profile" element={<pages.ProfilePage />} />
+        <Route path="/profile/:userId" element={<pages.ProfilePage />} />
         <Route path="/newsletter" element={<pages.NewsletterPage />} />
         <Route path="/createProduct" element={<pages.ProductCreationPage />} />
         <Route path="/profile/edit" element={<pages.EditProfilePage />} />
@@ -21,6 +21,8 @@ function App() {
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
         <Route path="/advertise" element={<pages.AdvertisePage />} />
         <Route path='/contactus' element={<pages.ContactUsPage/>} />
+        <Route path='/notifications' element={<pages.NotificationsPage/>} />
+
       </Routes>
     </>
   );
