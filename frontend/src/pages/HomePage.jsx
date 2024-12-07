@@ -192,9 +192,28 @@ const HomePage = () => {
   const [email, setEmail] = useState("");
 const [status, setStatus] = useState({ type: "", message: "" });
 
-const handleSubscribe = (e) => {
+const handleSubscribe = async (e) => {
   e.preventDefault();
-  // Add your subscription logic here
+  try {
+	const response = await fetch("http://localhost:3000/api/newsletter/subscribe", {
+	  method: "POST",
+	  headers: {
+		"Content-Type": "application/json",
+	  },
+	  body: JSON.stringify({ email }),
+	});
+
+	if (!response.ok) {
+	  throw new Error("Failed to subscribe");
+	}
+
+	setSubscribed(true);
+	setEmail("");
+  } catch (error) {
+	setError("Failed to subscribe. Please try again.");
+  } finally {
+	setLoading(false);
+  }
   if (!email) {
     setStatus({ type: "error", message: "Please enter a valid email." });
   } else {

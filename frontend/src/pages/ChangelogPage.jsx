@@ -65,12 +65,6 @@ const ChangelogPage = () => {
       description: "Introducing new features and significant improvements",
       changes: [
         {
-          type: "feature",
-          title: "AI-Powered Product Recommendations",
-          description: "New machine learning algorithm to suggest relevant products based on user preferences and browsing history.",
-          tags: ["AI", "Recommendations"]
-        },
-        {
           type: "improvement",
           title: "Enhanced Search Functionality",
           description: "Improved search algorithms with better relevance and faster results.",

@@ -88,7 +88,7 @@ const transporter = nodemailer.createTransport({
       <html>
       <head>
         <meta charset="utf-8">
-        <title>ProductHunt Weekly</title>
+        <title>Buildstack Weekly</title>
         <style>
           /* Add your email CSS here */
         </style>
