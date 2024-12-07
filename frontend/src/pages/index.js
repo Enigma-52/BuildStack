@@ -13,6 +13,7 @@ import DiscussionsPage from './DiscussionsPage';
 import AdvertisePage from './Advertise';
 import AllCategoriesPage from './AllCategoriesPage';
 import ContactUsPage from './ContactusPage';
+import NotificationsPage from './NotificationsPage';
 
 const pages = {
     HomePage,
@@ -30,6 +31,7 @@ const pages = {
     AllCategoriesPage,
     AdvertisePage,
     ContactUsPage,
+    NotificationsPage,
 };
 
 export default pages;

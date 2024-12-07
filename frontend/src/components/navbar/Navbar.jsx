@@ -93,6 +93,10 @@ const Navbar = () => {
 		router("/home");
 	}
 
+	const handleNotificationButtonClick = () => {
+		router("/notifications");
+	}
+
 	return (
 		<>
 
@@ -141,7 +145,7 @@ const Navbar = () => {
 										<FiPlusCircle className="w-5 h-5" />
 										Submit
 									</Button>
-									<Button className="rounded-full p-2 border-2 hover:bg-gray-100 mx-2 text-black">
+									<Button onClick={handleNotificationButtonClick} className="rounded-full p-2 border-2 hover:bg-gray-100 mx-2 text-black">
 										<PiBellBold className="w-5 h-5 " />
 									</Button>
 									<div onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>

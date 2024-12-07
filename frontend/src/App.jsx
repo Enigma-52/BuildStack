@@ -21,6 +21,8 @@ function App() {
         <Route path="/discussions" element={<pages.DiscussionsPage/>} />
         <Route path="/advertise" element={<pages.AdvertisePage />} />
         <Route path='/contactus' element={<pages.ContactUsPage/>} />
+        <Route path='/notifications' element={<pages.NotificationsPage/>} />
+
       </Routes>
     </>
   );
