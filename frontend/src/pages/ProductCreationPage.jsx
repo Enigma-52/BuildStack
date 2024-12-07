@@ -307,6 +307,8 @@ const ProductCreationPage = () => {
                       <option value="designtools">Design Tools</option>
                       <option value="marketingtools">Marketing Tools</option>
                       <option value="devtools">Dev Tools</option>
+                      <option value="analyticstools">Analytics Tools</option>
+                      <option value="gaming">Gaming Utilities</option>
                       <option value="misc">Miscellaneous</option>
                     </select>
                   </div>

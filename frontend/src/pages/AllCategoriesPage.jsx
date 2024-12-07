@@ -50,6 +50,33 @@ const categories = [
     textColor: 'text-blue-500',
     description: 'Essential tools for modern development',
     pattern: 'radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)'
+  },
+  { 
+    icon: '📊', 
+    name: 'Analytics Tools', 
+    count: 45,
+    color: 'bg-gradient-to-br from-indigo-500 to-purple-500',
+    textColor: 'text-indigo-500',
+    description: 'Gain insights with advanced analytics',
+    pattern: 'radial-gradient(circle at 60% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%)'
+  },
+  { 
+    icon: '🎮', 
+    name: 'Gaming Utilities', 
+    count: 53,
+    color: 'bg-gradient-to-br from-red-500 to-yellow-500',
+    textColor: 'text-red-500',
+    description: 'Enhance your gaming experience',
+    pattern: 'radial-gradient(circle at 40% 60%, rgba(239, 68, 68, 0.1) 0%, transparent 50%)'
+  },
+  { 
+    icon: '🔧', 
+    name: 'Miscellaneous', 
+    count: 30,
+    color: 'bg-gradient-to-br from-gray-500 to-gray-700',
+    textColor: 'text-gray-500',
+    description: 'A variety of useful tools',
+    pattern: 'radial-gradient(circle at 50% 50%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)'
   }
 ];
 
