@@ -12,7 +12,8 @@ const UserMenu = () => {
         window.location.href = "/home";
     };
     const handleProfileClick = () => {
-		router("/profile");
+        const userId = localStorage.getItem("userId");
+		router(`/profile/${userId}`);
 	};
 
     return (

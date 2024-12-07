@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-import { House, LogOut } from "lucide-react";
+import { House, LogOut, Github, Twitter, Linkedin, Building2, Briefcase } from 'lucide-react';
 import React from 'react';
 import { Bell, Search, ChevronDown } from 'lucide-react';
 import Navbar from '../components/navbar/Navbar';
@@ -95,7 +95,7 @@ const ProfilePage = () => {
           {profile && (
             <div className="flex items-start space-x-6">
               <Image
-                src={profile.avatarUrl || "/api/placeholder/120/120"}
+                src={profile.avatarUrl || `https://api.dicebear.com/9.x/dylan/svg?seed=${profile.name}`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
               />
@@ -104,11 +104,10 @@ const ProfilePage = () => {
                   <div>
                     <h1 className="text-2xl font-bold flex items-center gap-2">
                       {profile.name}
-                      <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                        Active
-                      </span>
                     </h1>
-                    <p className="text-gray-600 mt-1">{profile.email}</p>
+                    {profile.headline && (
+                      <p className="text-gray-700 mt-2 text-lg">{profile.headline}</p>
+                    )}
                     <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
                       <span className="hover:text-orange-500 cursor-pointer">
                         {profile.followers || 0} followers
@@ -136,6 +135,42 @@ const ProfilePage = () => {
                     )}
                   </div>
                 </div>
+
+                {/* Social Links */}
+                {(profile.socialLinks?.github || profile.socialLinks?.twitter || profile.socialLinks?.linkedin) && (
+                  <div className="flex gap-4 mt-4">
+                    {profile.socialLinks?.github && (
+                      <a
+                        href={profile.socialLinks.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-orange-500 transition-colors"
+                      >
+                        <Github className="w-5 h-5" />
+                      </a>
+                    )}
+                    {profile.socialLinks?.twitter && (
+                      <a
+                        href={profile.socialLinks.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-orange-500 transition-colors"
+                      >
+                        <Twitter className="w-5 h-5" />
+                      </a>
+                    )}
+                    {profile.socialLinks?.linkedin && (
+                      <a
+                        href={profile.socialLinks.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-orange-500 transition-colors"
+                      >
+                        <Linkedin className="w-5 h-5" />
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -158,25 +193,59 @@ const ProfilePage = () => {
 
           <div className="mt-6">
             {activeTab === 'about' && (
-              <div className="space-y-6">
-                <section>
-                  <h2 className="text-lg font-semibold mb-2">About</h2>
-                  <p className="text-gray-600">{profile?.about || "No about information available"}</p>
+              <div className="space-y-8">
+                {/* About Section */}
+                <section className="bg-white rounded-xl p-6 shadow-sm">
+                  <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    About
+                  </h2>
+                  <p className="text-gray-600 leading-relaxed">
+                    {profile?.about || "No about information available"}
+                  </p>
                 </section>
                 
-                <section>
-                  <h2 className="text-lg font-semibold mb-2">Work</h2>
-                  <p className="text-gray-600">{profile?.role || "No work information available"}</p>
+                {/* Work Information */}
+                <section className="bg-white rounded-xl p-6 shadow-sm">
+                  <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <Briefcase className="w-5 h-5 text-orange-500" />
+                    Work
+                  </h2>
+                  <div className="space-y-4">
+                    {profile?.currentCompany && (
+                      <div className="flex items-start gap-3">
+                        <Building2 className="w-5 h-5 text-gray-400 mt-1" />
+                        <div>
+                          <h3 className="font-medium">Current Company</h3>
+                          <p className="text-gray-600">{profile.currentCompany}</p>
+                        </div>
+                      </div>
+                    )}
+                    {profile?.role && (
+                      <div className="flex items-start gap-3">
+                        <Briefcase className="w-5 h-5 text-gray-400 mt-1" />
+                        <div>
+                          <h3 className="font-medium">Role</h3>
+                          <p className="text-gray-600">{profile.role}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </section>
 
+                {/* Badges Section */}
                 {profile?.badges && profile.badges.length > 0 && (
-                  <section>
-                    <h2 className="text-lg font-semibold mb-2">Badges</h2>
-                    <div className="flex space-x-4">
+                  <section className="bg-white rounded-xl p-6 shadow-sm">
+                    <h2 className="text-lg font-semibold mb-4">Badges</h2>
+                    <div className="flex flex-wrap gap-4">
                       {profile.badges.map(badge => (
-                        <div key={badge.id} className="flex items-center space-x-2">
-                          <div className="w-8 h-8 bg-orange-100 rounded-full" />
-                          <span className="text-gray-600">{badge.name}</span>
+                        <div 
+                          key={badge.id} 
+                          className="flex items-center p-3 bg-orange-50 rounded-lg gap-3"
+                        >
+                          <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                            <span className="text-orange-500">★</span>
+                          </div>
+                          <span className="text-gray-700 font-medium">{badge.name}</span>
                         </div>
                       ))}
                     </div>
