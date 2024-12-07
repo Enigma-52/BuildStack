@@ -14,6 +14,8 @@ import AdvertisePage from './Advertise';
 import AllCategoriesPage from './AllCategoriesPage';
 import ContactUsPage from './ContactusPage';
 import NotificationsPage from './NotificationsPage';
+import AdminIssuesPage from './AdminIssuesPage';
+import AdminReportsPage from './AdminReportsPage';
 
 const pages = {
     HomePage,
@@ -32,6 +34,8 @@ const pages = {
     AdvertisePage,
     ContactUsPage,
     NotificationsPage,
+    AdminIssuesPage,
+    AdminReportsPage,
 };
 
 export default pages;
