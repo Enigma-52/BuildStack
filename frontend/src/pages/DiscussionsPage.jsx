@@ -61,6 +61,49 @@ const DiscussionsPage = () => {
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
   const [activeFilter, setActiveFilter] = useState('popular');
 
+  const ComingSoonBanner = () => (
+    <div className="flex flex-col items-center justify-center text-center pt-12 px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="inline-block mb-4"
+      >
+        <motion.div
+          className="inline-block px-6 py-2 bg-orange-100 rounded-full"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="text-orange-600 font-semibold">Coming Soon ✨</span>
+        </motion.div>
+      </motion.div>
+      
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="text-4xl font-bold text-gray-900 mb-4"
+      >
+        Building Something Amazing
+      </motion.h2>
+      
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-lg text-gray-600 mb-4 max-w-2xl"
+      >
+        We're working hard to bring you a powerful discussion platform where ideas flourish and communities thrive.
+      </motion.p>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+      </motion.div>
+    </div>
+  );
+
   const openDiscussionModal = (discussion) => {
     setSelectedDiscussion(discussion);
     setIsModalOpen(true);
@@ -205,10 +248,9 @@ const DiscussionsPage = () => {
     <div> 
       <Navbar />
     
-    <div className="pt-8 min-h-screen bg-gray-50">
-
-      {/* Main Content */}
-      <div className="pt-16">
+    <div className="pt-12 min-h-screen bg-gray-50">
+      <ComingSoonBanner />
+      <div className="pt-4">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row gap-6">
             {/* Main Column */}
@@ -383,18 +425,19 @@ const DiscussionsPage = () => {
 
             {/* Reply Input */}
             <div className="flex items-start space-x-4 mb-6">
-                <img
-                src="/api/placeholder/32/32"
+              <img
+                src="https://i.pravatar.cc/41" // A placeholder image service that generates random avatars
                 alt="Your avatar"
                 className="w-10 h-10 rounded-full"
-                />
-                <div className="flex-1">
+              />
+              <div className="flex-1">
                 <Input
-                    placeholder="Share your thoughts..."
-                    className="w-full"
+                  placeholder="Share your thoughts..."
+                  className="w-full"
                 />
-                </div>
+              </div>
             </div>
+
 
             {/* Scrollable Replies Container */}
             <div className="max-h-[400px] overflow-y-auto pr-4 -mr-4 space-y-6">
@@ -407,7 +450,7 @@ const DiscussionsPage = () => {
                     className="flex space-x-4 pb-6 border-b border-gray-100 last:border-0"
                 >
                     <img
-                    src="/api/placeholder/32/32"
+                    src="https://i.pravatar.cc/150?u=austin"
                     alt="User avatar"
                     className="w-10 h-10 rounded-full flex-shrink-0"
                     />
