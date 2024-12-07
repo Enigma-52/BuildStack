@@ -149,10 +149,10 @@ const NewsletterPage = () => {
                 <div className="bg-gray-50 border-b px-8 py-6">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                      P
+                      B
                     </div>
                     <div>
-                      <h3 className="font-bold text-xl text-gray-900">ProductHunt Weekly</h3>
+                      <h3 className="font-bold text-xl text-gray-900">BuildStack Weekly</h3>
                       <p className="text-gray-600">Edition #127 | March 19, 2024</p>
                     </div>
                   </div>

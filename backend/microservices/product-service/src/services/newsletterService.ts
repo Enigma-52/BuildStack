@@ -88,7 +88,7 @@ const transporter = nodemailer.createTransport({
       <html>
       <head>
         <meta charset="utf-8">
-        <title>ProductHunt Weekly</title>
+        <title>BuildStack Weekly</title>
         <style>
           /* Add your email CSS here */
         </style>
@@ -102,7 +102,7 @@ const transporter = nodemailer.createTransport({
                 P
               </div>
               <div>
-                <h3 style="margin: 0; font-size: 20px; color: #111827;">ProductHunt Weekly</h3>
+                <h3 style="margin: 0; font-size: 20px; color: #111827;">BuildStack Weekly</h3>
                 <p style="margin: 4px 0 0; color: #4b5563;">Edition #${editionNumber} | ${currentDate}</p>
               </div>
             </div>

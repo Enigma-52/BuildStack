@@ -50,7 +50,17 @@ export const createProduct = async (req: Request, res: Response) => {  try {
     return res.status(200).json(product);
   } catch (error) {
     console.error('Error:', error);
-    return res.status(500).json({ error: error });
+    if (error instanceof Error) {
+        return res.status(400).json({ 
+            error: error.message,
+            details: error.toString()
+        });
+    }
+    // Fallback for unknown error types
+    return res.status(500).json({ 
+        error: 'An unexpected error occurred',
+        details: JSON.stringify(error)
+    });
   }
 };
 
