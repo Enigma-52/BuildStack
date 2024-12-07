@@ -126,3 +126,13 @@ export const updateProfile: RequestHandler = async (req, res, next): Promise<voi
     next(new HttpException(error.status || 400, error.message));
   }
 }
+
+export const getAllUsers: RequestHandler = async (req, res, next)=> {
+  try {
+    const users = await authService.getAllUsers();
+
+    res.status(201).json(users);
+  } catch (error: any) {
+    next(new HttpException(error.status || 400, error.message));
+  }
+}
