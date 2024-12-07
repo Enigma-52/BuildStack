@@ -244,21 +244,6 @@ export const login = async (credentials: IUserLogin) => {
 export const getUserById = async (userId: string) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        bio: true,
-        profile_image_url: true,
-        website_url: true,
-        twitter_handle: true,
-        karma_points: true,
-        is_maker: true,
-        location: true,
-        skills: true,
-        createdAt: true,
-        updatedAt: true
-      }
     })
   
     if (!user) {
@@ -286,4 +271,31 @@ export const getUserById = async (userId: string) => {
     } catch (error) {
       throw new Error('Invalid token')
     }
+  }
+
+  interface UpdateProfileData {
+    name: string;
+    email: string;
+    headline: string;
+    about: string;
+    role: string;
+    currentCompany: string;
+    twitter_url: string;
+    linkedin_url: string;
+    github_url: string;
+  }
+
+  export const updateProfile = async (
+    userId: string, 
+    profileData: UpdateProfileData
+  ): Promise<{ id: string }> => {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: profileData,
+      select: {
+        id: true,
+      }
+    });
+    
+    return updatedUser;
   }

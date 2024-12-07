@@ -107,7 +107,7 @@ const AuthContent = () => {
             setPassword('');
             setOtp('');
 
-            router('/profile');
+            router(`/profile/${data.id}`);
 
         } catch (error) {
             setError(error.message || 'Failed to sign up');

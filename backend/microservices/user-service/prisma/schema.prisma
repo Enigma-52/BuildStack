@@ -26,6 +26,13 @@ model User {
     isVerified        Boolean      @default(false)
     products          Product[]
     teamProducts      TeamMember[]
+    headline          String?
+    about             String?
+    role              String?
+    currentCompany    String?
+    github_url        String?
+    linkedin_url      String?
+    twitter_url       String?
 }
 
 model Product {
