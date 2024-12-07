@@ -164,11 +164,11 @@ const NewsletterPage = () => {
                     {/* Featured Product */}
                     <div className="bg-orange-50 border border-orange-100 rounded-xl p-6 hover:border-orange-200 transition-all duration-300">
                       <div className="flex gap-6">
-                        <img
-                          src="/api/placeholder/120/120"
-                          alt="Product"
-                          className="w-28 h-28 rounded-xl object-cover shadow-lg"
-                        />
+                      <img
+                              src={`https://logo.clearbit.com/Innovation.com`}
+                              alt="Product"
+                              className="w-20 h-20 rounded-xl object-cover"
+                            />
                         <div className="flex-1">
                           <div className="flex items-start justify-between">
                             <div>
@@ -195,14 +195,14 @@ const NewsletterPage = () => {
                     <div className="grid grid-cols-2 gap-6">
                       {[
                         {
-                          name: "DesignFlow",
+                          name: "DesignStack",
                           description: "AI-powered design system automation",
                           upvotes: 1200,
                           comments: 85,
                           category: "Design Tools"
                         },
                         {
-                          name: "DevSpace",
+                          name: "PortfolioAI",
                           description: "All-in-one developer portfolio platform",
                           upvotes: 980,
                           comments: 64,
@@ -211,8 +211,8 @@ const NewsletterPage = () => {
                       ].map((product, index) => (
                         <div key={index} className="border rounded-xl p-6 hover:border-orange-200 hover:shadow-sm transition-all duration-300">
                           <div className="flex gap-4">
-                            <img
-                              src="/api/placeholder/80/80"
+                          <img
+                              src={`https://logo.clearbit.com/${product.name.toLowerCase()}.com`}
                               alt="Product"
                               className="w-20 h-20 rounded-xl object-cover"
                             />

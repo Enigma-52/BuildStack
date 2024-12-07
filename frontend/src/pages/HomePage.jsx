@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/Footer';
-
+import { useNavigate } from 'react-router-dom';
 // Button Component
 const Button = ({ children, variant = 'default', size = 'default', className = '', ...props }) => {
   const baseStyles = 'rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
@@ -116,6 +116,7 @@ const ProductCard = ({ product, featured = false }) => {
   };
   
   const Sidebar = ({ email, setEmail, handleSubscribe, status }) => {
+	const router = useNavigate();
 	const categories = [
 	  { id: 'ai', name: 'AI & Machine Learning', icon: '🤖', count: 156, color: 'bg-purple-100' },
 	  { id: 'productivity', name: 'Productivity', icon: '⚡', count: 98, color: 'bg-yellow-100' },
@@ -132,6 +133,7 @@ const ProductCard = ({ product, featured = false }) => {
 		  <div className="space-y-2">
 			{categories.map(category => (
 			  <motion.button
+			    onClick={() => router(`/categories/${category.id}`)}
 				key={category.id}
 				whileHover={{ scale: 1.02 }}
 				className={`flex items-center justify-between w-full p-2.5 rounded-lg ${category.color} hover:shadow-md transition-all duration-200`}
