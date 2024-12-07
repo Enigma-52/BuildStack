@@ -16,6 +16,7 @@ import ContactUsPage from './ContactusPage';
 import NotificationsPage from './NotificationsPage';
 import AdminIssuesPage from './AdminIssuesPage';
 import AdminReportsPage from './AdminReportsPage';
+import AdminSettingsPage from './AdminSettingsPage';
 
 const pages = {
     HomePage,
@@ -36,6 +37,7 @@ const pages = {
     NotificationsPage,
     AdminIssuesPage,
     AdminReportsPage,
+    AdminSettingsPage,
 };
 
 export default pages;
