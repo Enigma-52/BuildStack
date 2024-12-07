@@ -24,12 +24,14 @@ export const login: RequestHandler = async (req, res, next) => {
 
 export const getProfile: RequestHandler = async (req, res, next) => {
   try {
-    const userId = req.user?.userId
-    if (!userId) {
-      throw new HttpException(401, 'Unauthorized')
+    const { userId } = req.query;
+    console.log(userId);
+    if (!userId || typeof userId !== 'string') {
+      throw new HttpException(400, 'User ID is required');
     }
 
     const user = await authService.getUserById(userId)
+    console.log(user);
     res.status(200).json(user)
   } catch (error: any) {
     next(new HttpException(error.status || 400, error.message))
