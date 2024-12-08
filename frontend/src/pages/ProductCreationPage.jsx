@@ -7,6 +7,7 @@ import { ToastContainer, toast , Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserSearch from '../components/UserSearch';
 import useScrollToTopNavigate from '../components/routes/route';
+import ImageUpload from '../components/ImageUpload';
 
 const Alert = ({ children, className = '' }) => (
     <div className={`rounded-lg border p-4 ${className}`}>
@@ -77,15 +78,6 @@ const ProductCreationPage = () => {
         }
       }));
     };
-  
-    const handleImageUpload = (e) => {
-      const files = Array.from(e.target.files);
-      setFormData(prev => ({
-        ...prev,
-        images: [...prev.images, ...files]
-      }));
-    };
-
   
     const handleSubmit = async () => {
       try {
@@ -318,51 +310,27 @@ const ProductCreationPage = () => {
               </div>
             )}
 
-            {activeTab === 'media' && (
-              <div className="space-y-6">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-300 transition-colors">
-                  <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="mt-4">
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      id="image-upload"
-                    />
-                    <Button 
-                      onClick={() => document.getElementById('image-upload').click()}
-                      className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 rounded-lg"
-                    >
-                      Upload Images
-                    </Button>
-                  </div>
-                </div>
+          {activeTab === 'media' && (
+            <div className="space-y-6">
+              <ImageUpload 
+                onImagesUploaded={(urls) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    images: [...prev.images, ...urls]
+                  }));
+                }}
+              />
 
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-4">Video Demo</h3>
-                  <Input 
-                    value={formData.videoUrl}
-                    onChange={(e) => handleInputChange('videoUrl', e.target.value)}
-                    placeholder="YouTube or Vimeo URL"
-                  />
-                </div>
-
-                {formData.images.length > 0 && (
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-4">Media Gallery</h3>
-                    <div className="grid grid-cols-3 gap-4">
-                      {formData.images.map((image, index) => (
-                        <div key={index} className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                          <p className="text-gray-400">{image.name}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+              <div>
+                <h3 className="font-medium text-gray-900 mb-4">Video Demo</h3>
+                <Input 
+                  value={formData.videoUrl}
+                  onChange={(e) => handleInputChange('videoUrl', e.target.value)}
+                  placeholder="YouTube or Vimeo URL"
+                />
               </div>
-            )}
+            </div>
+          )}
 
             {activeTab === 'collaborators' && (
               <div className="space-y-6">

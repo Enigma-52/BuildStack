@@ -525,6 +525,8 @@ const ProductPage = () => {
 
   if (!product.isApproved) {
     return (
+      <div>
+        <Navbar />
       <div className="min-h-screen flex items-center justify-center">
         <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
           <AlertTriangle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
@@ -539,6 +541,8 @@ const ProductPage = () => {
             Go Back to Home
           </button>
         </div>
+      </div>
+      <Footer />
       </div>
     );
   }

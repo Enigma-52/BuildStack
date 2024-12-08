@@ -10,6 +10,10 @@ export const createProduct = async (req: Request, res: Response) => {  try {
     console.log('Incoming data:', data);
     validateProductData(data);
 
+    const imageCreateData = data.images.map((imageUrl: string) => ({
+      url: imageUrl
+    }));
+
     const product = await prisma.product.create({
       data: {
         name: data.name,
@@ -26,9 +30,7 @@ export const createProduct = async (req: Request, res: Response) => {  try {
           create: [] // Initialize empty comments array
         },
         images: {
-          create: data.images.map(() => ({
-            url: "temp-image-url" // Temporary until image upload
-          }))
+          create: imageCreateData // Use the processed image URLs
         },
         pricing: {
           create: [
