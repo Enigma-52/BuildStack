@@ -502,14 +502,11 @@ const ProductPage = () => {
                 </button>
                 
                 <button 
-                  onClick={() => setIsFollowing(!isFollowing)}
-                  className={`px-6 py-2 rounded-lg transition-all flex items-center gap-2 ${
-                    isFollowing 
-                      ? 'bg-gray-100 text-gray-700' 
-                      : 'bg-orange-500 text-white hover:bg-orange-600'
+                onClick={() => window.open(product.websiteUrl, '_blank')}               
+                className={`px-6 py-2 rounded-lg transition-all flex items-center gap-2 bg-orange-500 text-white hover:bg-orange-600'
                   }`}
                 >
-                  {isFollowing ? 'Following' : 'Follow'}
+                  {'Visit Website'}
                 </button>
               </div>
             </div>
@@ -597,24 +594,13 @@ const ProductPage = () => {
               <div className="bg-white rounded-xl p-6 border border-gray-200">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <Globe className="w-5 h-5 text-gray-500" />
-                    <a 
-                      href={product.websiteUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-orange-500 hover:text-orange-600"
-                    >
-                      Visit Website
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-2">
                     <Package className="w-5 h-5 text-gray-500" />
-                    <span className="text-gray-700">{product.category}</span>
+                    <span className="text-gray-700">Category : {product.category}</span>
                   </div>
                   {product.targetAudience && (
                     <div className="flex items-center gap-2">
                       <Target className="w-5 h-5 text-gray-500" />
-                      <span className="text-gray-700">{product.targetAudience}</span>
+                      <span className="text-gray-700">Target Audience : {product.targetAudience}</span>
                     </div>
                   )}
                 </div>
