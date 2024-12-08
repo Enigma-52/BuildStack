@@ -243,7 +243,7 @@ const AllCategoriesPage = () => {
 
     <div className="pt-24 min-h-screen bg-gradient-to-br from-white-50 to-orange-50">
         
-      <div className="max-w-6xl mx-auto p-8">
+      <div className="max-w-6xl mx-auto p-8 pb-20">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -297,7 +297,9 @@ const AllCategoriesPage = () => {
         </motion.div>
       </div>
     </div>
+    <div className='bg-orange-50'>
     <Footer />
+    </div>
     </div>
   );
 };
