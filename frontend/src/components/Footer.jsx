@@ -19,8 +19,8 @@ function Footer() {
                 </span>
               </div>
               <p className="text-gray-600 mb-4">
-                Discover and evaluate the best development tools for your next
-                project.
+                BuildStack: Discover, Share, and Elevate the World’s Most
+                Innovative Ideas and Tools.
               </p>
             </div>
 
@@ -30,22 +30,34 @@ function Footer() {
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/newsletter" className="text-gray-600 hover:text-orange-500">
+                  <a
+                    href="/newsletter"
+                    className="text-gray-600 hover:text-orange-500"
+                  >
                     Newsletter
                   </a>
                 </li>
                 <li>
-                  <a href="/categories" className="text-gray-600 hover:text-orange-500">
+                  <a
+                    href="/categories"
+                    className="text-gray-600 hover:text-orange-500"
+                  >
                     Categories
                   </a>
                 </li>
                 <li>
-                  <a href="/advertise" className="text-gray-600 hover:text-orange-500">
+                  <a
+                    href="/advertise"
+                    className="text-gray-600 hover:text-orange-500"
+                  >
                     Advertise
                   </a>
                 </li>
                 <li>
-                  <a href="/contactus" className="text-gray-600 hover:text-orange-500">
+                  <a
+                    href="/contactus"
+                    className="text-gray-600 hover:text-orange-500"
+                  >
                     Feedback
                   </a>
                 </li>
@@ -82,7 +94,6 @@ function Footer() {
               </div>
 
               <div className="mt-11">
-                
                 <ul className="space-y-2">
                   <li>
                     <a href="https://github.com/SohomSaha">
