@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { useNavigate } from 'react-router-dom';
 import { Rocket } from "lucide-react";
 import useScrollToTopNavigate from "../routes/route";
 

@@ -18,7 +18,6 @@ import {
 	Award,
 	Gauge
 } from 'lucide-react';
-import { useNavigate } from 'react-router';
 import Footer from '../components/Footer';
 import useScrollToTopNavigate from '../components/routes/route';
 

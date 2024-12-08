@@ -1,76 +1,77 @@
-import { useNavigate } from 'react-router-dom'
+
 import PropTypes from 'prop-types'
+import useScrollToTopNavigate from './routes/route'
 
-export const Link = ({ 
-  href, 
-  children, 
-  className = '', 
-  prefetch = true,
-  replace = false,
-  scroll = true,
-  onClick,
-  ...props 
+export const Link = ({
+	href,
+	children,
+	className = '',
+	prefetch = true,
+	replace = false,
+	scroll = true,
+	onClick,
+	...props
 }) => {
-  const navigate = useNavigate()
+	const navigate = useScrollToTopNavigate()
 
-  const handleClick = (e) => {
-    if (onClick) {
-      onClick(e)
-    }
+	const handleClick = (e) => {
+		if (onClick) {
+			onClick(e)
+		}
 
-    // Handle external links
-    if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-      return
-    }
+		// Handle external links
+		if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+			return
+		}
 
-    e.preventDefault()
-    
-    if (replace) {
-      navigate(href, { replace: true })
-    } else {
-      navigate(href)
-    }
+		e.preventDefault()
 
-    if (scroll) {
-      window.scrollTo(0, 0)
-    }
-  }
+		if (replace) {
+			navigate(href, { replace: true })
+		} else {
+			navigate(href)
+		}
 
-  // Handle external links
-  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-    return (
-      <a 
-        href={href}
-        className={className}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onClick}
-        {...props}
-      >
-        {children}
-      </a>
-    )
-  }
+		if (scroll) {
+			window.scrollTo(0, 0)
+		}
+	}
 
-  // Internal links
-  return (
-    <a
-      href={href}
-      className={className}
-      onClick={handleClick}
-      {...props}
-    >
-      {children}
-    </a>
-  )
+	// Handle external links
+	if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+		return (
+			<a
+				href={href}
+				className={className}
+				target="_blank"
+				rel="noopener noreferrer"
+				onClick={onClick}
+				{...props}
+			>
+				{children}
+			</a>
+		)
+	}
+
+	// Internal links
+	return (
+		<a
+			href={href}
+			className={className}
+			onClick={handleClick}
+			{...props}
+		>
+			{children}
+		</a>
+	)
 }
 
 Link.propTypes = {
-  href: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  prefetch: PropTypes.bool,
-  replace: PropTypes.bool,
-  scroll: PropTypes.bool,
-  onClick: PropTypes.func,
+	href: PropTypes.string.isRequired,
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string,
+	prefetch: PropTypes.bool,
+	replace: PropTypes.bool,
+	scroll: PropTypes.bool,
+	onClick: PropTypes.func,
 }

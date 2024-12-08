@@ -18,7 +18,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import LoginModal from "./modals/LoginModal";
 import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
-import { useNavigate } from "react-router-dom";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import useScrollToTopNavigate from "../routes/route";
 

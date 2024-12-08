@@ -1,6 +1,5 @@
 import { Link } from "../Link"
 import { Image } from "../Image"
-import { useNavigate } from 'react-router-dom'
 
 const Logo = () => {
     return (

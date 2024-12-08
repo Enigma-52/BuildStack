@@ -5,7 +5,6 @@ import LaunchesMenu from "./menus/launches-menu";
 import CommunityMenu from "./menus/community-menu";
 import NewsMenu from "./menus/news-menu";
 import { Link } from "../Link";
-import { useNavigate } from "react-router";
 import useScrollToTopNavigate from "../routes/route";
 
 
