@@ -21,7 +21,8 @@ const EditProfilePage = () => {
     currentCompany: "",
     github: "",
     twitter: "",
-    linkedin: ""
+    linkedin: "",
+    profile_image_url: "",
   });
 
   useEffect(() => {
@@ -54,7 +55,9 @@ const EditProfilePage = () => {
         currentCompany: data.currentCompany || "",
         github: data.github_url || "",
         twitter: data.twitter_url || "",
-        linkedin: data.linkedin_url || ""
+        linkedin: data.linkedin_url || "",
+        profile_image_url: data.profile_image_url
+
       });
     } catch (error) {
       setError(error.message);
@@ -94,7 +97,41 @@ const EditProfilePage = () => {
     e.preventDefault();
     setSaving(true);
     try {
+
+
       const userId = localStorage.getItem("userId");
+
+      let imageUrl = null;
+    if (uploadedImage) {
+      const apiKey = "7fdc2bd905952051c04dd15a66326231";
+      const formData = new FormData();
+      
+      // Get the base64 part of the data URL
+      const base64Image = uploadedImage.split(',')[1];
+      formData.append("image", base64Image);
+
+      const imageUploadResponse = await fetch(
+        `https://api.imgbb.com/1/upload?key=${apiKey}`, {
+          method: 'POST',
+          body: formData,
+      });
+
+      if (!imageUploadResponse.ok) {
+        const errorData = await imageUploadResponse.json();
+        console.error('ImgBB Error:', errorData);
+        throw new Error('Failed to upload image');
+      }
+
+      const imageData = await imageUploadResponse.json();
+      if (imageData.success) {
+        imageUrl = imageData.data.url;
+        console.log('Successfully uploaded image:', imageUrl);
+      } else {
+        throw new Error('Failed to get image URL from response');
+      }
+    }
+      console.log("IMAGE",imageUrl);
+  
       const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${userId}`, {
         method: "PUT",
         headers: {
@@ -110,8 +147,7 @@ const EditProfilePage = () => {
           twitter: formData.twitter,
           github: formData.github,
           linkedin: formData.linkedin,
-          avatar: uploadedImage
-        }),
+          profile_url: imageUrl}),
       });
 
       if (!response.ok) {
