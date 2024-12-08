@@ -30,23 +30,23 @@ function Footer() {
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
+                  <a href="/newsletter" className="text-gray-600 hover:text-orange-500">
                     Newsletter
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
+                  <a href="/categories" className="text-gray-600 hover:text-orange-500">
                     Categories
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
+                  <a href="/advertise" className="text-gray-600 hover:text-orange-500">
                     Advertise
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Discussion
+                  <a href="/contactus" className="text-gray-600 hover:text-orange-500">
+                    Feedback
                   </a>
                 </li>
               </ul>

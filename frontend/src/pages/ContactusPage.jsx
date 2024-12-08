@@ -62,7 +62,7 @@ const ContactUsPage = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4">
+            <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4 pt-10 pb-20">
                 {/* Header */}
                 <motion.div
                     className="text-center mb-8 mt-[110px]"
@@ -70,8 +70,8 @@ const ContactUsPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h1 className="text-4xl font-bold text-orange-600">Get in Touch</h1>
-                    <p className="mt-2 text-lg text-black">
+                    <h1 className="text-4xl font-bold text-orange-600 pb-3">Get in Touch</h1>
+                    <p className="mt-2 text-lg text-slate-600">
                         We're excited to hear from you. Fill out the form below and let's connect!
                     </p>
                 </motion.div>
