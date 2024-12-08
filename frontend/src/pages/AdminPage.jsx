@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useScrollToTopNavigate from '../components/routes/route';
-// Placeholder SVG for product images
 const placeholderImage = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23f3f4f6"/><text x="32" y="32" font-family="Arial" font-size="24" fill="%236b7280" text-anchor="middle" dominant-baseline="middle">P</text></svg>';
 
 const AdminPanel = () => {
@@ -32,56 +31,126 @@ const AdminPanel = () => {
   const [selectedTab, setSelectedTab] = useState('dashboard');
   const router = useScrollToTopNavigate();
 
+  const stats = [
+    {
+      title: 'Pending Review',
+      count: products.filter(p => !p.isApproved).length,
+      icon: Clock,
+      bgColor: 'bg-orange-100',
+      textColor: 'text-orange-500'
+    },
+    {
+      title: 'Approved',
+      count: products.filter(p => p.isApproved).length,
+      icon: CheckCircle,
+      bgColor: 'bg-green-100',
+      textColor: 'text-green-500'
+    }
+  ];
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const targetUserId = localStorage.getItem("userId");  
+
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to fetch profile");
+      }
+
+      const { isAdmin } = await response.json();
+    
+      if (!isAdmin) {
+        router('/');
+        return;
+      }
+    } catch (error) {
+      setError(error.message);
+      if (error.message.includes("Authentication")) {
+        router("/");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAction = async (productId, isApproved) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/products/approve/${productId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ isApproved })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update product status');
+      }
+  
+      // Update the local state after successful API call
+      const updatedProducts = products.map(product => {
+        if (product.id === productId) {
+          return { ...product, isApproved };
+        }
+        return product;
+      });
+  
+      setProducts(updatedProducts);
+      
+      // Close modal if it's open
+      setIsModalOpen(false);
+      setSelectedProduct(null);
+  
+    } catch (error) {
+      console.error('Error updating product status:', error);
+      // You might want to show an error message to the user here
+    }
+  };
+
   // Example product data
   useEffect(() => {
-    setProducts([
-      {
-        id: 1,
-        name: "TaskFlow Pro",
-        description: "AI-powered project management suite",
-        status: "pending",
-        submittedDate: "2024-02-28",
-        submittedBy: "Alex Chen",
-        category: "Productivity",
-        rating: 0,
-        icon: placeholderImage,
-        screenshots: [placeholderImage, placeholderImage],
-        pricing: { type: "Freemium", details: "Pro plan at $15/month" },
-        website: "https://taskflowpro.com",
-        tags: ["AI", "Project Management", "Team Collaboration"],
-        companySize: "10-50",
-        technicalDetails: {
-          stack: ["React", "Node.js", "MongoDB"],
-          apis: ["OpenAI", "Slack", "GitHub"],
-          hosting: "AWS"
-        },
-        reviews: [],
-        flags: 0
-      },
-      {
-        id: 2,
-        name: "DesignMaster AI",
-        description: "Next-gen design automation platform",
-        status: "rejected",
-        submittedDate: "2024-02-27",
-        submittedBy: "Sarah Wong",
-        category: "Design",
-        rating: 0,
-        icon: placeholderImage,
-        screenshots: [placeholderImage],
-        pricing: { type: "Paid", details: "$29/month" },
-        website: "https://designmaster.ai",
-        tags: ["Design", "AI", "Automation"],
-        companySize: "1-10",
-        technicalDetails: {
-          stack: ["Vue.js", "Python", "PostgreSQL"],
-          apis: ["Figma", "Adobe Creative Cloud"],
-          hosting: "GCP"
-        },
-        reviews: [],
-        flags: 2
+    const fetchUnapprovedProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/products/getAllProducts/all', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+        });
+  
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('Server response:', errorText);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        // In your frontend:
+        const data = await response.json();
+        const unapprovedProducts = data.data.filter(product => !product.isApproved);
+  
+        setProducts(unapprovedProducts);
+      } catch (error) {
+        console.error('Error fetching unapproved products:', error);
+        // You might want to set an error state here
+        setProducts([]); // Set empty array on error
       }
-    ]);
+    };
+  
+    fetchUnapprovedProducts();
   }, []);
 
   const filteredProducts = products.filter(product => {
@@ -91,18 +160,9 @@ const AdminPanel = () => {
     return matchesStatus && matchesSearch;
   });
 
-  const handleAction = (productId, action) => {
-    setProducts(products.map(product => {
-      if (product.id === productId) {
-        return { ...product, status: action };
-      }
-      return product;
-    }));
-  };
-
   const ProductModal = ({ product, onClose }) => {
     const [activeTab, setActiveTab] = useState('details');
-
+  
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
@@ -112,9 +172,9 @@ const AdminPanel = () => {
               <X className="w-6 h-6" />
             </button>
           </div>
-
+  
           <div className="flex border-b">
-            {['details', 'technical', 'analytics', 'flags'].map((tab) => (
+            {['details', 'pricing', 'technical'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -128,146 +188,119 @@ const AdminPanel = () => {
               </button>
             ))}
           </div>
-
+  
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
             {activeTab === 'details' && (
               <div className="space-y-6">
                 <div className="flex gap-4 items-start">
-                  <img src={product.icon} alt={product.name} className="w-16 h-16 rounded-xl" />
+                  <img 
+                    src={product.images?.[0]?.url || `/api/placeholder/64/64`} 
+                    alt={product.name} 
+                    className="w-16 h-16 rounded-xl object-cover"
+                  />
                   <div>
                     <h3 className="font-medium text-gray-900">{product.description}</h3>
-                    <p className="text-gray-500 mt-1">Submitted by {product.submittedBy} on {product.submittedDate}</p>
+                    <p className="text-gray-500 mt-1">{product.tagline}</p>
                   </div>
                 </div>
-
+  
                 <div className="grid grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium mb-2">Basic Information</h4>
                     <div className="space-y-2">
                       <p><span className="text-gray-500">Category:</span> {product.category}</p>
-                      <p><span className="text-gray-500">Company Size:</span> {product.companySize}</p>
-                      <p><span className="text-gray-500">Website:</span> {product.website}</p>
-                      <p><span className="text-gray-500">Pricing:</span> {product.pricing.type} - {product.pricing.details}</p>
+                      <p><span className="text-gray-500">Target Audience:</span> {product.targetAudience}</p>
+                      <p>
+                        <span className="text-gray-500">Website:</span>
+                        <a href={product.websiteUrl} target="_blank" rel="noopener noreferrer" className="ml-2 text-orange-500 hover:underline">
+                          Visit Website
+                        </a>
+                      </p>
                     </div>
                   </div>
-
+  
                   <div>
-                    <h4 className="font-medium mb-2">Tags</h4>
+                    <h4 className="font-medium mb-2">Tech Stack</h4>
                     <div className="flex flex-wrap gap-2">
-                      {product.tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
-                          {tag}
+                      {product.techStack.map(tech => (
+                        <span key={tech} className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                          {tech}
                         </span>
                       ))}
                     </div>
                   </div>
                 </div>
-
-                <div>
-                  <h4 className="font-medium mb-2">Screenshots</h4>
-                  <div className="grid grid-cols-2 gap-4">
-                    {product.screenshots.map((screenshot, index) => (
-                      <img
-                        key={index}
-                        src={screenshot}
-                        alt={`Screenshot ${index + 1}`}
-                        className="rounded-lg border"
-                      />
-                    ))}
+  
+                {product.images?.length > 0 && (
+                  <div>
+                    <h4 className="font-medium mb-2">Screenshots</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {product.images.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image.url}
+                          alt={`Screenshot ${index + 1}`}
+                          className="rounded-lg border object-cover w-full h-48"
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
-
+  
+            {activeTab === 'pricing' && (
+              <div className="grid gap-6 md:grid-cols-2">
+                {product.pricing?.map((tier) => (
+                  <div 
+                    key={tier.tier}
+                    className="bg-white p-6 rounded-xl border border-gray-200"
+                  >
+                    <h3 className="text-xl font-semibold mb-4">{tier.tier.charAt(0).toUpperCase() + tier.tier.slice(1)}</h3>
+                    <ul className="space-y-2">
+                      {tier.features.map((feature, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+  
             {activeTab === 'technical' && (
               <div className="space-y-6">
                 <div>
                   <h4 className="font-medium mb-2">Tech Stack</h4>
                   <div className="flex flex-wrap gap-2">
-                    {product.technicalDetails.stack.map(tech => (
+                    {product.techStack.map(tech => (
                       <span key={tech} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
-
-                <div>
-                  <h4 className="font-medium mb-2">API Integrations</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {product.technicalDetails.apis.map(api => (
-                      <span key={api} className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-                        {api}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-medium mb-2">Hosting</h4>
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
-                    {product.technicalDetails.hosting}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'analytics' && (
-              <div className="space-y-6">
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm text-gray-500 mb-1">Page Views</h4>
-                    <p className="text-2xl font-bold">1,234</p>
-                  </div>
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm text-gray-500 mb-1">Unique Visitors</h4>
-                    <p className="text-2xl font-bold">892</p>
-                  </div>
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm text-gray-500 mb-1">Conversion Rate</h4>
-                    <p className="text-2xl font-bold">2.4%</p>
-                  </div>
-                </div>
-
-                {/* Add more analytics content here */}
-              </div>
-            )}
-
-            {activeTab === 'flags' && (
-              <div className="space-y-6">
-                <div className="bg-red-50 border border-red-100 rounded-lg p-4">
-                  <div className="flex items-center gap-2 text-red-600 mb-2">
-                    <AlertTriangle className="w-5 h-5" />
-                    <h4 className="font-medium">Reported Issues</h4>
-                  </div>
-                  <p className="text-red-600">This product has {product.flags} flags from users.</p>
-                </div>
-
-                {/* Add more flag details here */}
               </div>
             )}
           </div>
-
+  
           <div className="p-6 border-t bg-gray-50 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                product.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                product.status === 'approved' ? 'bg-green-100 text-green-700' :
-                'bg-red-100 text-red-700'
-              }`}>
-                {product.status.charAt(0).toUpperCase() + product.status.slice(1)}
-              </span>
-              <span className="text-gray-500">ID: {product.id}</span>
-            </div>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+              !product.isApproved ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+            }`}>
+              {!product.isApproved ? 'Pending' : 'Approved'}
+            </span>
             <div className="flex gap-2">
               <button
-                onClick={() => handleAction(product.id, 'rejected')}
+                onClick={() => handleAction(product.id, false)}
                 className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
               >
                 Reject
               </button>
               <button
-                onClick={() => handleAction(product.id, 'approved')}
+                onClick={() => handleAction(product.id, true)}
                 className="px-4 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition-colors"
               >
                 Approve
@@ -320,51 +353,20 @@ const AdminPanel = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-orange-500" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Pending Review</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.status === 'pending').length}</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-green-500" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Approved</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.status === 'approved').length}</p>
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          {stats.map((stat, index) => (
+            <div key={index} className="bg-white p-6 rounded-xl border border-gray-200">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 ${stat.bgColor} rounded-lg flex items-center justify-center`}>
+                  <stat.icon className={`w-6 h-6 ${stat.textColor}`} />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">{stat.title}</p>
+                  <p className="text-2xl font-bold">{stat.count}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                <XCircle className="w-6 h-6 text-red-500" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Rejected</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.status === 'rejected').length}</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <AlertCircle className="w-6 h-6 text-yellow-500" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Flagged</p>
-                <p className="text-2xl font-bold">{products.filter(p => p.flags > 0).length}</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Filters */}
@@ -395,70 +397,70 @@ const AdminPanel = () => {
 
         {/* Products Table */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Product</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Category</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Submitted By</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Date</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left p-4 text-sm font-medium text-gray-600">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map((product) => (
-                <tr key={product.id} className="border-b border-gray-200 hover:bg-gray-50">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <img src={product.icon} alt={product.name} className="w-10 h-10 rounded-lg" />
-                      <div>
-                        <h3 className="font-medium text-gray-900">{product.name}</h3>
-                        <p className="text-sm text-gray-500">{product.description}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-gray-600">{product.category}</td>
-                  <td className="p-4 text-gray-600">{product.submittedBy}</td>
-                  <td className="p-4 text-gray-600">{product.submittedDate}</td>
-                  <td className="p-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      product.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                      product.status === 'approved' ? 'bg-green-100 text-green-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>
-                      {product.status.charAt(0).toUpperCase() + product.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedProduct(product);
-                          setIsModalOpen(true);
-                        }}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                      >
-                        <Eye className="w-5 h-5 text-gray-500" />
-                      </button>
-                      <button
-                        onClick={() => handleAction(product.id, 'approved')}
-                        className="p-2 hover:bg-green-100 rounded-lg transition-colors"
-                      >
-                        <CheckCircle className="w-5 h-5 text-green-500" />
-                      </button>
-                      <button
-                        onClick={() => handleAction(product.id, 'rejected')}
-                        className="p-2 hover:bg-red-100 rounded-lg transition-colors"
-                      >
-                        <XCircle className="w-5 h-5 text-red-500" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <table className="w-full">
+        <thead>
+          <tr className="bg-gray-50 border-b border-gray-200">
+            <th className="text-left p-4 text-sm font-medium text-gray-600">Product</th>
+            <th className="text-left p-4 text-sm font-medium text-gray-600">Category</th>
+            <th className="text-left p-4 text-sm font-medium text-gray-600">Target Audience</th>
+            <th className="text-left p-4 text-sm font-medium text-gray-600">Status</th>
+            <th className="text-left p-4 text-sm font-medium text-gray-600">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredProducts.map((product) => (
+            <tr key={product.id} className="border-b border-gray-200 hover:bg-gray-50">
+              <td className="p-4">
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={product.images?.[0]?.url || `/api/placeholder/40/40`} 
+                    alt={product.name} 
+                    className="w-10 h-10 rounded-lg object-cover"
+                  />
+                  <div>
+                    <h3 className="font-medium text-gray-900">{product.name}</h3>
+                    <p className="text-sm text-gray-500">{product.tagline}</p>
+                  </div>
+                </div>
+              </td>
+              <td className="p-4 text-gray-600">{product.category}</td>
+              <td className="p-4 text-gray-600">{product.targetAudience}</td>
+              <td className="p-4">
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  !product.isApproved ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+                }`}>
+                  {!product.isApproved ? 'Pending' : 'Approved'}
+                </span>
+              </td>
+              <td className="p-4">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedProduct(product);
+                    setIsModalOpen(true);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <Eye className="w-5 h-5 text-gray-500" />
+                </button>
+                <button
+                  onClick={() => handleAction(product.id, true)}
+                  className="p-2 hover:bg-green-100 rounded-lg transition-colors"
+                >
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                </button>
+                <button
+                  onClick={() => handleAction(product.id, false)}
+                  className="p-2 hover:bg-red-100 rounded-lg transition-colors"
+                >
+                  <XCircle className="w-5 h-5 text-red-500" />
+                </button>
+              </div>
+            </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
         </div>
       </div>
 

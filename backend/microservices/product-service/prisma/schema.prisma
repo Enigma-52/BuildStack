@@ -26,6 +26,14 @@ model User {
     isVerified        Boolean      @default(false)
     products          Product[]
     teamProducts      TeamMember[]
+    headline          String?
+    about             String?
+    role              String?
+    currentCompany    String?
+    github_url        String?
+    linkedin_url      String?
+    twitter_url       String?
+    isAdmin           Boolean      @default(false)
 }
 
 model Product {
@@ -45,6 +53,9 @@ model Product {
     user           User         @relation(fields: [userId], references: [id])
     pricing        Pricing[]
     makers         TeamMember[]
+    upvotes        Int?         @default(0)
+    isApproved     Boolean?     @default(false)
+    comments       Json?
 }
 
 model Image {
@@ -75,4 +86,33 @@ model Newsletter {
     email String
 
     @@map("newsletter_subscribers")
+}
+
+model Message {
+    id        String        @id @default(cuid())
+    name      String        @db.VarChar(100)
+    email     String        @db.VarChar(255)
+    message   String        @db.Text
+    status    MessageStatus @default(PENDING)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+
+    @@map("messages")
+}
+
+enum MessageStatus {
+    PENDING
+    READ
+    RESPONDED
+    ARCHIVED
+    SPAM
+}
+
+model Notification {
+    id      String  @id @default(cuid())
+    creator String
+    status  String?
+    tag     String
+    message String
+    read    String
 }

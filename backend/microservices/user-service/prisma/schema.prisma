@@ -10,7 +10,7 @@ generator client {
 
 model User {
     id                String       @id @default(uuid())
-    name              String       @unique
+    name              String
     email             String       @unique
     password          String
     bio               String?
@@ -33,6 +33,7 @@ model User {
     github_url        String?
     linkedin_url      String?
     twitter_url       String?
+    isAdmin           Boolean      @default(false)
 }
 
 model Product {
@@ -52,6 +53,9 @@ model Product {
     user           User         @relation(fields: [userId], references: [id])
     pricing        Pricing[]
     makers         TeamMember[]
+    upvotes        Int?
+    isApproved     Boolean?
+    comments       Json?
 }
 
 model Image {
@@ -77,6 +81,13 @@ model TeamMember {
     user      User    @relation(fields: [userId], references: [id])
 }
 
+model Newsletter {
+    id    String @id @default(uuid())
+    email String
+
+    @@map("newsletter_subscribers")
+}
+
 model Message {
     id        String        @id @default(cuid())
     name      String        @db.VarChar(100)
@@ -95,4 +106,13 @@ enum MessageStatus {
     RESPONDED
     ARCHIVED
     SPAM
+}
+
+model Notification {
+    id      String  @id @default(cuid())
+    creator String
+    status  String?
+    tag     String
+    message String
+    read    String
 }

@@ -18,11 +18,13 @@ import {
   ThumbsUp,
   Reply,
   MoreVertical,
-  Send
+  Send,
+  AlertTriangle
 } from 'lucide-react';
 
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/Footer';
+import useScrollToTopNavigate from "../components/routes/route";
 
 // Custom Modal Component
 const Modal = ({ isOpen, onClose, children }) => {
@@ -186,6 +188,8 @@ const ProductPage = () => {
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [replyContent, setReplyContent] = useState('');
+  const router = useScrollToTopNavigate();
+
 
   useEffect(() => {
     const fetchProduct = async () => { 
@@ -204,7 +208,10 @@ const ProductPage = () => {
         }
         
         const responseData = await response.json();
-        setProduct(responseData);
+
+       
+          setProduct(responseData);
+
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
@@ -436,6 +443,26 @@ const ProductPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-gray-600">Product not found</p>
+      </div>
+    );
+  }
+
+  if (!product.isApproved) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+          <AlertTriangle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold mb-2">Pending Approval</h2>
+          <p className="text-gray-600 mb-4">
+            This product is currently under review and pending approval. Please check back later.
+          </p>
+          <button 
+            onClick={() => router('/home')}
+            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+          >
+            Go Back to Home
+          </button>
+        </div>
       </div>
     );
   }
