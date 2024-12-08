@@ -312,7 +312,7 @@ const HomePage = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <main className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-28 pt-32">
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
@@ -323,7 +323,7 @@ const HomePage = () => {
           </p>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-20">
           {/* Main Content */}
           <div className="flex-1">
             {/* Search and Filters */}
@@ -367,7 +367,7 @@ const HomePage = () => {
           />
         </div>
       </main>
-      <div className="bg-slate-100">
+      <div className="bg-orange-50">
         <Footer />
       </div>
     </div>
