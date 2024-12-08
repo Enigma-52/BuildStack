@@ -472,7 +472,7 @@ const ProductPage = () => {
       <Navbar />
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-7xl mx-auto p-6 pt-28">
-          {/* Header */}
+          {/* Product Header */}
           <div className="bg-white rounded-2xl p-8 mb-8 border border-gray-200">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex items-center gap-6">
@@ -488,33 +488,7 @@ const ProductPage = () => {
                 
                 <div>
                   <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-                  <p className="text-xl text-gray-600 mb-4">{product.tagline}</p>
-                  
-                  <div className="flex flex-wrap items-center gap-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <Globe className="w-4 h-4 text-gray-500" />
-                      <a 
-                        href={product.websiteUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-orange-500 hover:text-orange-600"
-                      >
-                        Visit Website
-                      </a>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Package className="w-4 h-4 text-gray-500" />
-                      <span>{product.category}</span>
-                    </div>
-                    
-                    {product.targetAudience && (
-                      <div className="flex items-center gap-2">
-                        <Target className="w-4 h-4 text-gray-500" />
-                        <span>{product.targetAudience}</span>
-                      </div>
-                    )}
-                  </div>
+                  <p className="text-xl text-gray-600">{product.tagline}</p>
                 </div>
               </div>
 
@@ -525,15 +499,6 @@ const ProductPage = () => {
                 >
                   <Flag className="w-4 h-4" />
                   Report
-                </button>
-                <button 
-                  onClick={() => setIsSaved(!isSaved)}
-                  className="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
-                >
-                  <Heart 
-                    className={`w-4 h-4 ${isSaved ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} 
-                  />
-                  {isSaved ? 'Saved' : 'Save'}
                 </button>
                 
                 <button 
@@ -548,51 +513,182 @@ const ProductPage = () => {
                 </button>
               </div>
             </div>
+          </div>
 
-            {/* Tech Stack Tags */}
-            {product.techStack?.length > 0 && (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {product.techStack.map((tech, index) => (
-                  <span 
-                    key={index}
-                    className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm"
-                  >
-                    {tech}
-                  </span>
-                ))}
+          {/* Main Content - Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Main Content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* About Section */}
+              <div className="bg-white rounded-2xl p-8 border border-gray-200">
+                <h2 className="text-2xl font-bold mb-4">About</h2>
+                <p className="text-gray-700 leading-relaxed">{product.description}</p>
               </div>
-            )}
-          </div>
 
-          {/* Navigation */}
-          <div className="bg-white rounded-xl border border-gray-200 mb-8">
-            <nav className="flex">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-4 flex items-center gap-2 text-gray-600 hover:text-gray-900 relative group transition-colors ${
-                    activeTab === tab.id ? 'text-orange-500' : ''
-                  }`}
-                >
-                  <tab.icon className="w-4 h-4" />
-                  {tab.label}
-                  <div 
-                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-orange-500 transition-transform ${
-                      activeTab === tab.id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`} 
-                  />
-                </button>
-              ))}
-            </nav>
-          </div>
+              {/* Screenshots */}
+              {product.images?.length > 0 && (
+                <div className="bg-white rounded-2xl p-8 border border-gray-200">
+                  <h2 className="text-2xl font-bold mb-6">Screenshots</h2>
+                  <div className="grid grid-cols-2 gap-6">
+                    {product.images.map((image, index) => (
+                      <div key={index} className="relative overflow-hidden rounded-xl aspect-video">
+                        <img 
+                          src={image.url} 
+                          alt={`${product.name} screenshot ${index + 1}`}
+                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Main Content */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-8">
-            {renderContent()}
+              {/* Discussion Section */}
+              <div className="bg-white rounded-2xl p-8 border border-gray-200">
+                <h2 className="text-2xl font-bold mb-6">Discussion</h2>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <img
+                      src="/api/placeholder/40/40"
+                      alt="Current user"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div className="flex-1">
+                      <textarea
+                        className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="Share your thoughts..."
+                        rows="3"
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                      />
+                      <div className="flex justify-end mt-2">
+                        <button
+                          onClick={handleAddComment}
+                          className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 flex items-center gap-2"
+                        >
+                          <Send className="w-4 h-4" />
+                          Comment
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    {comments.map(comment => (
+                      <CommentComponent 
+                        key={comment.id} 
+                        comment={comment}
+                        isReply={false}
+                        onReply={setReplyingTo}
+                        replyingTo={replyingTo}
+                        replyContent={replyContent}
+                        setReplyContent={setReplyContent}
+                        handleAddReply={handleAddReply}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Sidebar */}
+            <div className="space-y-6">
+              {/* Quick Info */}
+              <div className="bg-white rounded-xl p-6 border border-gray-200">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-5 h-5 text-gray-500" />
+                    <a 
+                      href={product.websiteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-orange-500 hover:text-orange-600"
+                    >
+                      Visit Website
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Package className="w-5 h-5 text-gray-500" />
+                    <span className="text-gray-700">{product.category}</span>
+                  </div>
+                  {product.targetAudience && (
+                    <div className="flex items-center gap-2">
+                      <Target className="w-5 h-5 text-gray-500" />
+                      <span className="text-gray-700">{product.targetAudience}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Features Section - Moved from left column */}
+              {product.pricing?.length > 0 && product.pricing.some(tier => tier.features.length > 0) && (
+                <div className="bg-white rounded-xl p-6 border border-gray-200">
+                  <h3 className="font-semibold mb-4">Features</h3>
+                  <div className="space-y-6">
+                    {product.pricing.map((tier) => (
+                      tier.features.length > 0 && (
+                        <div key={tier.id}>
+                          <h4 className="text-sm font-medium text-gray-500 mb-2">{tier.tier}</h4>
+                          <ul className="space-y-2">
+                            {tier.features.map((feature, index) => (
+                              <li key={index} className="flex items-start gap-2">
+                                <svg className="w-4 h-4 text-orange-500 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span className="text-sm text-gray-700">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Tech Stack */}
+              {product.techStack?.length > 0 && (
+                <div className="bg-white rounded-xl p-6 border border-gray-200">
+                  <h3 className="font-semibold mb-4">Tech Stack</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {product.techStack.map((tech, index) => (
+                      <span 
+                        key={index}
+                        className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Team Members */}
+              {product.makers?.length > 0 && (
+                <div className="bg-white rounded-xl p-6 border border-gray-200">
+                  <h3 className="font-semibold mb-4">Team</h3>
+                  <div className="space-y-4">
+                    {product.makers.map((member) => (
+                      <div key={member.id} className="flex items-center gap-3">
+                        <img 
+                          src={member.user.image || `/api/placeholder/32/32`}
+                          alt={member.user.name}
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <div>
+                          <p className="font-medium">{member.user.name}</p>
+                          <p className="text-sm text-gray-500">{member.user.role}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
       <Footer />
 
       {/* Report Modal */}
