@@ -24,7 +24,7 @@ function Footer() {
               </p>
             </div>
 
-            <div className="md:ml-32">
+            <div className="md:ml-32 mb-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
                 Product
               </h3>
@@ -64,7 +64,7 @@ function Footer() {
               </ul>
             </div>
 
-            <div className="flex gap-10 ml-24">
+            <div className="flex gap-10 md:ml-32">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Our team
