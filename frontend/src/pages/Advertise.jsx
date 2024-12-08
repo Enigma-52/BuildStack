@@ -4,6 +4,7 @@ import { Star, Zap, Trophy, Rocket, Sparkles, Layout, Gift, Users, CheckCircle, 
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 
 const GradientBorder = ({ children }) => (
   <div className="p-[2px] rounded-2xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
@@ -245,7 +246,7 @@ const PricingSection = () => {
 };
 
 const AdvertisePage = () => {
-  const navigate = useNavigate();
+  const navigate = useScrollToTopNavigate();
 
   return (
     <div>

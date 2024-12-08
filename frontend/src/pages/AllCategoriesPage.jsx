@@ -4,6 +4,7 @@ import { Sparkles, Zap, Palette, TrendingUp, Code } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 
 const categories = [
   { 
@@ -105,7 +106,7 @@ const FloatingParticle = ({ color }) => {
 const CategoryCard = ({ icon, name, count, color, textColor, description, pattern, index }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showParticles, setShowParticles] = useState(false);
-    const navigate = useNavigate();
+    const navigate = useScrollToTopNavigate();
 
 
     const handleRedirect = () => {
