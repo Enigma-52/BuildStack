@@ -24,12 +24,13 @@ import {
   Settings
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 
 const AnalyticsPage = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const [activeMetric, setActiveMetric] = useState('submissions');
   const [selectedTab, setSelectedTab] = useState('analytics');
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
 
   // Sample data for admin metrics
   const dailyData = [

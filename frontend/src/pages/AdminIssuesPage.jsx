@@ -12,6 +12,7 @@ import {
   Flag
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 
 // Define MessageStatus as a regular object instead of an enum
 const MessageStatus = {
@@ -23,7 +24,7 @@ const MessageStatus = {
 };
 
 const AdminIssuesPage = () => {
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
   // Initialize messages as a regular array
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);

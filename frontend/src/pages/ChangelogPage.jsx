@@ -13,11 +13,12 @@ import {
   ArrowUpRight,
   Tag
 } from "lucide-react";
+import useScrollToTopNavigate from "../components/routes/route";
 
 const ChangelogPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
   const handleNewsletterClick = () => {
     router('/newsletter');
   }

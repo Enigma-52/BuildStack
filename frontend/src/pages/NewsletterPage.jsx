@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { ArrowUpRight, Mail, Zap, Star, ArrowRight, Check, Clock, Trophy, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useScrollToTopNavigate from "../components/routes/route";
 
 const NewsletterPage = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const NewsletterPage = () => {
   const [error, setError] = useState("");
   const [animationPlayed, setAnimationPlayed] = useState(false);
 
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
 
   useEffect(() => {
     setAnimationPlayed(true);

@@ -1,12 +1,13 @@
 import { VscMail } from "react-icons/vsc";
 import { PiBookOpenTextLight, PiNotebookLight  } from "react-icons/pi";
 import { useNavigate } from "react-router";
+import useScrollToTopNavigate from "../../routes/route";
 
 
 
 
 const NewsMenu = () => {
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const handleNewsletterClick = () => {
         router("/newsletter")

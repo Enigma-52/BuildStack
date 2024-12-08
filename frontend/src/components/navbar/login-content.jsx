@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from 'react-router-dom';
 import { Rocket } from "lucide-react";
+import useScrollToTopNavigate from "../routes/route";
 
 
 const LoginContent = () => {
@@ -10,7 +11,7 @@ const LoginContent = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const submitHandler = async (e) => {
         e.preventDefault();

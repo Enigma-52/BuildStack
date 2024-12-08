@@ -6,11 +6,12 @@ import CommunityMenu from "./menus/community-menu";
 import NewsMenu from "./menus/news-menu";
 import { Link } from "../Link";
 import { useNavigate } from "react-router";
+import useScrollToTopNavigate from "../routes/route";
 
 
 const Menu = () => {
 
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const handleHomepageClick = () => {
         router('/home');
