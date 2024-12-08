@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import { Button } from "../components/ui/button";
-import { Upload, X } from "lucide-react";
+import { Upload } from "lucide-react";
 import Footer from "../components/Footer";
 
 const EditProfilePage = () => {
@@ -19,11 +19,9 @@ const EditProfilePage = () => {
     about: "",
     role: "",
     currentCompany: "",
-    socialLinks: {
-      github: "",
-      twitter: "",
-      linkedin: ""
-    }
+    github: "",
+    twitter: "",
+    linkedin: ""
   });
 
   useEffect(() => {
@@ -32,24 +30,21 @@ const EditProfilePage = () => {
 
   const fetchProfile = async () => {
     try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("No authentication token found");
-        }
-  
-        const response = await fetch("http://localhost:3000/api/auth/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-  
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.message || "Failed to fetch profile");
-        }
-  
-    const data = await response.json();
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const targetUserId = localStorage.getItem("userId");  
+
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to fetch profile");
+      }
+
+      const data = await response.json();
       setFormData({
         name: data.name || "",
         email: data.email || "",
@@ -57,11 +52,9 @@ const EditProfilePage = () => {
         about: data.about || "",
         role: data.role || "",
         currentCompany: data.currentCompany || "",
-        socialLinks: {
-          github: data.socialLinks?.github || "",
-          twitter: data.socialLinks?.twitter || "",
-          linkedin: data.socialLinks?.linkedin || ""
-        }
+        github: data.github_url || "",
+        twitter: data.twitter_url || "",
+        linkedin: data.linkedin_url || ""
       });
     } catch (error) {
       setError(error.message);
@@ -75,21 +68,10 @@ const EditProfilePage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name.includes('.')) {
-      const [parent, child] = name.split('.');
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleImageUpload = (e) => {
@@ -103,19 +85,31 @@ const EditProfilePage = () => {
     }
   };
 
+  const handleCancel = () => {
+    const userId = localStorage.getItem("userId");
+    router(`/profile/${userId}`);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/api/auth/profile/update", {
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${userId}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...formData,
+          name: formData.name,
+          email: formData.email,
+          headline: formData.headline,
+          about: formData.about,
+          role: formData.role,
+          currentCompany: formData.currentCompany,
+          twitter: formData.twitter,
+          github: formData.github,
+          linkedin: formData.linkedin,
           avatar: uploadedImage
         }),
       });
@@ -124,7 +118,7 @@ const EditProfilePage = () => {
         throw new Error("Failed to update profile");
       }
 
-      router("/profile");
+      router(`/profile/${userId}`);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -151,13 +145,6 @@ const EditProfilePage = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 md:p-8">
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-2xl font-bold text-gray-900">Edit Profile</h1>
-              <Button
-                onClick={() => router("/profile")}
-                variant="outline"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Cancel
-              </Button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -287,8 +274,8 @@ const EditProfilePage = () => {
                     </label>
                     <input
                       type="url"
-                      name="socialLinks.github"
-                      value={formData.socialLinks.github}
+                      name="github"
+                      value={formData.github}
                       onChange={handleChange}
                       placeholder="https://github.com/username"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
@@ -301,8 +288,8 @@ const EditProfilePage = () => {
                     </label>
                     <input
                       type="url"
-                      name="socialLinks.twitter"
-                      value={formData.socialLinks.twitter}
+                      name="twitter"
+                      value={formData.twitter}
                       onChange={handleChange}
                       placeholder="https://twitter.com/username"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
@@ -315,8 +302,8 @@ const EditProfilePage = () => {
                     </label>
                     <input
                       type="url"
-                      name="socialLinks.linkedin"
-                      value={formData.socialLinks.linkedin}
+                      name="linkedin"
+                      value={formData.linkedin}
                       onChange={handleChange}
                       placeholder="https://linkedin.com/in/username"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
@@ -333,7 +320,7 @@ const EditProfilePage = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => router("/profile")}
+                  onClick={handleCancel}
                   className="px-6"
                 >
                   Cancel

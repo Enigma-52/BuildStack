@@ -5,6 +5,7 @@ import Navbar from '../components/navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast , Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserSearch from '../components/UserSearch';
 
 const Alert = ({ children, className = '' }) => (
     <div className={`rounded-lg border p-4 ${className}`}>
@@ -152,7 +153,7 @@ const ProductCreationPage = () => {
     const tabs = [
       { id: 'main', icon: <Link className="w-4 h-4" />, label: 'Main Info', description: 'Basic product details' },
       { id: 'media', icon: <Camera className="w-4 h-4" />, label: 'Images & Media', description: 'Visuals and demos' },
-      { id: 'makers', icon: <Users className="w-4 h-4" />, label: 'Makers', description: 'Team and contributors' },
+      { id: 'collaborators', icon: <Users className="w-4 h-4" />, label: 'Collaborators', description: 'Team and contributors' },
       { id: 'extras', icon: <Settings className="w-4 h-4" />, label: 'Extras', description: 'Pricing and features' },
     ];
   
@@ -362,18 +363,12 @@ const ProductCreationPage = () => {
               </div>
             )}
 
-            {activeTab === 'makers' && (
+            {activeTab === 'collaborators' && (
               <div className="space-y-6">
-                <div>
-                  <h3 className="font-medium text-gray-900 mb-4">Team Members</h3>
-                  <div className="space-y-4">
-                    <Input 
-                      value={formData.teamMembers.join(', ')}
-                      onChange={(e) => handleInputChange('teamMembers', e.target.value.split(',').map(m => m.trim()))}
-                      placeholder="Add team member by username or email"
-                    />
-                  </div>
-                </div>
+                <UserSearch 
+                  formData={formData}
+                  handleInputChange={handleInputChange}
+                />
               </div>
             )}
 
