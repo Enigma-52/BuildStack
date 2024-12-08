@@ -11,5 +11,9 @@ router.put('/profile', authController.updateProfile)
 router.post('/send-otp', authController.sendOTP)
 router.post('/verify-otp', authController.verifyOTP)
 router.get('/getAllUsers', authController.getAllUsers)
+router.post('/messageSubmission', authController.messageSubmission)
+router.get('/getMessages', authController.getMessages)
+router.post('/replyMessage/:messageId', authController.replyMessage)
+
 
 export { router as authRoutes }

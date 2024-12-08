@@ -76,3 +76,23 @@ model TeamMember {
     product   Product @relation(fields: [productId], references: [id])
     user      User    @relation(fields: [userId], references: [id])
 }
+
+model Message {
+    id        String        @id @default(cuid())
+    name      String        @db.VarChar(100)
+    email     String        @db.VarChar(255)
+    message   String        @db.Text
+    status    MessageStatus @default(PENDING)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+
+    @@map("messages")
+}
+
+enum MessageStatus {
+    PENDING
+    READ
+    RESPONDED
+    ARCHIVED
+    SPAM
+}
