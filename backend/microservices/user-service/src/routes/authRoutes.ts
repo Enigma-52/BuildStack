@@ -15,5 +15,4 @@ router.post('/messageSubmission', authController.messageSubmission)
 router.get('/getMessages', authController.getMessages)
 router.post('/replyMessage/:messageId', authController.replyMessage)
 
-
 export { router as authRoutes }
