@@ -42,7 +42,7 @@ const SearchContent = () => {
         transition={{ duration: 0.5 }}
       >
         {/* Category Dropdown */}
-        <div className="relative">
+        <div className="relative ">
           <button
             className="flex items-center justify-between w-48 px-4 py-3 text-orange-700 bg-gradient-to-r from-orange-50 to-orange-100 border-2 border-orange-500 rounded-lg shadow hover:border-orange-400 focus:outline-none"
             onClick={handleCategoryClick}
@@ -70,7 +70,7 @@ const SearchContent = () => {
           )}
         </div>
         {/* Search Bar */}
-        <div className="relative flex-grow">
+        <div className="relative ">
           <div className="flex items-center px-4 py-3 bg-gradient-to-r from-orange-100 to-orange-200 border-2 border-orange-500 rounded-lg shadow-lg hover:border-orange-400">
             <FiSearch className="text-orange-500" />
             <input
