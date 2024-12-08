@@ -6,11 +6,12 @@ import CommunityMenu from "./menus/community-menu";
 import NewsMenu from "./menus/news-menu";
 import { Link } from "../Link";
 import { useNavigate } from "react-router";
+import useScrollToTopNavigate from "../routes/route";
 
 
 const Menu = () => {
 
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const handleHomepageClick = () => {
         router('/home');
@@ -25,6 +26,12 @@ const Menu = () => {
 
     const handleSponsorClick = () => {
         router('/advertise');
+    }
+    const handleNewsLetterClick = () => {
+        router('/newsletter');
+    }
+    const handleChangelogClick = () => {
+        router('/changelog');
     }
 
     const [showLaunchesMenu, setShowLaunchesMenu] = useState(false);
@@ -49,16 +56,19 @@ const Menu = () => {
                 <div
                     onMouseEnter={() => setShowNewsMenu(true)}
                     onMouseLeave={() => setShowNewsMenu(false)}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer hover:text-red-500"
+                    onClick={handleNewsLetterClick}
                 >
-                    News {showNewsMenu && <NewsMenu/>}
+                    NewsLetter {/*{showNewsMenu && <NewsMenu/>}*/}
                 </div>
-
+                <div onClick={handleChangelogClick} className="hover:text-red-500 hover:cursor-pointer">
+                    ChangeLog
+                </div>
                 <div
                     onMouseEnter={() => setShowCommunityMenu(true)}
                     onMouseLeave={() => setShowCommunityMenu(false)}
                     onClick={handleDiscussionsClick}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer hover:text-red-500"
                 >
                     Discussion {/*showCommunityMenu && <CommunityMenu/>*/}
                 </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from 'react-router-dom';
 import { Rocket } from "lucide-react";
+import useScrollToTopNavigate from "../routes/route";
 
 
 const AuthContent = () => {
@@ -12,7 +13,7 @@ const AuthContent = () => {
     const [loading, setLoading] = useState(false);
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const sendOTPHandler = async () => {
         setError('');

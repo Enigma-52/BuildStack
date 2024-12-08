@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast , Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserSearch from '../components/UserSearch';
+import useScrollToTopNavigate from '../components/routes/route';
 
 const Alert = ({ children, className = '' }) => (
     <div className={`rounded-lg border p-4 ${className}`}>
@@ -41,7 +42,7 @@ const Card = ({ children, className = '' }) => (
 const ProductCreationPage = () => {
     const [activeTab, setActiveTab] = useState('main');
     const [submitted, setSubmitted] = useState(false);
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const [formData, setFormData] = useState({
       name: '',

@@ -12,11 +12,12 @@ import {
   Plus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 
 const AdminSettingsPage = () => {
   const [selectedTab, setSelectedTab] = useState('settings');
   const [email, setEmail] = useState('');
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
 
   // Sample admin users data
   const [adminUsers, setAdminUsers] = useState([

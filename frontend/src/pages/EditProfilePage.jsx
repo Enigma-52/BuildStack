@@ -4,9 +4,10 @@ import Navbar from "../components/navbar/Navbar";
 import { Button } from "../components/ui/button";
 import { Upload } from "lucide-react";
 import Footer from "../components/Footer";
+import useScrollToTopNavigate from "../components/routes/route";
 
 const EditProfilePage = () => {
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
@@ -172,6 +173,7 @@ const EditProfilePage = () => {
       </div>
     );
   }
+
 
   return (
     <div>

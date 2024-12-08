@@ -13,6 +13,7 @@ import {
   X
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import useScrollToTopNavigate from '../components/routes/route';
 const AdminReportsPage = () => {
   const [selectedTab, setSelectedTab] = useState('reports');
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,7 +21,7 @@ const AdminReportsPage = () => {
   const [selectedReport, setSelectedReport] = useState(null);
 
   // Mock router function - replace with actual routing logic
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
 
   // Sample reports data
   const [reports, setReports] = useState([

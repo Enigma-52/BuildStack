@@ -20,6 +20,7 @@ import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
 import { useNavigate } from "react-router-dom";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import useScrollToTopNavigate from "../routes/route";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -30,7 +31,7 @@ const Navbar = () => {
 	const [loginModalVisible, setLoginModalVisible] = useState(false);
 	const [showUserMenu, setShowUserMenu] = useState(false);
 
-	const router = useNavigate();
+	const router = useScrollToTopNavigate();
 
 	const handleNewsletterClick = () => {
 		router('/newsletter');
@@ -96,7 +97,26 @@ const Navbar = () => {
 	const handleNotificationButtonClick = () => {
 		router("/notifications");
 	}
-
+	const handleMenuItemClick = (item)=>{
+		if(item=="Home"){
+			router("/home");
+		}
+		if(item=="Products"){
+			router("/categories");
+		}
+		if(item=="NewsLetter"){
+			router("/newsletter");
+		}
+		if(item=="Changelog"){
+			router("/changelog");
+		}
+		if(item=="Discussions"){
+			router("/discussions");
+		}
+		if(item=="Advertise"){
+			router("/advertise");
+		}
+	}
 	return (
 		<>
 
@@ -105,7 +125,7 @@ const Navbar = () => {
 					}`}
 			>
 				<div className={`py-2 md:py-0 px-4 md:px-6 ${isMobileMenuOpen ? 'border-b-0' : 'border-b-2'}`}>
-					<div className="flex items-center justify-between my-6">
+					<div className="flex items-center justify-between my-6 max-sm:mx-0">
 						<div className="flex items-center">
 							<button
 								className="sm:hidden"
@@ -134,7 +154,7 @@ const Navbar = () => {
 							<Menu />
 						</div>
 
-						<div className="flex items-center mx-4">
+						<div className="flex items-center mx-4 max-sm:-ml-5">
 
 
 							{isSignedIn ? (
@@ -160,7 +180,7 @@ const Navbar = () => {
 								</>
 							) : (
 								<>
-									<div onClick={handleNewsletterClick}>
+									<div className="max-sm:-mr-1" onClick={handleNewsletterClick}>
 										<Subscribe />
 									</div>
 									<div onClick={handleSignInButtonClick}>
@@ -197,9 +217,10 @@ const Navbar = () => {
 					{/* Menu Items */}
 					<div className="w-full h-[60vh]">
 						<div className="space-y-4">
-							{["Launches", "Products", "News", "Discussions", "Advertise"].map((item) => (
+							{["Home", "Products", "NewsLetter","Changelog", "Discussions", "Advertise"].map((item) => (
 								<div
 									key={item}
+									onClick={() => handleMenuItemClick(item)}
 									className="flex items-center justify-between text-gray-800 text-lg font-medium px-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
 								>
 									<span>{item}</span>
