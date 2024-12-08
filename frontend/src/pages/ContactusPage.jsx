@@ -27,7 +27,7 @@ const ContactUsPage = () => {
 
     return (
         <>
-            <Navbar /><div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4">
+            <Navbar /><div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4 pb-24">
 
                 {/* Header */}
                 <motion.div

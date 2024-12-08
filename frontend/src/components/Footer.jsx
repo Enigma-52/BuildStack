@@ -1,5 +1,9 @@
 import React from "react";
-import { Rocket } from "lucide-react";
+import { Rocket,
+  Linkedin
+ } from "lucide-react";
+ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 function Footer() {
   return (
     <>
@@ -52,50 +56,67 @@ function Footer() {
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Company
+                Our team
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    About Us
-                  </a>
+                  <div className="text-gray-600 hover:text-orange-500">
+                    Sohom Saha
+                  </div>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Careers
-                  </a>
+                  <div className="text-gray-600 hover:text-orange-500">
+                    Arunabho Bhattacharya
+                  </div>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Blog
-                  </a>
+                  <div  className="text-gray-600 hover:text-orange-500">
+                    Rohit Singh
+                  </div>
                 </li>
                 <li>
-                  <a href="/contactus" className="text-gray-600 hover:text-orange-500">
-                    Contact
-                  </a>
+                  <div className="text-gray-600 hover:text-orange-500">
+                    Padmanabha Gupta
+                  </div>
                 </li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Legal
+               Profiles
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Privacy Policy
+                  <a href="#" >
+                    <FontAwesomeIcon icon={faGithub} className="text-gray-600 hover:text-orange-500 w-5 h-5 mr-5"  /> 
+                  </a>
+                  <a href="#" >
+                  <FontAwesomeIcon icon={faLinkedin} className="text-gray-600 hover:text-orange-500 w-5 h-5"  /> 
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Terms of Service
+                <a href="#" >
+                    <FontAwesomeIcon icon={faGithub} className="text-gray-600 hover:text-orange-500 w-5 h-5 mr-5"  /> 
+                  </a>
+                  <a href="#" >
+                  <FontAwesomeIcon icon={faLinkedin} className="text-gray-600 hover:text-orange-500 w-5 h-5"  /> 
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-600 hover:text-orange-500">
-                    Cookie Policy
+                <a href="#" >
+                    <FontAwesomeIcon icon={faGithub} className="text-gray-600 hover:text-orange-500 w-5 h-5 mr-5"  /> 
+                  </a>
+                  <a href="#" >
+                  <FontAwesomeIcon icon={faLinkedin} className="text-gray-600 hover:text-orange-500 w-5 h-5"  /> 
+                  </a>
+                </li>
+                <li>
+                <a href="#" >
+                    <FontAwesomeIcon icon={faGithub} className="text-gray-600 hover:text-orange-500 w-5 h-5 mr-5"  /> 
+                  </a>
+                  <a href="#" >
+                  <FontAwesomeIcon icon={faLinkedin} className="text-gray-600 hover:text-orange-500 w-5 h-5"  /> 
                   </a>
                 </li>
               </ul>
