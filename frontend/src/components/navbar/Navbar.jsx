@@ -105,7 +105,7 @@ const Navbar = () => {
 					}`}
 			>
 				<div className={`py-2 md:py-0 px-4 md:px-6 ${isMobileMenuOpen ? 'border-b-0' : 'border-b-2'}`}>
-					<div className="flex items-center justify-between my-6">
+					<div className="flex items-center justify-between my-6 max-sm:mx-0">
 						<div className="flex items-center">
 							<button
 								className="sm:hidden"
@@ -134,7 +134,7 @@ const Navbar = () => {
 							<Menu />
 						</div>
 
-						<div className="flex items-center mx-4">
+						<div className="flex items-center mx-4 max-sm:-ml-5">
 
 
 							{isSignedIn ? (
@@ -160,7 +160,7 @@ const Navbar = () => {
 								</>
 							) : (
 								<>
-									<div onClick={handleNewsletterClick}>
+									<div className="max-sm:-mr-1" onClick={handleNewsletterClick}>
 										<Subscribe />
 									</div>
 									<div onClick={handleSignInButtonClick}>
