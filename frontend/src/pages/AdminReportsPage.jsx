@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Flag,
   BarChart3,
@@ -10,75 +10,80 @@ import {
   Settings,
   XCircle,
   ChevronDown,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import useScrollToTopNavigate from '../components/routes/route';
+
 const AdminReportsPage = () => {
   const [selectedTab, setSelectedTab] = useState('reports');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [selectedReport, setSelectedReport] = useState(null);
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock router function - replace with actual routing logic
   const router = useScrollToTopNavigate();
 
-  // Sample reports data
-  const [reports, setReports] = useState([
-    {
-      id: 1,
-      type: 'product',
-      title: 'TaskFlow Pro',
-      reportedBy: 'Alex Chen',
-      date: '2024-03-07',
-      reason: 'Misleading information in product description',
-      details: 'The product claims to have features that are not actually available',
-      status: 'pending',
-      productId: '12345',
-      productImage: 'https://logo.clearbit.com/Taskpro.com'
-    },
-    {
-      id: 2,
-      type: 'comment',
-      title: 'Inappropriate Comment',
-      reportedBy: 'Sarah Wilson',
-      date: '2024-03-06',
-      reason: 'Offensive language',
-      details: 'Comment contains inappropriate content and hostile language',
-      status: 'pending',
-      originalComment: 'This is the reported comment text...',
-      commentAuthor: 'UserXYZ'
-    },
-    {
-      id: 3,
-      type: 'product',
-      title: 'DataViz Pro',
-      reportedBy: 'Michael Lee',
-      date: '2024-03-05',
-      reason: 'Suspicious activity',
-      details: 'Potential security concerns with the application',
-      status: 'resolved',
-      productId: '12346',
-      productImage: 'https://logo.clearbit.com/DataViz.com'
-    }
-  ]);
+  useEffect(() => {
+    fetchReports();
+  }, [filterType, searchQuery]);
 
-  const handleAction = (reportId, action) => {
-    setReports(reports.map(report => {
-      if (report.id === reportId) {
-        return { ...report, status: action };
+  const fetchReports = async () => {
+    try {
+      let url = 'http://localhost:3001/api/reports';
+      if (filterType !== 'all') {
+        url += `?type=${filterType.toUpperCase()}`;
       }
-      return report;
-    }));
-    setSelectedReport(null);
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Failed to fetch reports');
+      }
+      
+      const data = await response.json();
+      setReports(data);
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Filter reports based on search and type
+  const handleAction = async (reportId, action) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(`http://localhost:3001/api/reports/${reportId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: action,
+          resolvedById: userId 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update report');
+      }
+
+      // Refresh reports after action
+      fetchReports();
+      setSelectedReport(null);
+    } catch (error) {
+      console.error('Error updating report:', error);
+    }
+  };
+
   const filteredReports = reports.filter(report => {
-    const matchesType = filterType === 'all' || report.type === filterType;
-    const matchesSearch = 
-      report.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      report.reason.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = filterType === 'all' || report.type.toLowerCase() === filterType;
+    const matchesSearch = searchQuery === '' || (
+      (report.product?.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (report.reason || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (report.details || '').toLowerCase().includes(searchQuery.toLowerCase())
+    );
     return matchesType && matchesSearch;
   });
 
@@ -103,18 +108,24 @@ const AdminReportsPage = () => {
         <div className="p-6 space-y-6">
           <div>
             <h3 className="font-medium mb-2">Reported Content</h3>
-            {report.type === 'product' ? (
+            {report.type === 'PRODUCT' ? (
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                <img src={report.productImage} alt={report.title} className="w-12 h-12 rounded-lg" />
+                <img 
+                  src={report.product?.images?.[0]?.url || '/api/placeholder/48/48'} 
+                  alt={report.product?.name} 
+                  className="w-12 h-12 rounded-lg"
+                />
                 <div>
-                  <h4 className="font-medium">{report.title}</h4>
+                  <h4 className="font-medium">{report.product?.name}</h4>
                   <p className="text-sm text-gray-500">Product ID: {report.productId}</p>
                 </div>
               </div>
             ) : (
               <div className="p-3 bg-gray-50 rounded-lg">
-                <p className="text-sm text-gray-500 mb-1">Comment by {report.commentAuthor}</p>
-                <p className="text-gray-700">{report.originalComment}</p>
+                <p className="text-sm text-gray-500 mb-1">
+                  Comment by {report.comment?.user?.name}
+                </p>
+                <p className="text-gray-700">{report.comment?.content}</p>
               </div>
             )}
           </div>
@@ -123,9 +134,18 @@ const AdminReportsPage = () => {
             <div>
               <h3 className="font-medium mb-2">Report Information</h3>
               <div className="space-y-2 text-sm">
-                <p><span className="text-gray-500">Reported By:</span> {report.reportedBy}</p>
-                <p><span className="text-gray-500">Date:</span> {report.date}</p>
-                <p><span className="text-gray-500">Type:</span> {report.type.charAt(0).toUpperCase() + report.type.slice(1)}</p>
+                <p>
+                  <span className="text-gray-500">Reported By:</span>{' '}
+                  {report.reportedBy?.name}
+                </p>
+                <p>
+                  <span className="text-gray-500">Date:</span>{' '}
+                  {new Date(report.createdAt).toLocaleDateString()}
+                </p>
+                <p>
+                  <span className="text-gray-500">Type:</span>{' '}
+                  {report.type.charAt(0) + report.type.slice(1).toLowerCase()}
+                </p>
               </div>
             </div>
             <div>
@@ -142,21 +162,21 @@ const AdminReportsPage = () => {
 
         <div className="p-6 border-t bg-gray-50 flex justify-between items-center">
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-            report.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-            report.status === 'approved' ? 'bg-green-100 text-green-700' :
+            report.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+            report.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
             'bg-red-100 text-red-700'
           }`}>
-            {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
+            {report.status.charAt(0) + report.status.slice(1).toLowerCase()}
           </span>
           <div className="flex gap-2">
             <button
-              onClick={() => handleAction(report.id, 'rejected')}
+              onClick={() => handleAction(report.id, 'REJECTED')}
               className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
             >
               Remove Content
             </button>
             <button
-              onClick={() => handleAction(report.id, 'approved')}
+              onClick={() => handleAction(report.id, 'APPROVED')}
               className="px-4 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition-colors"
             >
               Keep Content
@@ -166,6 +186,14 @@ const AdminReportsPage = () => {
       </div>
     </div>
   );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -276,47 +304,66 @@ const AdminReportsPage = () => {
           </div>
 
           {/* Reports List */}
-          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
-            {filteredReports.map((report) => (
-              <div key={report.id} className="p-6">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-start gap-4">
-                    {report.type === 'product' ? (
-                      <img src={report.productImage} alt={report.title} className="w-12 h-12 rounded-lg" />
-                    ) : (
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <MessageSquare className="w-6 h-6 text-gray-500" />
-                      </div>
-                    )}
-                    <div>
-                      <h3 className="font-medium text-gray-900">{report.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">Reported by {report.reportedBy} on {report.date}</p>
-                      <p className="text-sm text-gray-700 mt-2">{report.reason}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      report.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                      report.status === 'approved' ? 'bg-green-100 text-green-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>
-                      {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-                    </span>
-                    <button
-                      onClick={() => setSelectedReport(report)}
-                      className="px-3 py-1 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
-                    >
-                      Review
-                    </button>
-                  </div>
-                </div>
+          {/* Reports List */}
+<div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
+  {filteredReports.length === 0 ? (
+    <div className="p-6 text-center text-gray-500">
+      No reports found
+    </div>
+  ) : (
+    filteredReports.map((report) => (
+      <div key={report.id} className="p-6">
+        <div className="flex justify-between items-start">
+          <div className="flex items-start gap-4">
+            {report.type === 'PRODUCT' ? (
+              <img 
+                src={report.product?.images?.[0]?.url || '/api/placeholder/48/48'} 
+                alt={report.product?.name || 'Product'} 
+                className="w-12 h-12 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <MessageSquare className="w-6 h-6 text-gray-500" />
               </div>
-            ))}
+            )}
+            <div>
+              <h3 className="font-medium text-gray-900">
+                {report.type === 'PRODUCT' 
+                  ? report.product?.name || 'Untitled Product'
+                  : 'Comment Report'}
+              </h3>
+              <p className="text-sm text-gray-500 mt-1">
+                Reported by {report.reportedBy?.name || 'Anonymous'} on{' '}
+                {new Date(report.createdAt).toLocaleDateString()}
+              </p>
+              <p className="text-sm text-gray-700 mt-2">
+                {report.reason || 'No reason provided'}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+              report.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
+              report.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
+              'bg-red-100 text-red-700'
+            }`}>
+              {report.status.charAt(0) + report.status.slice(1).toLowerCase()}
+            </span>
+            <button
+              onClick={() => setSelectedReport(report)}
+              className="px-3 py-1 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+            >
+              Review
+            </button>
           </div>
         </div>
       </div>
+    ))
+  )}
+</div>
+        </div>
+      </div>
 
-      {/* Report Modal */}
       {selectedReport && (
         <ReportModal 
           report={selectedReport}

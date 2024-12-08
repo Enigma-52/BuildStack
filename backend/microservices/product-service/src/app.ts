@@ -6,6 +6,7 @@ import { errorMiddleware } from './middleware/errorMiddleware'
 import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware'
 import { productRoutes } from './routes/productRoutes';
 import { miscRoutes } from './routes/miscRoutes';
+import { CRroutes } from './routes/comments&ReportsRoutes'
 const app = express()
 
 // Middleware
@@ -24,6 +25,8 @@ app.use('/api/health', healthRoutes)
 app.get('/metrics', getMetrics)
 app.use('/api/products', productRoutes);
 app.use('/api/misc', miscRoutes);
+app.use('/api', CRroutes);
+
 
 
 

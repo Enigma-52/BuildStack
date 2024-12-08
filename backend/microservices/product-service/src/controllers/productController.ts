@@ -22,7 +22,9 @@ export const createProduct = async (req: Request, res: Response) => {  try {
         targetAudience: data.targetAudience,
         userId: data.userId,
         upvotes: data.upvotes || 0,
-        comments: data.comments || [],
+        comments: {
+          create: [] // Initialize empty comments array
+        },
         images: {
           create: data.images.map(() => ({
             url: "temp-image-url" // Temporary until image upload
