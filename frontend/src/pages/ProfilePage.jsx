@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import { House, LogOut, Github, Twitter, Linkedin, Building2, Briefcase } from 'lucide-react';
-import React from 'react';
-import { Bell, Search, ChevronDown } from 'lucide-react';
 import Navbar from '../components/navbar/Navbar';
 import { ReviewsTab } from '../components/profile/ReviewTab';
 import { Image } from "../components/Image";
@@ -16,7 +14,7 @@ const ProfilePage = () => {
   const router = useNavigate();
   const [activeTab, setActiveTab] = useState('about');
   const [isOwnProfile, setIsOwnProfile] = useState(false);
-  const { userId } = useParams(); // Get userId from URL parameter
+  const { userId } = useParams();
 
   const tabs = [
     { id: 'about', name: 'About' },
@@ -33,36 +31,27 @@ const ProfilePage = () => {
       const targetUserId = userId || localStorage.getItem("userId");
       
       const url = `http://localhost:3000/api/auth/profile?userId=${targetUserId}`;
-  
       const response = await fetch(url);
+      
   
       if (!response.ok) {
         const data = await response.json();
-        console.error('Error response:', data);
         throw new Error(data.message || "Failed to fetch profile");
       }
   
       const data = await response.json();
-  
+      console.log(data);
       setProfile(data);
   
       const currentUserId = localStorage.getItem("userId");
-      console.log(currentUserId);
-      console.log(data.id);
       setIsOwnProfile(currentUserId === data.id);
   
     } catch (error) {
       console.error('Fetch error:', error);
       setError(error.message);
     } finally {
-      console.log('Fetch completed, setting loading to false');
       setLoading(false);
     }
-  };
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    router("/home");
   };
 
   if (loading) {
@@ -95,7 +84,7 @@ const ProfilePage = () => {
           {profile && (
             <div className="flex items-start space-x-6">
               <Image
-                src={profile.avatarUrl || `https://api.dicebear.com/9.x/dylan/svg?seed=${profile.name}`}
+                src={profile.profile_image_url || `https://api.dicebear.com/9.x/dylan/svg?seed=${profile.name}`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
               />
@@ -137,40 +126,38 @@ const ProfilePage = () => {
                 </div>
 
                 {/* Social Links */}
-                {(profile.socialLinks?.github || profile.socialLinks?.twitter || profile.socialLinks?.linkedin) && (
-                  <div className="flex gap-4 mt-4">
-                    {profile.socialLinks?.github && (
-                      <a
-                        href={profile.socialLinks.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-orange-500 transition-colors"
-                      >
-                        <Github className="w-5 h-5" />
-                      </a>
-                    )}
-                    {profile.socialLinks?.twitter && (
-                      <a
-                        href={profile.socialLinks.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-orange-500 transition-colors"
-                      >
-                        <Twitter className="w-5 h-5" />
-                      </a>
-                    )}
-                    {profile.socialLinks?.linkedin && (
-                      <a
-                        href={profile.socialLinks.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 hover:text-orange-500 transition-colors"
-                      >
-                        <Linkedin className="w-5 h-5" />
-                      </a>
-                    )}
-                  </div>
-                )}
+                <div className="flex gap-4 mt-4">
+                  {profile.github_url && (
+                    <a
+                      href={profile.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-orange-500 transition-colors"
+                    >
+                      <Github className="w-5 h-5" />
+                    </a>
+                  )}
+                  {profile.twitter_url && (
+                    <a
+                      href={profile.twitter_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-orange-500 transition-colors"
+                    >
+                      <Twitter className="w-5 h-5" />
+                    </a>
+                  )}
+                  {profile.linkedin_url && (
+                    <a
+                      href={profile.linkedin_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-orange-500 transition-colors"
+                    >
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           )}

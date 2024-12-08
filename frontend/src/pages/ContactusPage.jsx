@@ -9,6 +9,9 @@ const ContactUsPage = () => {
         email: '',
         message: ''
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -18,17 +21,48 @@ const ContactUsPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const sendContactForm = async (data) => {
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/messageSubmission', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong');
+            }
+
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message || 'Failed to send message');
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Add form submission logic
-        console.log('Form submitted:', formData);
-        alert('Thank you for your message! We will get back to you soon.');
+        setLoading(true);
+        setError(null);
+        setSuccess(false);
+
+        try {
+            await sendContactForm(formData);
+            setSuccess(true);
+            setFormData({ name: '', email: '', message: '' }); // Reset form
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <>
-            <Navbar /><div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4">
-
+            <Navbar />
+            <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center px-4">
                 {/* Header */}
                 <motion.div
                     className="text-center mb-8 mt-[110px]"
@@ -49,6 +83,18 @@ const ContactUsPage = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                 >
+                    {/* Status Messages */}
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                            {error}
+                        </div>
+                    )}
+                    {success && (
+                        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+                            Thank you for your message! We will get back to you soon.
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Name Input */}
                         <motion.div
@@ -65,7 +111,8 @@ const ContactUsPage = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black"
+                                disabled={loading}
+                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black disabled:bg-gray-100 disabled:cursor-not-allowed"
                                 placeholder="Enter your name" />
                         </motion.div>
 
@@ -84,7 +131,8 @@ const ContactUsPage = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black"
+                                disabled={loading}
+                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black disabled:bg-gray-100 disabled:cursor-not-allowed"
                                 placeholder="Enter your email" />
                         </motion.div>
 
@@ -103,7 +151,8 @@ const ContactUsPage = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black"
+                                disabled={loading}
+                                className="mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-black text-black focus:border-black disabled:bg-gray-100 disabled:cursor-not-allowed"
                                 placeholder="Enter your message"
                             ></textarea>
                         </motion.div>
@@ -111,11 +160,12 @@ const ContactUsPage = () => {
                         {/* Submit Button */}
                         <motion.button
                             type="submit"
-                            className="w-full bg-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-600 transition-all"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            disabled={loading}
+                            className="w-full bg-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-orange-600 transition-all disabled:bg-orange-300 disabled:cursor-not-allowed"
+                            whileHover={{ scale: loading ? 1 : 1.05 }}
+                            whileTap={{ scale: loading ? 1 : 0.95 }}
                         >
-                            Send Message
+                            {loading ? 'Sending...' : 'Send Message'}
                         </motion.button>
                     </form>
                 </motion.div>
@@ -176,7 +226,7 @@ const ContactUsPage = () => {
                     </div>
                 </motion.div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 };
