@@ -96,7 +96,26 @@ const Navbar = () => {
 	const handleNotificationButtonClick = () => {
 		router("/notifications");
 	}
-
+	const handleMenuItemClick = (item)=>{
+		if(item=="Home"){
+			router("/home");
+		}
+		if(item=="Products"){
+			router("/categories");
+		}
+		if(item=="NewsLetter"){
+			router("/newsletter");
+		}
+		if(item=="Changelog"){
+			router("/changelog");
+		}
+		if(item=="Discussions"){
+			router("/discussions");
+		}
+		if(item=="Advertise"){
+			router("/advertise");
+		}
+	}
 	return (
 		<>
 
@@ -197,9 +216,10 @@ const Navbar = () => {
 					{/* Menu Items */}
 					<div className="w-full h-[60vh]">
 						<div className="space-y-4">
-							{["Launches", "Products", "News", "Discussions", "Advertise"].map((item) => (
+							{["Home", "Products", "NewsLetter","Changelog", "Discussions", "Advertise"].map((item) => (
 								<div
 									key={item}
+									onClick={() => handleMenuItemClick(item)}
 									className="flex items-center justify-between text-gray-800 text-lg font-medium px-2 py-2 hover:bg-gray-100 rounded-lg cursor-pointer"
 								>
 									<span>{item}</span>
