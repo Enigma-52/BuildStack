@@ -1,11 +1,12 @@
 import { LuCalendarCheck } from "react-icons/lu";
 import { PiFireLight, PiChatsLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import useScrollToTopNavigate from "../../routes/route";
 
 
 const CommunityMenu = () => {
 
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     return (
         <div className="border rounded-sm shadow-md bg-white absolute top-full

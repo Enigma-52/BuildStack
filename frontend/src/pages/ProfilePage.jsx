@@ -6,12 +6,13 @@ import Navbar from '../components/navbar/Navbar';
 import { ReviewsTab } from '../components/profile/ReviewTab';
 import { Image } from "../components/Image";
 import Footer from "../components/Footer";
+import useScrollToTopNavigate from "../components/routes/route";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
   const [activeTab, setActiveTab] = useState('about');
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const { userId } = useParams();

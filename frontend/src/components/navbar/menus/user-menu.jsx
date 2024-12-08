@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router";
+import useScrollToTopNavigate from "../../routes/route";
 
 
 
 
 const UserMenu = () => {
 
-    const router = useNavigate();
+    const router = useScrollToTopNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("token");

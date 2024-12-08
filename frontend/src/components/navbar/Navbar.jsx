@@ -20,6 +20,7 @@ import LoginContent from "./login-content";
 import UserMenu from "./menus/user-menu";
 import { useNavigate } from "react-router-dom";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import useScrollToTopNavigate from "../routes/route";
 
 const Navbar = () => {
 	const [authModalVisible, setAuthModalVisible] = useState(false);
@@ -30,7 +31,7 @@ const Navbar = () => {
 	const [loginModalVisible, setLoginModalVisible] = useState(false);
 	const [showUserMenu, setShowUserMenu] = useState(false);
 
-	const router = useNavigate();
+	const router = useScrollToTopNavigate();
 
 	const handleNewsletterClick = () => {
 		router('/newsletter');

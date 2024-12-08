@@ -19,6 +19,7 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from '../components/routes/route';
 // Placeholder SVG for product images
 const placeholderImage = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23f3f4f6"/><text x="32" y="32" font-family="Arial" font-size="24" fill="%236b7280" text-anchor="middle" dominant-baseline="middle">P</text></svg>';
 
@@ -29,7 +30,7 @@ const AdminPanel = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('dashboard');
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
 
   // Example product data
   useEffect(() => {

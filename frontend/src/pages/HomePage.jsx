@@ -14,6 +14,7 @@ import {
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+import useScrollToTopNavigate from "../components/routes/route";
 // Button Component
 const Button = ({
   children,
@@ -134,7 +135,7 @@ const ProductCard = ({ product, featured = false }) => {
 };
 
 const Sidebar = ({ email, setEmail, handleSubscribe, status }) => {
-  const router = useNavigate();
+  const router = useScrollToTopNavigate();
   const categories = [
     {
       id: "ai",
