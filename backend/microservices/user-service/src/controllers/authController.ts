@@ -97,6 +97,7 @@ export const updateProfile: RequestHandler = async (req, res, next): Promise<voi
       twitter,
       linkedin,
       github,
+      profile_url,
     } = req.body;
 
     if (!userId || typeof userId !== 'string') {
@@ -113,6 +114,7 @@ export const updateProfile: RequestHandler = async (req, res, next): Promise<voi
       twitter_url: twitter,
       linkedin_url: linkedin,
       github_url: github,
+      profile_image_url: profile_url
     };
 
     if (typeof userId !== 'string') {
