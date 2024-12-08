@@ -78,7 +78,7 @@ const SearchContent = () => {
               placeholder="Search for tools, resources, or categories..."
               value={searchTerm}
               onChange={handleInputChange}
-              className="flex-grow px-2 text-sm text-orange-200 bg-transparent focus:outline-none"
+              className="flex-grow px-2 text-sm text-black bg-transparent focus:outline-none"
             />
           </div>
         </div>
