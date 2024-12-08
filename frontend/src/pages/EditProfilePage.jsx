@@ -143,6 +143,7 @@ const EditProfilePage = () => {
     );
   }
 
+
   return (
     <div>
       <Navbar />
