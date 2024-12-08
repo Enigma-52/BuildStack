@@ -7,7 +7,7 @@ import {
   Eye, 
   Search, 
   Filter, 
-  ChevronDown, 
+  ChevronDown,
   X,
   BarChart3,
   Users,
@@ -18,7 +18,7 @@ import {
   Settings,
   AlertTriangle
 } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 // Placeholder SVG for product images
 const placeholderImage = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" fill="%23f3f4f6"/><text x="32" y="32" font-family="Arial" font-size="24" fill="%236b7280" text-anchor="middle" dominant-baseline="middle">P</text></svg>';
 
@@ -28,7 +28,8 @@ const AdminPanel = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState('products');
+  const [selectedTab, setSelectedTab] = useState('dashboard');
+  const router = useNavigate();
 
   // Example product data
   useEffect(() => {
@@ -287,23 +288,16 @@ const AdminPanel = () => {
         </div>
 
         <nav className="space-y-1">
-          {[
-            { name: 'Dashboard', icon: BarChart3 },
-            { 
-                name: 'Analytics', 
-                icon: BarChart3,
-                path: '/admin/analytics'
-            },
-            { name: 'Products', icon: Star },
-            { name: 'Users', icon: Users },
-            { name: 'Reports', icon: Flag },
-            { name: 'Comments', icon: MessageSquare },
-            { name: 'Calendar', icon: Calendar },
-            { name: 'Settings', icon: Settings },
+        {[
+            { name: 'Dashboard', icon: Star, path: '/admin' },
+            { name: 'Analytics', icon: BarChart3, path: '/admin/analytics' },
+            { name: 'Issues', icon: MessageSquare, path: '/admin/issues' },
+            { name: 'Reports', icon: Flag, path: '/admin/reports' },
+            { name: 'Settings', icon: Settings, path: '/admin/settings' }
           ].map((item) => (
             <button
               key={item.name}
-              onClick={() => setSelectedTab(item.name.toLowerCase())}
+              onClick={() => router(item.path)}
               className={`flex items-center gap-3 w-full px-2 py-2 rounded-lg transition-colors ${
                 selectedTab === item.name.toLowerCase()
                 ? 'bg-orange-50 text-orange-500'

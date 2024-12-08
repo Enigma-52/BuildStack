@@ -26,6 +26,13 @@ model User {
     isVerified        Boolean      @default(false)
     products          Product[]
     teamProducts      TeamMember[]
+    headline          String?
+    about             String?
+    role              String?
+    currentCompany    String?
+    github_url        String?
+    linkedin_url      String?
+    twitter_url       String?
 }
 
 model Product {
@@ -68,4 +75,24 @@ model TeamMember {
     productId String
     product   Product @relation(fields: [productId], references: [id])
     user      User    @relation(fields: [userId], references: [id])
+}
+
+model Message {
+    id        String        @id @default(cuid())
+    name      String        @db.VarChar(100)
+    email     String        @db.VarChar(255)
+    message   String        @db.Text
+    status    MessageStatus @default(PENDING)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+
+    @@map("messages")
+}
+
+enum MessageStatus {
+    PENDING
+    READ
+    RESPONDED
+    ARCHIVED
+    SPAM
 }

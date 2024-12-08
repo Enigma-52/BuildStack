@@ -12,6 +12,11 @@ import AnalyticsPage from './AnalyticsPage';
 import DiscussionsPage from './DiscussionsPage';
 import AdvertisePage from './Advertise';
 import AllCategoriesPage from './AllCategoriesPage';
+import ContactUsPage from './ContactusPage';
+import NotificationsPage from './NotificationsPage';
+import AdminIssuesPage from './AdminIssuesPage';
+import AdminReportsPage from './AdminReportsPage';
+import AdminSettingsPage from './AdminSettingsPage';
 
 const pages = {
     HomePage,
@@ -28,6 +33,11 @@ const pages = {
     DiscussionsPage,
     AllCategoriesPage,
     AdvertisePage,
+    ContactUsPage,
+    NotificationsPage,
+    AdminIssuesPage,
+    AdminReportsPage,
+    AdminSettingsPage,
 };
 
 export default pages;

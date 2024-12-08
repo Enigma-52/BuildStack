@@ -244,28 +244,13 @@ export const login = async (credentials: IUserLogin) => {
 export const getUserById = async (userId: string) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        bio: true,
-        profile_image_url: true,
-        website_url: true,
-        twitter_handle: true,
-        karma_points: true,
-        is_maker: true,
-        location: true,
-        skills: true,
-        createdAt: true,
-        updatedAt: true
-      }
     })
   
     if (!user) {
       throw new Error('User not found')
     }
   
-    return user
+    return user;
   }
   
   export const generateToken = (userId: string): string => {
@@ -287,3 +272,131 @@ export const getUserById = async (userId: string) => {
       throw new Error('Invalid token')
     }
   }
+
+  interface UpdateProfileData {
+    name: string;
+    email: string;
+    headline: string;
+    about: string;
+    role: string;
+    currentCompany: string;
+    twitter_url: string;
+    linkedin_url: string;
+    github_url: string;
+  }
+
+  export const updateProfile = async (
+    userId: string, 
+    profileData: UpdateProfileData
+  ): Promise<{ id: string }> => {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: profileData,
+      select: {
+        id: true,
+      }
+    });
+    
+    return updatedUser;
+  }
+
+  export const getAllUsers = async () => {
+    try {
+      const users = await prisma.user.findMany();
+      return users;
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  interface Message {
+    name: string;
+    email: string;
+    message: string;
+    createdAt: Date;
+  }
+
+
+  export const createMessage = async (messageData: Message): Promise<Message> =>{
+    try {
+      return await prisma.message.create({
+        data: {
+          ...messageData,
+          status: 'PENDING',
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+// message.service.ts
+export const getMessages = async () => {
+  try {
+    const msgs =  await prisma.message.findMany({
+      orderBy: {
+        createdAt: 'desc'  
+      }
+    });
+    console.log("msgs", msgs);
+    return msgs;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const replyMessage = async (messageId: string, responseText: string) => {
+  try {
+    // First verify we have a valid ID
+    if (!messageId) {
+      throw new Error('Message ID is required');
+    }
+
+    // Get message details from database with explicit ID
+    const message = await prisma.message.findFirst({
+      where: {
+        id: messageId
+      }
+    });
+
+    if (!message) {
+      throw new Error('Message not found');
+    }
+
+    // Update message with explicit ID match
+    const updatedMessage = await prisma.message.update({
+      where: {
+        id: messageId
+      },
+      data: {
+        status: 'RESPONDED',
+      }
+    });
+
+    // Send email using nodemailer...
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env['EMAIL_USER'],
+        pass: process.env['EMAIL_PASS'],
+      }
+    });
+
+    await transporter.sendMail({
+      from: process.env['EMAIL_USER'],
+      to: message.email,
+      subject: 'Response to Your Inquiry',
+      html: `
+        <div>
+          <p>Your message: ${message.message}</p>
+          <p>BuildStack response: ${responseText}</p>
+        </div>
+      `
+    });
+
+    return updatedMessage;
+
+  } catch (error) {
+    console.error('Error in replyMessage:', error);
+    throw error;
+  }
+};
