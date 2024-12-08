@@ -193,7 +193,7 @@ const CategoriesPage = () => {
                       {product.screenshots.map((screenshot, index) => (
                         <img
                           key={index}
-                          src={screenshot}
+                          src={"https://i.ibb.co/TY8YJwL/Master-AI-to-Enhance-BD-Capture-Proposal-Processes.jpg"}
                           alt={`${product.name} screenshot ${index + 1}`}
                           className="w-96 rounded-lg shadow-sm flex-shrink-0 snap-center"
                         />

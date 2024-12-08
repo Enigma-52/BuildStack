@@ -49,7 +49,7 @@ const ProductCard = ({ product, featured = false }) => {
 	  >
 		<div className={`relative ${featured ? 'lg:w-2/5 h-[280px]' : 'h-[200px]'}`}>
 		  <img 
-			src={product.image} 
+			src={"https://i.ibb.co/gZmPLQK/Virtual-AI-assistant.png"} 
 			alt={product.name}
 			className="w-full h-full object-cover"
 		  />
@@ -78,7 +78,7 @@ const ProductCard = ({ product, featured = false }) => {
 			</div>
 			{featured && (
 			  <img 
-				src={product.makerImage || '/api/placeholder/32/32'} 
+				src={"https://i.pravatar.cc/150?u=mark"} 
 				alt="Maker"
 				className="w-8 h-8 rounded-full ring-2 ring-white shadow-sm"
 			  />
@@ -86,28 +86,30 @@ const ProductCard = ({ product, featured = false }) => {
 		  </div>
 		  
 		  <div className="flex items-center justify-between mt-3">
-			<div className="flex items-center gap-3">
-			  <Button
-				variant="ghost"
-				size="sm"
-				className={`gap-1.5 ${isUpvoted ? 'text-orange-500' : 'text-gray-500'}`}
+		  <div className="flex items-center gap-4">
+			<Button 
+				variant="ghost" 
+				size="sm" 
+				className={`inline-flex items-center pr-1 gap-1.5 ${
+				isUpvoted ? 'text-orange-500' : 'text-gray-500'
+				}`}
 				onClick={() => setIsUpvoted(!isUpvoted)}
-			  >
+			>
 				<Star className={`w-4 h-4 ${isUpvoted ? 'fill-orange-500' : ''}`} />
-				{product.upvotes}
-			  </Button>
-			  <div className="flex items-center gap-1.5 text-gray-500 text-sm">
+				<span>{product.upvotes}</span>
+			</Button>
+			<div className="flex items-center gap-1.5 text-gray-500 text-sm">
 				<MessageSquare className="w-4 h-4" />
 				{product.comments}
-			  </div>
+			</div>
 			</div>
 			<Button
-			  variant="ghost"
-			  size="sm"
-			  className="text-orange-500 hover:text-orange-600 gap-1"
+			variant="ghost"
+			size="sm"
+			className="inline-flex items-center text-orange-500 hover:text-orange-600 gap-1"
 			>
-			  View
-			  <ArrowUpRight className="w-4 h-4" />
+			<span>View</span>
+			<ArrowUpRight className="w-4 h-4" />
 			</Button>
 		  </div>
 		</div>
@@ -214,8 +216,8 @@ const handleSubscribe = (e) => {
       image: "/api/placeholder/600/400",
       category: "AI Tools",
       featured: true,
-      upvotes: 1232,
-      comments: 156,
+      upvotes: 12,
+      comments: 15,
       makerImage: "/api/placeholder/32/32"
     },
     {
@@ -225,8 +227,8 @@ const handleSubscribe = (e) => {
       image: "/api/placeholder/600/400",
       category: "Design",
       featured: true,
-      upvotes: 867,
-      comments: 92,
+      upvotes: 8,
+      comments: 9,
       makerImage: "/api/placeholder/32/32"
     }
   ];
@@ -259,7 +261,7 @@ const handleSubscribe = (e) => {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
             Discover Amazing Products
           </h1>
