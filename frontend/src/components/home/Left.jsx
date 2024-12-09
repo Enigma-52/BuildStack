@@ -136,8 +136,10 @@ export default Left = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`/api/products`);
+        const response = await fetch(`http://localhost:3001/api/products/getAllProducts/all`);
         const data = await response.json();
+        console.log("product data" , data);
+        
         setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -146,7 +148,7 @@ export default Left = () => {
       }
     };
 
-    //fetchProducts();
+    fetchProducts();
   }, [sortBy]);
 
   return (

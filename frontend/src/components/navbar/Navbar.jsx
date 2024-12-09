@@ -117,6 +117,7 @@ const Navbar = () => {
 			router("/advertise");
 		}
 	}
+	const name = localStorage.getItem('name');
 	return (
 		<>
 
@@ -171,9 +172,9 @@ const Navbar = () => {
 									<div onMouseEnter={() => setShowUserMenu(true)} onMouseLeave={() => setShowUserMenu(false)}>
 										<Button
 											variant="ghost"
-											className="rounded-full border-2 p-2 hover:bg-gray-100 mx-2"
+											className="rounded-full border-2 hover:bg-gray-100 mx-2"
 										>
-											<User className="h-6 w-6 text-gray-600" />
+											<img src={`https://api.dicebear.com/9.x/dylan/svg?seed=${name}`} className="rounded-full" />
 											{showUserMenu && <UserMenu />}
 										</Button>
 									</div>

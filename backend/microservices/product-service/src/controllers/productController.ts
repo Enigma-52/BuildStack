@@ -215,3 +215,83 @@ export const approveProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getProductByCategory = async (req: Request, res: Response) => {
+  try {
+    const { categoryName } = req.params;
+
+    console.log(categoryName);
+
+    const products = await prisma.product.findMany({
+      where: {
+        category: categoryName
+      },
+      include: {
+        images: true,
+        pricing: true,
+        makers: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: 'No products found' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products
+    });
+
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch products',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+};
+
+export const upvoteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const updatedProduct = await prisma.product.update({
+      where: {
+        id: productId
+      },
+      data: {
+        upvotes: {
+          increment: 1
+        }
+      },
+      include: {
+        images: true,
+        pricing: true,
+        makers: {
+          include: {
+            user: true
+          }
+        }
+      }
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: updatedProduct
+    });
+
+  } catch (error) {
+    console.error('Error upvoting product:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to upvote product',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+};

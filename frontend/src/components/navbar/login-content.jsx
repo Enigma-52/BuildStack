@@ -44,6 +44,8 @@ const LoginContent = () => {
                 await localStorage.setItem('token', data.token);
                 await localStorage.setItem('email', data.email);
                 await localStorage.setItem('userId', data.id);
+                await localStorage.setItem('name', data.name);
+
             }
 
             // Clear form

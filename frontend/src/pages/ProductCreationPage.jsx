@@ -296,14 +296,14 @@ const ProductCreationPage = () => {
                       className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
                       <option value="" disabled>Select a category</option>
-                      <option value="aitools">AI Tools</option>
-                      <option value="productivity">Productivity</option>
-                      <option value="designtools">Design Tools</option>
-                      <option value="marketingtools">Marketing Tools</option>
-                      <option value="devtools">Dev Tools</option>
-                      <option value="analyticstools">Analytics Tools</option>
-                      <option value="gaming">Gaming Utilities</option>
-                      <option value="misc">Miscellaneous</option>
+                      <option value="AI">AI</option>
+                      <option value="Productivity">Productivity</option>
+                      <option value="Design">Design</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Development">Development</option>
+                      <option value="Analytics">Analytics</option>
+                      <option value="Gaming">Gaming</option>
+                      <option value="Miscellaneous">Miscellaneous</option>
                     </select>
                   </div>
                 </div>

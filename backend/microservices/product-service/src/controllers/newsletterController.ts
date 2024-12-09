@@ -5,6 +5,8 @@ export const subscribe: RequestHandler = async (req, res, next) => {
   try {
     const { email } = req.body
 
+    console.log(email);
+
     if (!email) {
       throw new Error;
     }

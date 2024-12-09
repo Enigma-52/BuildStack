@@ -123,7 +123,7 @@ const transporter = nodemailer.createTransport({
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td width="112" style="vertical-align: top;">
-                            <img src="https://logo.clearbit.com/${products[0].name}.com" alt="${products[0].name}" width="112" height="112" style="border-radius: 12px; object-fit: cover; display: block;">
+                            <img src="${products[0].images[0].url}" alt="${products[0].name}" width="112" height="112" style="border-radius: 12px; object-fit: cover; display: block;">
                           </td>
                           <td style="padding-left: 24px; vertical-align: top;">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -133,7 +133,7 @@ const transporter = nodemailer.createTransport({
                                   <p style="margin: 0 0 12px; color: #4b5563;">${products[0].tagline}</p>
                                 </td>
                                 <td style="text-align: right;">
-                                  <span style="display: inline-block; background-color: white; padding: 8px 16px; border-radius: 9999px; color: #ea580c; font-weight: 500;">#1 Product of the Week</span>
+                                  <span style="display: inline-block; background-color: white; padding: 8px 16px; border-radius: 9999px; color: #ea580c; font-weight: 500;">Featured Product</span>
                                 </td>
                               </tr>
                               <tr>
@@ -166,7 +166,7 @@ const transporter = nodemailer.createTransport({
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                   <tr>
                                     <td width="80" style="vertical-align: top;">
-                                      <img src=https://logo.clearbit.com/${products.name}.com" alt="${product.name}" width="80" height="80" style="border-radius: 12px; object-fit: cover; display: block;">
+                                      <img src="${product.images[0].url}" alt="${product.name}" width="80" height="80" style="border-radius: 12px; object-fit: cover; display: block;">
                                     </td>
                                     <td style="padding-left: 16px; vertical-align: top;">
                                       <table width="100%" cellpadding="0" cellspacing="0">
