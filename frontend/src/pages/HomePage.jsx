@@ -375,7 +375,7 @@ const HomePage = () => {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
-                {products.map((product) => (
+                {products.slice(0, 6).map((product) => (
                   <ProductCard 
                     key={product.id} 
                     product={product} 
