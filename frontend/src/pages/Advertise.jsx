@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Zap, Trophy, Rocket, Sparkles, Layout, Gift, Users, CheckCircle, Lock, Globe } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from "../../routes/route";
 
 const GradientBorder = ({ children }) => (
   <div className="p-[2px] rounded-2xl bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600">
@@ -245,7 +245,7 @@ const PricingSection = () => {
 };
 
 const AdvertisePage = () => {
-  const navigate = useNavigate();
+  const navigate = useScrollToTopNavigate();
 
   return (
     <div>
