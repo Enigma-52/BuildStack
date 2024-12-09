@@ -1,17 +1,23 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
+# Copy package files first to leverage cache
 COPY package*.json ./
+
+# Install ALL dependencies since we need them for dev mode
+RUN npm ci
+
+# Copy Prisma schema and generate
 COPY prisma ./prisma/
+RUN npx prisma generate
 
-RUN npm install
-
+# Copy the rest of the code
 COPY . .
 
-RUN npm run prisma:generate
-
+# Expose ports - both HTTP and gRPC
 EXPOSE 3001
 EXPOSE 50051
 
-CMD ["npm", "run" , "dev"]
+# Use ts-node-dev for development with hot reloading
+CMD ["npm", "run", "dev"]
