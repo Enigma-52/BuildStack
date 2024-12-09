@@ -4,6 +4,7 @@ import { Sparkles, Zap, Palette, TrendingUp, Code } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
 import useScrollToTopNavigate from "../components/routes/route";
+import _ from 'lodash';
 
 const categories = [
   { 
@@ -102,12 +103,74 @@ const FloatingParticle = ({ color }) => {
   );
 };
 
+export const useProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        // Replace with your actual API endpoint
+        const response = await fetch('http://localhost:3001/api/products/getAllProducts/all');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const result = await response.json();
+        
+        // Extract products from the data array in the response
+        if (result.success && Array.isArray(result.data)) {
+          setProducts(result.data);
+        } else {
+          throw new Error('Invalid data format received');
+        }
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const categoryCounts = products.reduce((counts, product) => {
+    const productType = product.category || 'Miscellaneous';
+    
+    // Map product types to category names if needed
+    // Adjust this mapping based on your actual type values
+    const categoryMap = {
+      'AI': 'AI',
+      'Productivity': 'Productivity',
+      'Design': 'Design',
+      'Marketing': 'Marketing',
+      'Development': 'Development',
+      'Analytics': 'Analytics',
+      'Gaming': 'Gaming',
+      'Miscellaneous': 'Miscellaneous'
+    };
+
+    const category = categoryMap[productType] || 'Miscellaneous';
+    counts[category] = (counts[category] || 0) + 1;
+    return counts;
+  }, {});
+
+  return { 
+    products, 
+    categoryCounts, 
+    loading, 
+    error,
+    totalCount: products.length 
+  };
+};
+
 const CategoryCard = ({ icon, name, count, color, textColor, description, pattern, index }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showParticles, setShowParticles] = useState(false);
 
     const navigate = useScrollToTopNavigate();
-
 
     const handleRedirect = () => {
       const urlFriendlyName = name.toLowerCase().replace(/\s+/g, '-');
@@ -238,70 +301,56 @@ const CategoryCard = ({ icon, name, count, color, textColor, description, patter
 
 const AllCategoriesPage = () => {
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const { categoryCounts, loading, error, totalCount } = useProducts();
+
+  const categoriesWithCounts = categories.map(category => ({
+    ...category,
+    count: loading 
+      ? '...' 
+      : (categoryCounts[category.name] || 0)
+  }));
 
   return (
     <div>      
-    <Navbar />
-
-    <div className="pt-24 min-h-screen bg-gradient-to-br from-white-50 to-orange-50">
-        
-      <div className="max-w-6xl mx-auto p-8 pb-20">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 text-center"
-        >
-          <motion.span 
-            className="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium inline-block mb-4"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+      <Navbar />
+      <div className="pt-24 min-h-screen bg-gradient-to-br from-white-50 to-orange-50">
+        <div className="max-w-6xl mx-auto p-8 pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12 text-center"
           >
-            Discover Amazing Products ✨
-          </motion.span>
-          <motion.h1 
-            className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent mb-4"
-            animate={{ 
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{ 
-              duration: 5,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          >
-            Find Your Next Favorite Tool
-          </motion.h1>
-          <motion.p 
-            className="text-gray-600 text-xl max-w-2xl mx-auto"
+            <motion.span 
+              className="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium inline-block mb-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {`${totalCount} Amazing Products ✨`}
+            </motion.span>
+            {/* Rest of the header content */}
+          </motion.div>
+          
+          <motion.div 
+            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ duration: 0.5 }}
           >
-            Browse through our carefully curated collection of the best tools and resources
-          </motion.p>
-        </motion.div>
-        
-        <motion.div 
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          {categories.map((category, index) => (
-            <CategoryCard 
-              key={category.name} 
-              {...category} 
-              index={index}
-              isHovered={hoveredCategory === category.name}
-              onHover={() => setHoveredCategory(category.name)}
-            />
-          ))}
-        </motion.div>
+            {categoriesWithCounts.map((category, index) => (
+              <CategoryCard 
+                key={category.name} 
+                {...category} 
+                index={index}
+                isHovered={hoveredCategory === category.name}
+                onHover={() => setHoveredCategory(category.name)}
+              />
+            ))}
+          </motion.div>
+        </div>
       </div>
-    </div>
-    <div className='bg-orange-50'>
-    <Footer />
-    </div>
+      <div className='bg-orange-50'>
+        <Footer />
+      </div>
     </div>
   );
 };
