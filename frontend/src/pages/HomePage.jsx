@@ -42,7 +42,6 @@ const Button = ({
   );
 };
 
-// Simplified ProductCard component
 const ProductCard = ({ product }) => {
   const [isUpvoted, setIsUpvoted] = useState(false);
   const router = useScrollToTopNavigate();
@@ -54,6 +53,7 @@ const ProductCard = ({ product }) => {
       whileHover={{ y: -4 }}
       className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
     >
+      {/* Image section remains the same */}
       <div className="relative h-[200px]">
         <img
           src={product.image || "/api/placeholder/400/300"}
@@ -78,36 +78,38 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
 
+        {/* Updated button layout */}
         <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`gap-1.5 ${isUpvoted ? "text-orange-500" : "text-gray-500"}`}
+          <div className="flex items-center space-x-4">
+            <button
               onClick={() => setIsUpvoted(!isUpvoted)}
+              className={`flex items-center space-x-1.5 text-sm ${
+                isUpvoted ? "text-orange-500" : "text-gray-500"
+              }`}
             >
               <Star className={`w-4 h-4 ${isUpvoted ? "fill-orange-500" : ""}`} />
-              {product.upvotes || 0}
-            </Button>
-            <div className="flex items-center gap-1.5 text-gray-500 text-sm">
+              <span>{product.upvotes || 0}</span>
+            </button>
+            
+            <div className="flex items-center space-x-1.5 text-gray-500 text-sm">
               <MessageSquare className="w-4 h-4" />
-              {product.comments || 0}
+              <span>{product.comments || 0}</span>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-orange-500 hover:text-orange-600 gap-1"
-            onClick={() => router(`/product/${product.id}`)}
+          
+          <button
+            onClick={() => router(`/product/${product.name}`)}
+            className="flex items-center space-x-1 text-sm text-orange-500 hover:text-orange-600"
           >
-            View
+            <span>View</span>
             <ArrowUpRight className="w-4 h-4" />
-          </Button>
+          </button>
         </div>
       </div>
     </motion.div>
   );
 };
+
 
 // Updated Sidebar with working newsletter
 const Sidebar = ({ email, setEmail, handleSubscribe, status, loading }) => {

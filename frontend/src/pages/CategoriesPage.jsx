@@ -203,7 +203,7 @@ const CategoriesPage = () => {
                                 key={image.id}
                                 src={image.url}
                                 alt={`${product.name} screenshot ${index + 1}`}
-                                className="w-60 h-50 rounded-lg shadow-sm flex-shrink-0 snap-center"
+                                className="w-30 h-40 rounded-lg shadow-sm flex-shrink-0 snap-center"
                               />
                             ))}
                           </div>
