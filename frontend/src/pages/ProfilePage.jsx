@@ -241,7 +241,6 @@ const ProfilePage = () => {
                 )}
               </div>
             )}
-            {activeTab === 'reviews' && <ReviewsTab userId={profile?.userId} />}
           </div>
         </main>
       </div>

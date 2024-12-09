@@ -49,11 +49,7 @@ const SearchModal = ({ visible, setVisible, children }) => {
 									<X className="w-5 h-5" aria-hidden="true" />
 								</Button>
 							</div>
-							<DialogPanel className="relative h-[220px] 
-						  max-sm:w-full max-sm:h-[90vh] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white 
-						 rounded-sm 
-						 shadow-md"
-							>
+							<DialogPanel className="relative h-auto max-h-[90vh] max-sm:w-full max-sm:h-[90vh] mt-auto sm:w-[650px] sm:mt-0 flex flex-col bg-white rounded-sm shadow-md">
 
 								<div className="flex justify-center flex-col flex-1 px-8
 							 py-10 text-left rounded-t-md">

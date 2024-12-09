@@ -133,7 +133,7 @@ const ProductCreationPage = () => {
         });
    
         setTimeout(() => {
-          router(`/product/${formData.name.toLowerCase().replace(/\s+/g, '-')}`);
+          router(`/product/${formData.name}`);
         }, 2300);
 
         console.log('Product submitted successfully');
