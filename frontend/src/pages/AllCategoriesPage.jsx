@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Zap, Palette, TrendingUp, Code } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
-import useScrollToTopNavigate from "../../routes/route";
+import useScrollToTopNavigate from "../components/routes/route";
 
 const categories = [
   { 
