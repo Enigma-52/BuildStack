@@ -100,6 +100,7 @@ const AuthContent = () => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('email', data.email);
                 localStorage.setItem('userId', data.id);
+                await localStorage.setItem('name', data.name);
             }
 
             // Clear form

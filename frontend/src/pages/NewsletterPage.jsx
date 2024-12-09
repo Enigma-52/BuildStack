@@ -25,7 +25,7 @@ const NewsletterPage = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/newsletter/subscribe", {
+      const response = await fetch("http://localhost:3001/api/misc/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

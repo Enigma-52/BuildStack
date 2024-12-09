@@ -62,6 +62,7 @@ const AlertDescription = ({ children }) => {
 
 const Right = () => {
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
 
   const categories = [
@@ -72,11 +73,38 @@ const Right = () => {
     { id: 'developer', name: 'Developer Tools', icon: '👩‍💻', count: 65, color: 'bg-pink-100' }
   ];
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    // Implement subscription logic here
-    setStatus({ type: 'success', message: 'Successfully subscribed!' });
-    setEmail('');
+  const handleSubscribe = async () => {
+    if (!email) return;
+    
+    setLoading(true);
+    setStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch('http://localhost:3001/api/misc/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Subscription failed');
+      }
+
+      setStatus({
+        type: 'success',
+        message: 'Successfully subscribed!',
+      });
+      setEmail('');
+    } catch (error) {
+      setStatus({
+        type: 'error',
+        message: 'Failed to subscribe. Please try again.',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -107,41 +135,51 @@ const Right = () => {
 
         {/* Newsletter */}
         <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 to-pink-500 rounded-2xl p-6 text-white">
-          <div className="relative z-10">
-            <h3 className="text-xl font-bold mb-2">Stay Updated</h3>
-            <p className="text-white/90 text-sm mb-4">
-              Get daily updates on the latest products and innovations
-            </p>
-            <form onSubmit={handleSubscribe} className="space-y-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full px-4 py-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
-                required
-              />
-              <button
-                type="submit"
-                className="w-full bg-white text-orange-600 py-2.5 rounded-xl font-medium hover:bg-white/90 transition-colors duration-200"
-              >
-                Subscribe
-              </button>
-            </form>
-            {status.message && (
-              <div className={`mt-4 p-3 rounded-lg text-sm ${
-                status.type === 'error' ? 'bg-red-500/20' : 'bg-green-500/20'
-              }`}>
-                {status.message}
-              </div>
+      <div className="relative z-10">
+        <h3 className="text-xl font-bold mb-2">Stay Updated</h3>
+        <p className="text-white/90 text-sm mb-4">
+          Get daily updates on the latest products and innovations
+        </p>
+        <div className="space-y-3">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full px-4 py-2.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+          />
+          <button
+            onClick={handleSubscribe}
+            disabled={loading || !email}
+            className="w-full bg-white text-orange-600 py-2.5 rounded-xl font-medium hover:bg-white/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Subscribing...
+              </>
+            ) : (
+              'Subscribe'
             )}
-          </div>
-          <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-32 h-32 bg-orange-400 rounded-full blur-2xl opacity-50" />
-          <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-32 h-32 bg-pink-400 rounded-full blur-2xl opacity-50" />
+          </button>
         </div>
+        {status.message && (
+          <div
+            className={`mt-4 p-3 rounded-lg text-sm ${
+              status.type === 'error' ? 'bg-red-500/20' : 'bg-green-500/20'
+            }`}
+          >
+            {status.message}
+          </div>
+        )}
       </div>
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-32 h-32 bg-orange-400 rounded-full blur-2xl opacity-50" />
+      <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-32 h-32 bg-pink-400 rounded-full blur-2xl opacity-50" />
+    </div>
+    </div>
     </div>
   );
 };
 
-export default Right;
+export default NewsletterSection;

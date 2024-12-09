@@ -16,7 +16,7 @@ const NotificationsPage = () => {
     {
       id: 1,
       type: "message",
-      title: "New Product Hunt Review",
+      title: "New Review",
       description: 'Sarah left a review on your product "DevTools Pro"',
       time: "5 minutes ago",
       read: false,

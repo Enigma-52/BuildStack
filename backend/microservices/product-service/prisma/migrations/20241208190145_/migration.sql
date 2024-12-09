@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Product" ALTER COLUMN "comments" DROP NOT NULL,
+ALTER COLUMN "isApproved" DROP NOT NULL,
+ALTER COLUMN "upvotes" DROP NOT NULL;

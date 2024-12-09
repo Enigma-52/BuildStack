@@ -35,6 +35,42 @@ const AdminIssuesPage = () => {
   const [replyText, setReplyText] = useState('');
   const [selectedTab, setSelectedTab] = useState('issues');
 
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      const targetUserId = localStorage.getItem("userId");  
+
+      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to fetch profile");
+      }
+
+      const { isAdmin } = await response.json();
+    
+      if (!isAdmin) {
+        router('/');
+        return;
+      }
+    } catch (error) {
+      setError(error.message);
+      if (error.message.includes("Authentication")) {
+        router("/");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchMessages = async () => {
     try {
       setLoading(true);

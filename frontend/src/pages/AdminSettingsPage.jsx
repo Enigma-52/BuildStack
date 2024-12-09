@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Star, 
   BarChart3, 
@@ -11,31 +11,91 @@ import {
   X,
   Plus
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import useScrollToTopNavigate from '../components/routes/route';
 
 const AdminSettingsPage = () => {
   const [selectedTab, setSelectedTab] = useState('settings');
   const [email, setEmail] = useState('');
-  const router = useScrollToTopNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const router = useScrollToTopNavigate(); 
+
+  // Memoize fetchProfile to prevent unnecessary recreations
+  const fetchProfile = useCallback(async () => {
+    const controller = new AbortController();
+
+    try {
+      const token = localStorage.getItem("token");
+      const targetUserId = localStorage.getItem("userId");
+
+      // Early validation
+      if (!token || !targetUserId) {
+        router('/');
+        throw new Error("Missing authentication credentials");
+      }
+
+      const response = await fetch(
+        `http://localhost:3000/api/auth/profile?userId=${targetUserId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache'
+          },
+          signal: controller.signal
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch profile");
+      }
+
+      const { isAdmin } = await response.json();
+      
+      if (!isAdmin) {
+        router('/');
+        return;
+      }
+
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log('Fetch aborted');
+        return;
+      }
+      setError(error.message);
+      router("/");
+    } finally {
+      setLoading(false);
+    }
+
+    return () => controller.abort();
+  }, [router]);
+
+  // Use fetchProfile in useEffect with proper dependency
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   // Sample admin users data
-  const [adminUsers, setAdminUsers] = useState([
-    {
-      id: 1,
-      email: 'admin@example.com',
-      role: 'Super Admin',
-      dateAdded: '2024-01-15',
-      status: 'active'
-    },
-    {
-      id: 2,
-      email: 'moderator@example.com',
-      role: 'Admin',
-      dateAdded: '2024-02-20',
-      status: 'active'
-    }
-  ]);
+  const [adminUsers, setAdminUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchAllProfiles = async () => {
+      const response = await fetch('http://localhost:3000/api/auth/getAllUsers');
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.message || "Failed to fetch all profiles");
+        return;
+      }
+
+      const data = await response.json();
+      setAdminUsers(data.filter(user => user.isAdmin));
+    };
+
+    fetchAllProfiles();
+  }, []);
 
   const handleAddAdmin = (e) => {
     e.preventDefault();
@@ -47,18 +107,26 @@ const AdminSettingsPage = () => {
         dateAdded: new Date().toISOString().split('T')[0],
         status: 'active'
       };
-      setAdminUsers([...adminUsers, newAdmin]);
+      setAdminUsers(prevUsers => [...prevUsers, newAdmin]);
       setEmail('');
     }
   };
 
   const handleRemoveAdmin = (id) => {
-    setAdminUsers(adminUsers.filter(admin => admin.id !== id));
+    setAdminUsers(prevUsers => prevUsers.filter(admin => admin.id !== id));
   };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Sidebar */}
+      {/* Rest of your JSX remains the same */}
       <div className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 p-4">
         <div className="flex items-center gap-2 px-2 mb-8">
           <div className="w-8 h-8 bg-orange-500 rounded-lg"></div>
@@ -92,13 +160,11 @@ const AdminSettingsPage = () => {
       {/* Main Content */}
       <div className="ml-64 p-8">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
             <p className="text-gray-500 mt-1">Manage admin users and access control</p>
           </div>
 
-          {/* Admin Management Section */}
           <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
             <div className="mb-6">
               <h2 className="text-lg font-semibold">Add New Admin</h2>
@@ -129,7 +195,6 @@ const AdminSettingsPage = () => {
             </form>
           </div>
 
-          {/* Admin List */}
           <div className="bg-white rounded-xl border border-gray-200">
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-lg font-semibold">Admin Users</h2>

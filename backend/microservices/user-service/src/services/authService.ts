@@ -113,11 +113,14 @@ export const signup = async (userData: IUserSignup) => {
 
     const hashedPassword = await bcrypt.hash(userData.password, 10)
 
+    const profile_image = `https://api.dicebear.com/9.x/dylan/svg?seed=${userData.name}`
+
     const user = await prisma.user.create({
       data: {
         name: userData.name,
         email: userData.email,
         password: hashedPassword,
+        profile_image_url: profile_image
       }
     })
 

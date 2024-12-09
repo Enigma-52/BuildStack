@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Zap, Palette, TrendingUp, Code } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from 'react-router-dom';
+import useScrollToTopNavigate from "../components/routes/route";
 
 const categories = [
   { 
     icon: '🤖', 
-    name: 'AI Code Editors', 
+    name: 'AI', 
     count: 156,
     color: 'bg-gradient-to-br from-purple-500 to-blue-500',
     textColor: 'text-purple-500',
@@ -26,7 +26,7 @@ const categories = [
   },
   { 
     icon: '🎨', 
-    name: 'Design Apps', 
+    name: 'Design', 
     count: 87,
     color: 'bg-gradient-to-br from-pink-500 to-rose-500',
     textColor: 'text-pink-500',
@@ -44,7 +44,7 @@ const categories = [
   },
   { 
     icon: '👩‍💻', 
-    name: 'Developer Extensions', 
+    name: 'Development', 
     count: 65,
     color: 'bg-gradient-to-br from-blue-500 to-cyan-500',
     textColor: 'text-blue-500',
@@ -53,7 +53,7 @@ const categories = [
   },
   { 
     icon: '📊', 
-    name: 'Analytics Tools', 
+    name: 'Analytics', 
     count: 45,
     color: 'bg-gradient-to-br from-indigo-500 to-purple-500',
     textColor: 'text-indigo-500',
@@ -62,7 +62,7 @@ const categories = [
   },
   { 
     icon: '🎮', 
-    name: 'Gaming Utilities', 
+    name: 'Gaming', 
     count: 53,
     color: 'bg-gradient-to-br from-red-500 to-yellow-500',
     textColor: 'text-red-500',
@@ -105,12 +105,14 @@ const FloatingParticle = ({ color }) => {
 const CategoryCard = ({ icon, name, count, color, textColor, description, pattern, index }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showParticles, setShowParticles] = useState(false);
-    const navigate = useNavigate();
+
+    const navigate = useScrollToTopNavigate();
 
 
     const handleRedirect = () => {
-        navigate(`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`);
-      };
+      const urlFriendlyName = name.toLowerCase().replace(/\s+/g, '-');
+      navigate(`/categories/${name}`);
+    };
    
     useEffect(() => {
       if (isHovered) {
@@ -122,7 +124,7 @@ const CategoryCard = ({ icon, name, count, color, textColor, description, patter
    
     return (
       <motion.div
-        onClick={() => navigate(`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`)}
+        onClick={() => navigate(`/categories/${name}`)}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -177,7 +179,7 @@ const CategoryCard = ({ icon, name, count, color, textColor, description, patter
               className={`${color} p-2 rounded-full cursor-pointer hover:shadow-lg`}
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/categories/${name.toLowerCase().replace(/\s+/g, '-')}`);
+                navigate(`/categories/${name}`);
                 }
             }
             >
