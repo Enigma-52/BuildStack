@@ -123,6 +123,14 @@ const ProfilePage = () => {
                         Follow
                       </Button>
                     )}
+                    {profile.isAdmin && (
+                      <Button
+                        onClick={() => router('/admin')}
+                        className="px-4 py-2 text-sm font-medium text-white bg-orange-500 rounded-md hover:bg-orange-600 transition-colors duration-200"
+                      >
+                        Admin
+                      </Button>
+                    )}
                   </div>
                 </div>
 

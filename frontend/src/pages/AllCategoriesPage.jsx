@@ -320,14 +320,41 @@ const AllCategoriesPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-12 text-center"
           >
-            <motion.span 
-              className="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium inline-block mb-4"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {`${totalCount} Amazing Products ✨`}
-            </motion.span>
-            {/* Rest of the header content */}
+            <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12 text-center"
+        >
+          <motion.span 
+            className="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium inline-block mb-4"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Discover Amazing Products ✨
+          </motion.span>
+          <motion.h1 
+            className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent mb-4"
+            animate={{ 
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{ 
+              duration: 5,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+          >
+            Find Your Next Favorite Tool
+          </motion.h1>
+          <motion.p 
+            className="text-gray-600 text-xl max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            Browse through our carefully curated collection of the best tools and resources
+          </motion.p>
+        </motion.div>
+        
           </motion.div>
           
           <motion.div 
