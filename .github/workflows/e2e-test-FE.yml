@@ -16,19 +16,28 @@ jobs:
         node-version: 22
 
     - name: Install Dependencies
-      run: npm ci  # Install dependencies based on package-lock.json
+      run: |
+        cd frontend
+        npm ci  # Install dependencies for the frontend
 
     - name: Install ts-node and TypeScript
-      run: npm install -D ts-node typescript
+      run: |
+        cd frontend
+        npm install -D ts-node typescript  # Ensure ts-node and TypeScript are installed
 
     - name: Start Frontend
-      run: npm run dev
+      run: |
+        cd frontend
+        npm run dev &  # Start frontend in the background
 
     - name: Wait for App to Start
       run: sleep 10  # Give the app time to start
 
     - name: Run Puppeteer Test (TypeScript)
-      run: node --loader ts-node/esm tests/puppeteer-test.ts
+      run: |
+        cd frontend
+        node --loader ts-node/esm tests/puppeteer-test.ts  # Run the Puppeteer test
 
     - name: Stop React App
-      run: kill $(lsof -t -i:5173) || true
+      run: |
+        kill $(lsof -t -i:5173) || true  # Stop the app running on port 5173 (Vite default)
