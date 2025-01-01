@@ -1,0 +1,34 @@
+name: E2E Frontend Tests
+
+on: push
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22
+
+    - name: Install Dependencies
+      run: npm ci  # Install dependencies based on package-lock.json
+
+    - name: Install ts-node and TypeScript
+      run: npm install -D ts-node typescript
+
+    - name: Start Frontend
+      run: npm run dev
+
+    - name: Wait for App to Start
+      run: sleep 10  # Give the app time to start
+
+    - name: Run Puppeteer Test (TypeScript)
+      run: node --loader ts-node/esm tests/puppeteer-test.ts
+
+    - name: Stop React App
+      run: kill $(lsof -t -i:5173) || true
