@@ -5,7 +5,7 @@ const FeatureCard = ({ feature }) => {
         <img 
           src={image} 
           alt={title}
-          className="w-full h-48 object-cover rounded-lg mb-4"
+          className="w-full h-48 object-contain rounded-lg mb-4"
         />
         <h3 className="font-semibold text-lg mb-2">{title}</h3>
         <p className="text-gray-600">{description}</p>

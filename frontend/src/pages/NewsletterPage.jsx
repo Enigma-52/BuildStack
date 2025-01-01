@@ -168,7 +168,7 @@ const NewsletterPage = () => {
                       <img
                               src={`https://logo.clearbit.com/Innovation.com`}
                               alt="Product"
-                              className="w-20 h-20 rounded-xl object-cover"
+                              className="w-20 h-20 rounded-xl object-contain"
                             />
                         <div className="flex-1">
                           <div className="flex items-start justify-between">
@@ -215,7 +215,7 @@ const NewsletterPage = () => {
                           <img
                               src={`https://logo.clearbit.com/${product.name.toLowerCase()}.com`}
                               alt="Product"
-                              className="w-20 h-20 rounded-xl object-cover"
+                              className="w-20 h-20 rounded-xl object-contain"
                             />
                             <div>
                               <div className="flex items-center gap-2 mb-2">

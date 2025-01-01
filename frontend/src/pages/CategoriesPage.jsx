@@ -153,7 +153,7 @@ const CategoriesPage = () => {
                       <img
                         src={product.images?.[0]?.url || placeholderProductImage}
                         alt={product.name}
-                        className="w-16 h-16 rounded-xl shadow-sm group-hover:shadow-md transition-shadow object-cover"
+                        className="w-16 h-16 rounded-xl shadow-sm group-hover:shadow-md transition-shadow object-contain"
                       />
                       <button 
                         onClick={() => handleUpvote(product.id)}

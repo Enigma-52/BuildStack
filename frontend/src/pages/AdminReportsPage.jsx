@@ -319,7 +319,7 @@ const AdminReportsPage = () => {
               <img 
                 src={report.product?.images?.[0]?.url || '/api/placeholder/48/48'} 
                 alt={report.product?.name || 'Product'} 
-                className="w-12 h-12 rounded-lg object-cover"
+                className="w-12 h-12 rounded-lg object-contain"
               />
             ) : (
               <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">

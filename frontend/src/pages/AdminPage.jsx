@@ -196,7 +196,7 @@ const AdminPanel = () => {
                   <img 
                     src={product.images?.[0]?.url || `/api/placeholder/64/64`} 
                     alt={product.name} 
-                    className="w-16 h-16 rounded-xl object-cover"
+                    className="w-16 h-16 rounded-xl object-contain"
                   />
                   <div>
                     <h3 className="font-medium text-gray-900">{product.description}</h3>
@@ -240,7 +240,7 @@ const AdminPanel = () => {
                           key={index}
                           src={image.url}
                           alt={`Screenshot ${index + 1}`}
-                          className="rounded-lg border object-cover w-full h-48"
+                          className="rounded-lg border object-contain w-full h-48"
                         />
                       ))}
                     </div>
@@ -415,7 +415,7 @@ const AdminPanel = () => {
                   <img 
                     src={product.images?.[0]?.url || `/api/placeholder/40/40`} 
                     alt={product.name} 
-                    className="w-10 h-10 rounded-lg object-cover"
+                    className="w-10 h-10 rounded-lg object-contain"
                   />
                   <div>
                     <h3 className="font-medium text-gray-900">{product.name}</h3>

@@ -58,7 +58,7 @@ const ProductCard = ({ product }) => {
         <img
           src={product.image || "/api/placeholder/400/300"}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         <div className="absolute top-3 left-3">

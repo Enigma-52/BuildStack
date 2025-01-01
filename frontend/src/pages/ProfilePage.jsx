@@ -87,7 +87,7 @@ const ProfilePage = () => {
               <Image
                 src={profile.profile_image_url || `https://api.dicebear.com/9.x/dylan/svg?seed=${profile.name}`}
                 alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
+                className="w-24 h-24 rounded-full object-contain border-2 border-orange-200"
               />
               <div className="flex-1">
                 <div className="flex items-center justify-between">

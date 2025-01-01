@@ -123,7 +123,7 @@ const transporter = nodemailer.createTransport({
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td width="112" style="vertical-align: top;">
-                            <img src="${products[0].images[0].url}" alt="${products[0].name}" width="112" height="112" style="border-radius: 12px; object-fit: cover; display: block;">
+                            <img src="${products[0].images[0].url}" alt="${products[0].name}" width="112" height="112" style="border-radius: 12px; object-contain: cover; display: block;">
                           </td>
                           <td style="padding-left: 24px; vertical-align: top;">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -166,7 +166,7 @@ const transporter = nodemailer.createTransport({
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                   <tr>
                                     <td width="80" style="vertical-align: top;">
-                                      <img src="${product.images[0].url}" alt="${product.name}" width="80" height="80" style="border-radius: 12px; object-fit: cover; display: block;">
+                                      <img src="${product.images[0].url}" alt="${product.name}" width="80" height="80" style="border-radius: 12px; object-contain: cover; display: block;">
                                     </td>
                                     <td style="padding-left: 16px; vertical-align: top;">
                                       <table width="100%" cellpadding="0" cellspacing="0">
