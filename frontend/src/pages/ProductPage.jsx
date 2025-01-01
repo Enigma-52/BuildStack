@@ -379,7 +379,7 @@ const ProductPage = () => {
                     <img 
                       src={image.url} 
                       alt={`${product.name} screenshot ${index + 1}`}
-                      className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                      className="object-contain w-full h-full hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 ))}
@@ -561,7 +561,7 @@ const ProductPage = () => {
                     <img 
                       src={product.images?.[0]?.url || `/api/placeholder/96/96`}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                 </div>
@@ -612,7 +612,7 @@ const ProductPage = () => {
                         <img 
                           src={image.url} 
                           alt={`${product.name} screenshot ${index + 1}`}
-                          className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                          className="object-contain w-full h-full hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                     ))}

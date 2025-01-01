@@ -192,7 +192,7 @@ const EditProfilePage = () => {
                   <img
                     src={uploadedImage || "/api/placeholder/120/120"}
                     alt="Profile"
-                    className="w-24 h-24 rounded-full object-cover border-2 border-orange-200"
+                    className="w-24 h-24 rounded-full object-contain border-2 border-orange-200"
                   />
                   <label className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md cursor-pointer hover:bg-gray-50">
                     <Upload className="w-4 h-4 text-gray-600" />
