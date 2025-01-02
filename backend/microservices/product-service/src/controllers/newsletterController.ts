@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import * as newsletterService from '../services/newsletterService'
 
-export const subscribe: RequestHandler = async (req, res, next) => {
+export const subscribe: RequestHandler = async (req, res, _next) => {
   try {
     const { email } = req.body
 
@@ -18,7 +18,7 @@ export const subscribe: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const sendWeeklyNewsletter: RequestHandler = async (req, res, next) => {
+export const sendWeeklyNewsletter: RequestHandler = async (_req, res, _next) => {
   try {
     const result = await newsletterService.sendWeeklyNewsletter()
     res.status(200).json(result)

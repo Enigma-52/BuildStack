@@ -47,7 +47,7 @@ export const metricsMiddleware: RequestHandler = (req, res, next) => {
   next()
 }
 
-export const getMetrics: RequestHandler = async (req, res) => {
+export const getMetrics: RequestHandler = async (_req, res) => {
   try {
     res.set('Content-Type', register.contentType)
     res.end(await register.metrics())
