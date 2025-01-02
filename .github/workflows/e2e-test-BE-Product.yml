@@ -16,19 +16,27 @@ jobs:
         node-version: 22
 
     - name: Install Dependencies
-      run: npm ci
+      run: |
+        cd backend/microservices/product-service
+        npm ci
 
     - name: Install ts-node and TypeScript
-      run: npm install -D ts-node typescript
+      run: |
+        cd backend/microservices/product-service
+        npm install -D ts-node typescript
 
     - name: Start Backend
-      run: npm run dev &  # Start backend in background
+      run: |
+        cd backend/microservices/product-service
+        npm run dev &  # Start backend in background
 
     - name: Wait for Server to Start
       run: sleep 10  # Give the server time to start
 
     - name: Run Tests
-      run: npm test
+      run: |
+        cd backend/microservices/product-service
+        npm test
 
     - name: Stop Backend Server
       run: kill $(lsof -t -i:3001) || true  # Stop the backend server 
