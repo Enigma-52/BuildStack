@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Response , Request , NextFunction } from 'express';
 import { HealthService } from '../services/healthService';
 
 const healthService = new HealthService();
 
-export const checkHealth = async (req: Request, res: Response) => {
+export const checkHealth = async (_req: Request, res: Response , _next: NextFunction) => {
   const health = await healthService.getHealthStatus();
-  res.json(health);
+  res.status(200).json(health)
 };

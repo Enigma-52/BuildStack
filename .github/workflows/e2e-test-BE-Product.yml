@@ -1,0 +1,42 @@
+name: E2E Backend Tests - Product Service
+
+on: push
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22
+
+    - name: Install Dependencies
+      run: |
+        cd backend/microservices/product-service
+        npm ci
+
+    - name: Install ts-node and TypeScript
+      run: |
+        cd backend/microservices/product-service
+        npm install -D ts-node typescript
+
+    - name: Start Backend
+      run: |
+        cd backend/microservices/product-service
+        npm run dev &  # Start backend in background
+
+    - name: Wait for Server to Start
+      run: sleep 10  # Give the server time to start
+
+    - name: Run Tests
+      run: |
+        cd backend/microservices/product-service
+        npm test
+
+    - name: Stop Backend Server
+      run: kill $(lsof -t -i:3001) || true  # Stop the backend server 
