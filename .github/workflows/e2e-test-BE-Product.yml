@@ -25,6 +25,11 @@ jobs:
         cd backend/microservices/product-service
         npm install -D ts-node typescript
 
+    - name: Start Backend
+      run: |
+        cd backend/microservices/product-service
+        npm run dev &  # Start backend in background
+
     - name: Wait for Server to Start
       run: sleep 10  # Give the server time to start
 
