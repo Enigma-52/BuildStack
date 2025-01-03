@@ -3,7 +3,7 @@ name: E2E Backend Tests - Product Service
 on: push
 
 jobs:
-  backend-test:
+  backend-test-product-service:
     runs-on: ubuntu-latest
 
     steps:
