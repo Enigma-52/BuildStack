@@ -1,0 +1,63 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "esnext",
+      "lib": ["ES2020"],
+      "baseUrl": "./",
+      "outDir": "./dist",
+      "rootDir": "./",
+      "types": ["jest", "node"],
+      
+      // Path aliases
+  
+      // Strict Checks
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "noImplicitThis": true,
+      "useUnknownInCatchVariables": true,
+      "alwaysStrict": true,
+      
+      // Additional Checks
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedIndexedAccess": true,
+      "noImplicitOverride": true,
+      "noPropertyAccessFromIndexSignature": true,
+      
+      // Module Resolution
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true,
+      
+      // Advanced
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "removeComments": true,
+      "sourceMap": true,
+      
+      // Type Declarations
+      "typeRoots": [
+        "./node_modules/@types",
+        "./src/types"
+      ],
+      
+      // Build
+      "incremental": true,
+      "tsBuildInfoFile": "./dist/.tsbuildinfo"
+    },    "exclude": [
+      "node_modules",
+      "dist",
+      "coverage",
+      "**/*.spec.ts",
+      "**/*.test.ts"
+    ]
+  }

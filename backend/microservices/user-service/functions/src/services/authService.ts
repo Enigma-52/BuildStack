@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { IUserSignup, IUserLogin } from '../interfaces/user.interface'
-import { AuthLog } from '../logger/authLogger';
+import { IUserSignup, IUserLogin } from '../interfaces/user.interface.js'
+import { AuthLog } from '../logger/authLogger.js';
 import nodemailer from 'nodemailer';
 import { LocalStorage } from 'node-localstorage';
 const prisma = new PrismaClient()

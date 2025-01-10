@@ -1,9 +1,6 @@
 import { RequestHandler } from 'express'
-import * as authService from '../services/authService'
-import { HttpException } from '../middleware/errorMiddleware'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-
+import * as authService from '../services/authService.js'
+import { HttpException } from '../middleware/errorMiddleware.js'
 
 export const signup: RequestHandler = async (req, res, next) => {
   try {
@@ -129,7 +126,7 @@ export const updateProfile: RequestHandler = async (req, res, next): Promise<voi
   }
 }
 
-export const getAllUsers: RequestHandler = async (req, res, next)=> {
+export const getAllUsers: RequestHandler = async (_req, res, next)=> {
   try {
     const users = await authService.getAllUsers();
 
@@ -230,7 +227,7 @@ export const isValidEmail = (email: string): boolean => {
 };
 
 // message.controller.ts
-export const getMessages: RequestHandler = async (req, res, next) => {
+export const getMessages: RequestHandler = async (_req, res, next) => {
   try {
     const messages = await authService.getMessages();
     console.log("messages", messages);
