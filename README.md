@@ -1,8 +1,9 @@
+<a href="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56"><img src="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56.svg" alt="wakatime"></a>
 
 ## Backend Deployment Links
 
 ### User-Service
-https://final-year-project-hitk.onrender.com/api/health
+https://us-central1-buildr-ffca2.cloudfunctions.net/buildstackUserServiceFunction
 
 ### Product-Service
 https://us-central1-buildr-ffca2.cloudfunctions.net/buildstackProductServiceFunction

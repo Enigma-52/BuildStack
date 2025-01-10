@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import { healthRoutes } from './routes/healthRoutes'
-import { authRoutes } from './routes/authRoutes'
-import { errorMiddleware } from './middleware/errorMiddleware'
-import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware'
+import { healthRoutes } from './routes/healthRoutes.js'
+import { authRoutes } from './routes/authRoutes.js'
+import { errorMiddleware } from './middleware/errorMiddleware.js'
+import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware.js'
 
 const app = express()
 
@@ -23,11 +23,5 @@ app.get('/metrics', getMetrics)
 
 // Error Handler
 app.use(errorMiddleware)
-
-const PORT = 3000
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
 
 export default app;

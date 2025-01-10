@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import winston from 'winston';
 import 'winston-mongodb';
 
 let mongoConnected = false;

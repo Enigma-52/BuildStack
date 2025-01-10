@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
-import { verifyToken } from '../services/authService'
-import { HttpException } from './errorMiddleware'
+import { verifyToken } from '../services/authService.js'
+import { HttpException } from './errorMiddleware.js'
 
-export const authMiddleware: RequestHandler = (req, res, next) => {
+export const authMiddleware: RequestHandler = (req, _res, next) => {
   try {
     const authHeader = req.headers.authorization
 
