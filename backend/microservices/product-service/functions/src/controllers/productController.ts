@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
-import { validateProductData } from '../middleware/validation';
+import { validateProductData } from '../middleware/validation.js';
 import nodemailer from 'nodemailer'
 
 const prisma = new PrismaClient();

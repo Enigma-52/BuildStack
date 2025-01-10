@@ -1,6 +1,6 @@
 import { Request, Response , NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { getUserIdFromProduct } from '../utils/userUtils';
+import { getUserIdFromProduct } from '../utils/userUtils.js';
 
 const prisma = new PrismaClient();
 

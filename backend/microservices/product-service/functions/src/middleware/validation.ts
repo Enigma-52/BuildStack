@@ -1,4 +1,4 @@
-import { ProductInput } from "../types/types";
+import { ProductInput } from "../types/types.js";
 export const validateProductData = (data: ProductInput) => {
     const errors = [];
    

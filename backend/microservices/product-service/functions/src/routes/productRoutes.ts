@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createProduct , getProduct , getAllProducts , approveProduct , getProductByCategory , upvoteProduct} from '../controllers/productController'
+import { createProduct , getProduct , getAllProducts , approveProduct , getProductByCategory , upvoteProduct} from '../controllers/productController.js'
 const router = Router()
 
 router.post('/createProduct', createProduct)

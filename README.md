@@ -5,7 +5,7 @@
 https://final-year-project-hitk.onrender.com/api/health
 
 ### Product-Service
-https://final-year-project-hitk-dt27.onrender.com/api/health
+https://us-central1-buildr-ffca2.cloudfunctions.net/buildstackProductServiceFunction
 
 # Frontend
 

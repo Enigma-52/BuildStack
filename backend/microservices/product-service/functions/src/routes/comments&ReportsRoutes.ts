@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as CRController from '../controllers/CRController';
+import * as CRController from '../controllers/CRController.js';
 
 const router = Router()
 

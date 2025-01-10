@@ -2,15 +2,20 @@
   "name": "product-service",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/src/index.js",
   "scripts": {
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "deploy": "firebase deploy --only functions",
     "build": "tsc",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "proto:gen": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/proto/generated src/proto/*.proto",
     "test": "npx jest --detectOpenHandles"
+  },
+  "engines": {
+    "node": "22"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
+    "firebase-functions": "^6.2.0",
     "helmet": "^8.0.0",
     "jest": "^29.7.0",
     "nodemailer": "^6.9.16",
