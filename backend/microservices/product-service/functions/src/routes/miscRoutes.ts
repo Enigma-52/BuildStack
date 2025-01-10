@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { subscribe , sendWeeklyNewsletter } from '../controllers/newsletterController'
+import { subscribe , sendWeeklyNewsletter } from '../controllers/newsletterController.js'
 const router = Router()
 
 router.post('/subscribe', subscribe)

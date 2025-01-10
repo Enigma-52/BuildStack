@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import * as newsletterService from '../services/newsletterService'
+import * as newsletterService from '../services/newsletterService.js'
 
 export const subscribe: RequestHandler = async (req, res, _next) => {
   try {
