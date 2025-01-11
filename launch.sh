@@ -22,7 +22,17 @@ check_directory() {
 # Function to install dependencies
 install_dependencies() {
     log "${YELLOW}Installing dependencies in $(pwd)...${NC}"
-    npm install
+    if [ "$EUID" -ne 0 ]; then
+        echo "Some installations may require elevated privileges..."
+        if command -v sudo >/dev/null 2>&1; then
+            sudo -S npm install
+        else
+            echo "sudo is not installed. Please run this script with root privileges or install sudo"
+            exit 1
+        fi
+    else
+        npm install
+    fi
 }
 
 # Store the root directory

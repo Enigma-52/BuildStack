@@ -11,7 +11,10 @@ const app = express()
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:5173',"https://buildstack-rho.vercel.app"],
+    credentials: true
+  }));
 app.use(helmet())
 app.use(metricsMiddleware)
 
@@ -23,9 +26,5 @@ app.get('/metrics', getMetrics)
 
 // Error Handler
 app.use(errorMiddleware)
-
-app.listen(3001, () => {
-    console.log('Server is running on port 3000')
-})
 
 export default app;
