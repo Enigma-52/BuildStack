@@ -23,7 +23,7 @@ const ContactUsPage = () => {
 
     const sendContactForm = async (data) => {
         try {
-            const response = await fetch('http://localhost:3000/api/auth/messageSubmission', {
+            const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/messageSubmission`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

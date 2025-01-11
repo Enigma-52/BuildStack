@@ -61,7 +61,7 @@ const AdminPanel = () => {
 
       const targetUserId = localStorage.getItem("userId");  
 
-      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`);
 
       if (!response.ok) {
         const data = await response.json();
@@ -86,7 +86,7 @@ const AdminPanel = () => {
 
   const handleAction = async (productId, isApproved) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/products/approve/${productId}`, {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/approve/${productId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const AdminPanel = () => {
   useEffect(() => {
     const fetchUnapprovedProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/products/getAllProducts/all', {
+        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

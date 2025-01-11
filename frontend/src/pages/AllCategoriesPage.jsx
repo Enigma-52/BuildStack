@@ -113,7 +113,7 @@ export const useProducts = () => {
       try {
         setLoading(true);
         // Replace with your actual API endpoint
-        const response = await fetch('http://localhost:3001/api/products/getAllProducts/all');
+        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

@@ -30,8 +30,8 @@ ROOT_DIR=$(pwd)
 
 # Define service paths
 FRONTEND_PATH="./frontend"
-USER_SERVICE_PATH="./backend/microservices/user-service"
-PRODUCT_SERVICE_PATH="./backend/microservices/product-service"
+USER_SERVICE_PATH="./backend/microservices/user-service/functions"
+PRODUCT_SERVICE_PATH="./backend/microservices/product-service/functions"
 
 # Array of service paths
 declare -a SERVICE_PATHS=("$FRONTEND_PATH" "$USER_SERVICE_PATH" "$PRODUCT_SERVICE_PATH")

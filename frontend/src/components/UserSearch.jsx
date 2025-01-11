@@ -10,7 +10,7 @@ const UserSearch = ({ formData, handleInputChange }) => {
   // Simulated user data - replace with your actual API call
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/auth/getAllUsers');
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/getAllUsers`);
       const data = await response.json();
       return data;
     } catch (error) {

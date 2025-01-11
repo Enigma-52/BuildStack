@@ -246,7 +246,7 @@ const HomePage = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch('http://localhost:3001/api/products/getAllProducts/all');
+        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch products');
@@ -318,7 +318,7 @@ const HomePage = () => {
     setStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch('http://localhost:3001/api/misc/subscribe', {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/misc/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

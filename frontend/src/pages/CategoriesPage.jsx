@@ -20,7 +20,7 @@ const CategoriesPage = () => {
     try {
       setUpvoting(prev => ({ ...prev, [productId]: true }));
       
-      const response = await fetch(`http://localhost:3001/api/products/upvote/${productId}`, {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/upvote/${productId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const CategoriesPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(`http://localhost:3001/api/products/category/${categoryNameCapitalized}`);
+        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/category/${categoryNameCapitalized}`);
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

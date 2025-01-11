@@ -35,7 +35,7 @@ const AdminSettingsPage = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/api/auth/profile?userId=${targetUserId}`,
+        `${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -82,7 +82,7 @@ const AdminSettingsPage = () => {
 
   useEffect(() => {
     const fetchAllProfiles = async () => {
-      const response = await fetch('http://localhost:3000/api/auth/getAllUsers');
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/getAllUsers`);
 
       if (!response.ok) {
         const errorData = await response.json();

@@ -183,7 +183,7 @@ export const approveProduct = async (req: Request, res: Response, _next: NextFun
 
     const subject = isApproved ? 'Your product has been approved' : 'Your product has been rejected';
     const body = isApproved ?
-      `Congratulations, your product has been approved and is now live on our website! You can view it <a href="http://localhost:5173/product/${product?.name}">here</a>.` :
+      `Congratulations, your product has been approved and is now live on our website! You can view it <a href="${process.env['REACT_APP_FRONTEND_URL']}/product/${product?.name}">here</a>.` :
       `Sorry to inform you that your product has been rejected. Please note that our moderators will get in touch with you to discuss further. If you have any questions, please reply to this email.`;
 
       const transporter = nodemailer.createTransport({

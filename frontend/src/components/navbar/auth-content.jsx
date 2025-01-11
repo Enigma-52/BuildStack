@@ -20,7 +20,7 @@ const AuthContent = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/send-otp', {
+            const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/send-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const AuthContent = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/verify-otp', {
+            const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/verify-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const AuthContent = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/signup', {
+            const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

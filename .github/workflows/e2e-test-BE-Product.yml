@@ -17,17 +17,17 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        cd backend/microservices/product-service
+        cd backend/microservices/product-service/functions
         npm ci
 
     - name: Install ts-node and TypeScript
       run: |
-        cd backend/microservices/product-service
+        cd backend/microservices/product-service/functions
         npm install -D ts-node typescript
 
     - name: Start Backend
       run: |
-        cd backend/microservices/product-service
+        cd backend/microservices/product-service/functions
         npm run dev &  # Start backend in background
 
     - name: Wait for Server to Start
@@ -35,7 +35,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        cd backend/microservices/product-service
+        cd backend/microservices/product-service/functions
         npm test
 
     - name: Stop Backend Server
