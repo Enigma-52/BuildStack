@@ -243,13 +243,12 @@ const HomePage = () => {
   // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log('Loaded ENV variables 1:', process.env);
-      console.log('Loaded ENV variables 2:', process.env.REACT_APP_PRODUCT_SERVICE_URL);
-      console.log('Loaded ENV variables 3:', process.env[REACT_APP_PRODUCT_SERVICE_URL]);
+      console.log('Loaded ENV variables 1:', import.meta.env);
+      console.log('Loaded ENV variables 2:', import.meta.env.VITE_PRODUCT_SERVICE_URL);
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
+        const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch products');
@@ -321,7 +320,7 @@ const HomePage = () => {
     setStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/misc/subscribe`, {
+      const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/misc/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

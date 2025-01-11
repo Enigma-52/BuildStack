@@ -32,7 +32,7 @@ const AdminReportsPage = () => {
 
   const fetchReports = async () => {
     try {
-      let url = `${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/reports`;
+      let url = `${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/reports`;
       if (filterType !== 'all') {
         url += `?type=${filterType.toUpperCase()}`;
       }
@@ -54,7 +54,7 @@ const AdminReportsPage = () => {
   const handleAction = async (reportId, action) => {
     try {
       const userId = localStorage.getItem("userId");
-      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/reports/${reportId}`, {
+      const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/reports/${reportId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

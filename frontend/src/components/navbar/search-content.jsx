@@ -30,7 +30,7 @@ const SearchContent = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
+        const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
         if (!response.ok) throw new Error('Failed to fetch products');
         const responseData = await response.json();
         

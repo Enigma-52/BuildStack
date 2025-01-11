@@ -23,7 +23,7 @@ const ContactUsPage = () => {
 
     const sendContactForm = async (data) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/messageSubmission`, {
+            const response = await fetch(`${import.meta.env.VITE_USER_SERVICE_URL}/api/auth/messageSubmission`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
