@@ -22,6 +22,7 @@ BuildStack is a dynamic platform designed to provide users with seamless access 
   - Tested with **Jest** to ensure backend reliability.
   - Dockerized microservices with **Docker** for containerized deployments.
   - Deployed on **Google Cloud Platform (GCP)** for scalability and availability.
+  - **Redis** for caching frequently accessed data, reducing latency and improving response times.
 
 - **Planned Features**:
   - **RabbitMQ** integration to support real-time activities like notifications and recent activity tracking.
