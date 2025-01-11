@@ -31,7 +31,7 @@ const ProfilePage = () => {
       setLoading(true);
       const targetUserId = userId || localStorage.getItem("userId");
       
-      const url = `${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`;
+      const url = `${import.meta.env.VITE_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`;
       const response = await fetch(url);
       
   

@@ -136,7 +136,7 @@ export default Left = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
+        const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
         const data = await response.json();
         console.log("product data" , data);
         
