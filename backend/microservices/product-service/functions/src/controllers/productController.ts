@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
 import { validateProductData } from '../middleware/validation.js';
+import client from '../config/redisClient.js'; 
 import nodemailer from 'nodemailer'
 
 const prisma = new PrismaClient();
@@ -81,6 +82,18 @@ export const getProduct = async (req: Request, res: Response, _next: NextFunctio
       res.status(400).json({ error: 'Product name is required' });
     }
 
+    const cachedProduct = await client.get(name as string);
+
+    if (cachedProduct) {
+      // If product is found in cache, return the cached product
+      console.log('Redis Cache hit');
+      res.status(200).json(JSON.parse(cachedProduct));
+      return; 
+    }
+    else{
+      console.log('Redis Cache miss');
+    }
+
     // Fetch product with all related data
     const product = await prisma.product.findFirst({
       where: {
@@ -97,6 +110,8 @@ export const getProduct = async (req: Request, res: Response, _next: NextFunctio
     if (!product) {
       res.status(404).json({ error: 'Product not found' });
     }
+
+    await client.set(name as string, JSON.stringify(product), { EX: 600 });  
 
     res.status(200).json(product);
   } catch (error) {
