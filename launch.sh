@@ -89,9 +89,9 @@ run_service "$PRODUCT_SERVICE_PATH" "product-service"
 
 # Display service URLs
 echo -e "\n${BLUE}=== Services URLs ===${NC}"
-echo -e "${YELLOW}Frontend:${NC}         http://localhost:5173"
-echo -e "${YELLOW}User Service:${NC}     http://localhost:3000"
-echo -e "${YELLOW}Product Service:${NC}  http://localhost:3001"
+echo -e "${GREEN}Frontend:${NC}         http://localhost:5173"
+echo -e "${GREEN}User Service:${NC}     http://localhost:3000"
+echo -e "${GREEN}Product Service:${NC}  http://localhost:3001"
 echo -e "${BLUE}===================${NC}\n"
 
 # Keep the script running and show logs
