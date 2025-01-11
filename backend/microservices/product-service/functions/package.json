@@ -6,7 +6,7 @@
   "main": "./dist/src/index.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "node --loader ts-node/esm src/app.ts",
     "deploy": "firebase deploy --only functions",
     "build": "tsc",
     "prisma:generate": "prisma generate",
