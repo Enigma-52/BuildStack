@@ -60,7 +60,7 @@ const CommentComponent = (props) => {
 
   const handleLike = async (commentId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/comments/${commentId}/like`, {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/comments/${commentId}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -220,7 +220,7 @@ const ProductPage = () => {
         const productName = window.location.pathname.split('/').pop();
         
         // First fetch the product details
-        const productResponse = await fetch(`http://localhost:3001/api/products/${productName}`);
+        const productResponse = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/${productName}`);
         
         if (!productResponse.ok) {
           throw new Error(`HTTP error! status: ${productResponse.status}`);
@@ -231,7 +231,7 @@ const ProductPage = () => {
         setProduct(productData);
         
         // Then fetch comments using the product ID
-        const commentsResponse = await fetch(`http://localhost:3001/api/products/${productData.id}/comments`);
+        const commentsResponse = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/${productData.id}/comments`);
 
         
         if (!commentsResponse.ok) {
@@ -256,7 +256,7 @@ const ProductPage = () => {
     if (!newComment.trim()) return;
   
     try {
-      const response = await fetch(`http://localhost:3001/api/products/${product.id}/comments`, {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/${product.id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -284,7 +284,7 @@ const ProductPage = () => {
   
     try {
       const response = await fetch(
-        `http://localhost:3001/api/comments/${commentId}/replies`,
+        `${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/comments/${commentId}/replies`,
         {
           method: 'POST',
           headers: {
@@ -325,7 +325,7 @@ const ProductPage = () => {
     if (!reportReason) return;
   
     try {
-      const response = await fetch('http://localhost:3001/api/reports', {
+      const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/reports`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

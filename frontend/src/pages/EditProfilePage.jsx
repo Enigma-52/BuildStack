@@ -39,7 +39,7 @@ const EditProfilePage = () => {
 
       const targetUserId = localStorage.getItem("userId");  
 
-      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`);
 
       if (!response.ok) {
         const data = await response.json();
@@ -133,7 +133,7 @@ const EditProfilePage = () => {
     }
       console.log("IMAGE",imageUrl);
   
-      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${userId}`, {
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

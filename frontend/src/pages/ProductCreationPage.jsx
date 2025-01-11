@@ -97,7 +97,7 @@ const ProductCreationPage = () => {
     
         console.log('Submitting data:', formattedData);
     
-        const response = await fetch('http://localhost:3001/api/products/createProduct', {
+        const response = await fetch(`${process.env.REACT_APP_PRODUCT_SERVICE_URL}/api/products/createProduct`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formattedData),

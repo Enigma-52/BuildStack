@@ -48,7 +48,7 @@ const AdminIssuesPage = () => {
 
       const targetUserId = localStorage.getItem("userId");  
 
-      const response = await fetch(`http://localhost:3000/api/auth/profile?userId=${targetUserId}`);
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/profile?userId=${targetUserId}`);
 
       if (!response.ok) {
         const data = await response.json();
@@ -74,7 +74,7 @@ const AdminIssuesPage = () => {
   const fetchMessages = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3000/api/auth/getMessages', {
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/getMessages`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const AdminIssuesPage = () => {
 
   const handleSendResponse = async (messageId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/auth/replyMessage/${messageId}`, {
+      const response = await fetch(`${process.env.REACT_APP_USER_SERVICE_URL}/api/auth/replyMessage/${messageId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
