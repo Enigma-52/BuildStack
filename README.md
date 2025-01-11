@@ -1,5 +1,7 @@
 <a href="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56"><img src="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56.svg" alt="wakatime"></a>
 
+Live Uptime Page - https://buildstack.cronitorstatus.com/
+
 # BuildStack
 
 BuildStack is a dynamic platform designed to provide users with seamless access to an ecosystem of innovative tools and resources. Built to handle scalability and efficiency, BuildStack leverages modern technologies to deliver a feature-rich and robust user experience.
