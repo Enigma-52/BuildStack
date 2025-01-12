@@ -27,4 +27,8 @@ app.get('/metrics', getMetrics)
 // Error Handler
 app.use(errorMiddleware)
 
+app.listen(3000, () => {
+  console.log('User Service listening on port 3000')
+})
+
 export default app;

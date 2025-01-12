@@ -59,16 +59,15 @@ export const createProduct = async (req: Request, res: Response , _next: NextFun
     res.status(200).json(product);
   } catch (error) {
     console.error('Error:', error);
-    if (error instanceof Error) {
-         res.status(400).json({ 
-            error: error.message,
-            details: error.toString()
-        });
-    }
-    // Fallback for unknown error types
-     res.status(500).json({ 
-        error: 'An unexpected error occurred',
-        details: JSON.stringify(error)
+    
+    const statusCode = error instanceof Error ? 400 : 500;
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'An unexpected error occurred';
+    
+    res.status(statusCode).json({ 
+      error: errorMessage,
+      details: error instanceof Error ? error.toString() : JSON.stringify(error)
     });
   }
 };

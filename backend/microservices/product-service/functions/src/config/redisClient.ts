@@ -11,11 +11,28 @@ const client = createClient({
 
 client.on('error', err => console.log('Redis Client Error', err));
 
-await client.connect();
+// Create an initialization function
+export const initRedis = async () => {
+    try {
+        await client.connect();
+        await client.set('foo', 'bar');
+        const result = await client.get('foo');
+        console.log('Redis Connection Test:', result);
+        return true;
+    } catch (error) {
+        console.error('Redis initialization error:', error);
+        return false;
+    }
+};
 
-await client.set('foo', 'bar');
-const result = await client.get('foo');
-console.log(result)
+// Add a disconnect function for cleanup
+export const disconnectRedis = async () => {
+    try {
+        await client.quit();
+        console.log('Redis disconnected');
+    } catch (error) {
+        console.error('Redis disconnect error:', error);
+    }
+};
 
-export default client; 
-
+export default client;

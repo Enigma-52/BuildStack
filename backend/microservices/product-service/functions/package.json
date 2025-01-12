@@ -12,7 +12,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "proto:gen": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/proto/generated src/proto/*.proto",
-    "test": "npx jest --detectOpenHandles"
+    "test": "npx jest --detectOpenHandles",
+    "test:coverage": "npx jest --detectOpenHandles --coverage"
   },
   "engines": {
     "node": "22"
