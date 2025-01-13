@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
 import { validateProductData } from '../middleware/validation.js';
-import client from '../config/redisClient.js'; 
+import { getRedisClient } from '../config/redisClient';
+
 import nodemailer from 'nodemailer'
 
 const prisma = new PrismaClient();
+const redisClient = getRedisClient();
 
 export const createProduct = async (req: Request, res: Response , _next: NextFunction): Promise<void> => {  try {
     const data = req.body;
@@ -59,38 +61,37 @@ export const createProduct = async (req: Request, res: Response , _next: NextFun
     res.status(200).json(product);
   } catch (error) {
     console.error('Error:', error);
-    if (error instanceof Error) {
-         res.status(400).json({ 
-            error: error.message,
-            details: error.toString()
-        });
-    }
-    // Fallback for unknown error types
-     res.status(500).json({ 
-        error: 'An unexpected error occurred',
-        details: JSON.stringify(error)
+    
+    const statusCode = error instanceof Error ? 400 : 500;
+    const errorMessage = error instanceof Error 
+      ? error.message 
+      : 'An unexpected error occurred';
+    
+    res.status(statusCode).json({ 
+      error: errorMessage,
+      details: error instanceof Error ? error.toString() : JSON.stringify(error)
     });
   }
 };
 
-export const getProduct = async (req: Request, res: Response, _next: NextFunction) : Promise<void> => {
+export const getProduct = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   try {
     const { name } = req.params;
 
     // Validate if name exists
     if (!name) {
       res.status(400).json({ error: 'Product name is required' });
+      return;
     }
 
-    const cachedProduct = await client.get(name as string);
+    const cachedProduct = await redisClient.get(name);
 
     if (cachedProduct) {
       // If product is found in cache, return the cached product
       console.log('Redis Cache hit');
       res.status(200).json(JSON.parse(cachedProduct));
-      return; 
-    }
-    else{
+      return;
+    } else {
       console.log('Redis Cache miss');
     }
 
@@ -109,9 +110,13 @@ export const getProduct = async (req: Request, res: Response, _next: NextFunctio
     // Check if product exists
     if (!product) {
       res.status(404).json({ error: 'Product not found' });
+      return;
     }
 
-    await client.set(name as string, JSON.stringify(product), { EX: 600 });  
+    // Cache the product with 10 minute expiration
+    await redisClient.set(name, JSON.stringify(product), {
+      EX: 600 // 10 minutes in seconds
+    });
 
     res.status(200).json(product);
   } catch (error) {

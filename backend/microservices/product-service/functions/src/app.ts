@@ -6,7 +6,9 @@ import { errorMiddleware } from './middleware/errorMiddleware.js'
 import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware.js'
 import { productRoutes } from './routes/productRoutes.js';
 import { miscRoutes } from './routes/miscRoutes.js';
-import { CRroutes } from './routes/comments&ReportsRoutes.js'
+import { CRroutes } from './routes/comments&ReportsRoutes.js';
+import { initRedis } from './config/redisClient.js';
+
 const app = express()
 
 // Middleware
@@ -29,8 +31,6 @@ app.use('/api', CRroutes);
 // Error Handler
 app.use(errorMiddleware)
 
-app.listen(3001, () => {
-  console.log('Server is running on port 3001')
-})
+initRedis();
 
 export default app;

@@ -8,10 +8,8 @@ console.log('Environment variables loaded.');
 module.exports = async () => {
   console.log('Setting up test database...');
 
-  // Run Prisma migrations
   try {
-    await execSync('npm run prisma:migrate', { stdio: 'inherit' });
-    await execSync('npm run prisma:generate', { stdio: 'inherit' });
+    await execSync('sudo npm run prisma:generate', { stdio: 'inherit' });
     console.log('Test database ready.');
   } catch (error) {
     console.error('Database setup failed:', error);
