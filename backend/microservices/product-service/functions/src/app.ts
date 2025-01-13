@@ -33,8 +33,4 @@ app.use(errorMiddleware)
 
 initRedis();
 
-app.listen(3001, () => {
-  console.log('Server is running on port 3001')
-})
-
 export default app;

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../src/app'; 
-import { it, describe, expect } from '@jest/globals';
+import { it, describe, expect} from '@jest/globals';
 
 describe('Health check request', () => {
   it('should return HTTP 200 OK for health check', async () => {
@@ -15,11 +15,11 @@ describe('Product API', () => {
     it('should create a new product successfully', async () => {
       const productData = {
         category: "Productivity",
-        description: "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas",
+        description: "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasss",
         images: [
           "https://i.ibb.co/FhKGhK3/19f42f38169d.jpg"
         ],
-        name: "test-product-" + Date.now(), // Making name unique
+        name: "test-prodsuct-" + Date.now(), // Making name unique
         pricing: {
           tiers: [
             {
@@ -32,7 +32,7 @@ describe('Product API', () => {
             }
           ]
         },
-        tagline: "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+        tagline: "asdasdasdasdasssdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
         targetAudience: "asdasd",
         teamMembers: ["Arunabho Bhattacharya"],
         techStack: ["asdasd", "asdasd"],
@@ -74,3 +74,4 @@ describe('Product API', () => {
     });
   });
 });
+
