@@ -12,9 +12,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "proto:gen": "proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/proto/generated src/proto/*.proto",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "npx jest --detectOpenHandles",
+    "test:coverage": "npx jest --detectOpenHandles --coverage"
   },
   "engines": {
     "node": "22"
@@ -38,6 +37,7 @@
     "nodemailer": "^6.9.16",
     "prisma": "^5.22.0",
     "prom-client": "^15.1.3",
+    "redis": "^4.7.0",
     "typescript": "^5.7.2",
     "winston": "^3.17.0",
     "winston-mongodb": "^6.0.0"

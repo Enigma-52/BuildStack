@@ -1,9 +1,9 @@
-name: E2E Backend Tests - Product Service
+name: E2E Backend Tests - User Service
 
 on: push
 
 jobs:
-  backend-test-product-service:
+  backend-test-user-service:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,15 +17,15 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        cd backend/microservices/product-service/functions
+        cd backend/microservices/user-service/functions
         npm ci
 
     - name: Install ts-node and TypeScript
       run: |
-        cd backend/microservices/product-service/functions
+        cd backend/microservices/user-service/functions
         npm install -D ts-node typescript
 
     - name: Run Tests
       run: |
-        cd backend/microservices/product-service/functions
+        cd backend/microservices/user-service/functions
         npm run test:coverage
