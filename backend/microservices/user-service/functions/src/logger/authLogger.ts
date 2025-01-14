@@ -5,29 +5,31 @@ let mongoConnected = false;
 
 // Connect to MongoDB
 const connectMongoDB = async () => {
-    try {
-      // Use proper MongoDB Atlas URI with credentials and options
-      const mongoUri = process.env['MONGODB_URI'] as string ;
-      
-      await mongoose.connect(mongoUri, {
-        serverSelectionTimeoutMS: 5000,
-        socketTimeoutMS: 45000,
-        ssl: true,
-        authSource: 'admin',
-        retryWrites: true,
-      });
-      
-      mongoConnected = true;
-      console.log('Successfully connected to MongoDB Atlas for auth logging');
-    } catch (error) {
-      console.error('Failed to connect to MongoDB Atlas for auth logging:', error);
-      mongoConnected = false;
-    }
-  };
-// Initialize connection
-connectMongoDB();
+  try {
+    const mongoUri = process.env['MONGODB_URI'] as string;
+    
+    await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      ssl: true,
+      authSource: 'admin',
+      retryWrites: true,
+    });
+    
+    mongoConnected = true;
+    // Remove await from console.log since it's not needed
+    console.log('Successfully connected to MongoDB Atlas for auth logging');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB Atlas for auth logging:', error);
+    mongoConnected = false;
+  }
+};
 
-// Auth Log Schema
+// Initialize connection
+// Make this export so we can properly test it
+export const initMongoDB = () => connectMongoDB();
+
+// Auth Log Schema remains the same...
 const authLogSchema = new mongoose.Schema({
   timestamp: {
     type: Date,
@@ -66,7 +68,6 @@ authLogSchema.index({ timestamp: 1 }, { expireAfterSeconds: 90 * 24 * 60 * 60 })
 
 export const AuthLog = mongoose.model('AuthLog', authLogSchema);
 
-// Safe logging function that won't block auth flow
 export const safeLogAuthEvent = async (logData: {
   eventType: string;
   email: string;
@@ -82,19 +83,26 @@ export const safeLogAuthEvent = async (logData: {
   }
 
   try {
-    await AuthLog.create({
-      eventType: logData.eventType,
-      email: logData.email,
-      userId: logData.userId,
-      status: logData.status,
-      failureReason: logData.failureReason,
-      ipAddress: logData.req.ip,
-      userAgent: logData.req.get('user-agent'),
-      metadata: {
-        ...logData.metadata,
-        timestamp: new Date()
-      }
-    }); // Set timeout for the create operation
+    const timeout = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('MongoDB operation timed out')), 5000);
+    });
+
+    await Promise.race([
+      AuthLog.create({
+        eventType: logData.eventType,
+        email: logData.email,
+        userId: logData.userId,
+        status: logData.status,
+        failureReason: logData.failureReason,
+        ipAddress: logData.req.ip,
+        userAgent: logData.req.get('user-agent'),
+        metadata: {
+          ...logData.metadata,
+          timestamp: new Date()
+        }
+      }),
+      timeout
+    ]);
   } catch (error) {
     console.error('Failed to create auth log:', error);
     // Don't throw the error - just log it and continue
