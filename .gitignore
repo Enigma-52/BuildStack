@@ -3,3 +3,4 @@ dist/
 lib/
 coverage/
 coverage
+backend/coverage-reports-deployment/functions/public
