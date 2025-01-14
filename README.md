@@ -1,17 +1,13 @@
-<div style="display: flex; gap: 5px;">
-    <a href="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56">
-        <img src="https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56.svg" alt="wakatime">
-    </a>
-    <img src="https://img.shields.io/badge/Product Service Test Coverage-46.69%25-red" alt="Coverage">
-    <img src="https://img.shields.io/badge/User Service Test Coverage-36.04%25-red" alt="Coverage">
-</div>
+## Project Status
 
+[![Time Spent on Project](https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56.svg)](https://wakatime.com/badge/user/018da7bb-d8cd-4efc-b295-455e1afc3f2c/project/ce4eb5b0-5da0-4fec-a69f-5846d6daec56)
+![Product Service Coverage](https://img.shields.io/badge/Product%20Service%20Test%20Coverage-46.69%25-red)
+![User Service Coverage](https://img.shields.io/badge/User%20Service%20Test%20Coverage-36.04%25-red)
 
+### Monitoring
 
-
-Live Uptime Page - https://buildstack.cronitorstatus.com/
-
-Testing Code Coverage - Product Service - https://enigma-52.github.io/coverage-reports/lcov-report/index.html
+- **System Status:** [Live Uptime Dashboard](https://buildstack.cronitorstatus.com/)
+- **Coverage Reports:** [Detailed Test Coverage](https://coveragereportsfunction-jc4dyd4mma-uc.a.run.app/)
 
 # BuildStack
 
