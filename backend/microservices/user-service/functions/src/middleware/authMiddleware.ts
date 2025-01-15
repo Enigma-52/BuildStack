@@ -1,13 +1,12 @@
 import { RequestHandler } from 'express'
 import { verifyToken } from '../services/authService.js'
-import { HttpException } from './errorMiddleware.js'
 
 export const authMiddleware: RequestHandler = (req, _res, next) => {
   try {
     const authHeader = req.headers.authorization
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new HttpException(401, 'No token provided')
+      throw new Error('Authorization header is missing or invalid')
     }
 
     const token = authHeader.split(' ')[1] as string
@@ -17,6 +16,6 @@ export const authMiddleware: RequestHandler = (req, _res, next) => {
     
     next()
   } catch (error: any) {
-    next(new HttpException(401, error.message))
+    next(new Error(error.message))
   }
 }
