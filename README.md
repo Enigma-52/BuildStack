@@ -47,7 +47,9 @@ BuildStack is a dynamic platform designed to provide users with seamless access 
 | Deployment        | Vercel (frontend), GCP (backend)          |
 | Containerization  | Docker                                    |
 | Caching           | Redis                                     |
-| Future Updates    | RabbitMQ                                  |
+| Monitoring        | GCP Cloud Monitoring                      |
+| Future Updates    | RabbitMQ (VM in GCE)                      |
+
 
 ### User-Service
 https://us-central1-buildr-ffca2.cloudfunctions.net/buildstackUserServiceFunction
