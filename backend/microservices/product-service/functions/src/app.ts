@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { healthRoutes } from './routes/healthRoutes.js'
 import { errorMiddleware } from './middleware/errorMiddleware.js'
-import { metricsMiddleware, getMetrics } from './middleware/metricsMiddleware.js'
+import { metricsMiddleware } from './middleware/metricsMiddleware.js'
 import { productRoutes } from './routes/productRoutes.js';
 import { miscRoutes } from './routes/miscRoutes.js';
 import { CRroutes } from './routes/comments&ReportsRoutes.js';
@@ -23,7 +23,6 @@ app.use(metricsMiddleware)
 
 // Routes
 app.use('/api/health', healthRoutes)
-app.get('/metrics', getMetrics)
 app.use('/api/products', productRoutes);
 app.use('/api/misc', miscRoutes);
 app.use('/api', CRroutes);
