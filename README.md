@@ -34,7 +34,7 @@ BuildStack is a dynamic platform designed to provide users with seamless access 
 
 - **Planned Features**:
   - **RabbitMQ** integration to support real-time activities like notifications and recent activity tracking.
-  - RabbitMQ will be hosted on a Virtual Machine (VM) in **Google Compute Engine (GCE)**.
+  - **RabbitMQ** will be hosted on a Virtual Machine (VM) in **Google Compute Engine (GCE)**.
 
 ## Technologies Used
 
