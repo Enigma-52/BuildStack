@@ -7,6 +7,9 @@ export async function errorMiddleware(
     res: Response, 
     _next: NextFunction
 ) {
+    if (process.env['NODE_ENV'] === 'test') {
+        return _next();
+    }
     // Track errors with service context
     await createCustomMetric('error', 1, {
         type: err.name || 'UnknownError',
@@ -20,4 +23,15 @@ export async function errorMiddleware(
         message: err.message || 'Internal Server Error',
         stack: err.stack || undefined
     });
+}
+
+export class HttpException extends Error {
+    status: number
+    override message: string
+    
+    constructor(status: number, message: string) {
+      super(message)
+      this.status = status
+      this.message = message
+    }
 }

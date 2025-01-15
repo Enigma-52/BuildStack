@@ -6,6 +6,10 @@ export async function metricsMiddleware(
     res: Response, 
     next: NextFunction
 ) {
+
+    if (process.env['NODE_ENV'] === 'test') {
+        return next();
+    }
     const start = Date.now();
 
     // Track API calls
