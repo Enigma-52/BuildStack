@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
 import { validateProductData } from '../middleware/validation.js';
-import { getRedisClient } from '../config/redisClient';
+import { getRedisClient } from '../config/redisClient.js';
 
 import nodemailer from 'nodemailer'
 

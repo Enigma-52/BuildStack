@@ -1,5 +1,6 @@
-// src/config/redisClient.ts
 import { createClient, RedisClientType } from 'redis';
+import { createCustomMetric } from './monitoring.js';
+
 
 let client: RedisClientType | null = null;
 
@@ -28,9 +29,16 @@ export const initRedis = async () => {
             const result = await redisClient.get('foo');
             console.log('Redis Connection Test:', result);
         }
+        await createCustomMetric('redis_connection', 1, {
+            status: 'success'
+        });
         return true;
     } catch (error) {
         console.error('Redis initialization error:', error);
+        await createCustomMetric('redis_connection', 1, {
+            status: 'failure',
+            reason: (error as Error).message
+        });
         return false;
     }
 };
