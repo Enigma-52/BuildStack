@@ -5,6 +5,12 @@ import { HttpException } from '../middleware/errorMiddleware.js'
 export const signup: RequestHandler = async (req, res, next) => {
   try {
     const { name, email, password } = req.body
+    if(!name || !email || !password) {
+      throw new HttpException(400, 'Name, email and password are required')
+    }
+    if(!isValidEmail(email)) {
+      throw new HttpException(400, 'Email is invalid')
+    }
     const user = await authService.signup({ name, email, password })
     res.status(201).json(user)
   } catch (error: any) {
@@ -15,7 +21,15 @@ export const signup: RequestHandler = async (req, res, next) => {
 export const login: RequestHandler = async (req, res, next) => {
   try {
     const { email, password } = req.body
+    if(!email || !password) {
+      throw new HttpException(400, 'Email and password are required')
+    }
+    if(!isValidEmail(email)) {
+      throw new HttpException(400, 'Email is invalid')
+    }
+    console.log(req.body);
     const user = await authService.login({ email, password })
+    console.log(user);
     res.status(200).json(user)
   } catch (error: any) {
     next(new HttpException(401, error.message))

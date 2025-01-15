@@ -4,7 +4,6 @@ import helmet from 'helmet'
 import { healthRoutes } from './routes/healthRoutes.js'
 import { authRoutes } from './routes/authRoutes.js'
 import { errorMiddleware } from './middleware/errorMiddleware.js'
-import { metricsMiddleware } from './middleware/metricsMiddleware.js'
 
 const app = express()
 
@@ -16,8 +15,6 @@ app.use(cors({
     credentials: true
   }));
 app.use(helmet())
-app.use(metricsMiddleware)
-
 
 // Routes
 app.use('/api/auth', authRoutes)

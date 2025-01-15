@@ -160,6 +160,7 @@ export const signup = async (userData: IUserSignup) => {
 };
 
 export const login = async (credentials: IUserLogin) => {
+
   const user = await prisma.user.findUnique({
     where: { email: credentials.email }
   })
@@ -240,7 +241,6 @@ export const login = async (credentials: IUserLogin) => {
   };
 
   console.log('responseObject:', responseObject);
-
   return responseObject;
 }
 

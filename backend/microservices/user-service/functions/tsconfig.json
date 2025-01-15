@@ -53,7 +53,9 @@
       // Build
       "incremental": true,
       "tsBuildInfoFile": "./dist/.tsbuildinfo"
-    },    "exclude": [
+    },
+    "include": ["src/**/*", "tests/*"],
+    "exclude": [
       "node_modules",
       "dist",
       "coverage",
