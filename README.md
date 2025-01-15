@@ -46,7 +46,7 @@ BuildStack is a dynamic platform designed to provide users with seamless access 
 | Testing           | Jest (backend), Puppeteer (frontend)      |
 | Deployment        | Vercel (frontend), GCP (backend)          |
 | Containerization  | Docker                                    |
-| Caching           | Redis                                     |
+| Caching           | Redis (Cloud setup - RedisLabs)           |
 | Monitoring        | GCP Cloud Monitoring                      |
 | Future Updates    | RabbitMQ (VM in GCE)                      |
 
