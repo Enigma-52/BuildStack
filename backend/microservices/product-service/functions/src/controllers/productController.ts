@@ -127,6 +127,17 @@ export const getProduct = async (req: Request, res: Response, _next: NextFunctio
 
 export const getAllProducts = async (_req: Request, res: Response, _next: NextFunction) : Promise<void> =>  {
   try {
+
+    const cachedAllProducts = await redisClient.get("All Products");
+
+    if (cachedAllProducts) {
+      // If product is found in cache, return the cached product
+      console.log('Redis Cache hit');
+      res.status(200).json(JSON.parse(cachedAllProducts));
+      return;
+    } else {
+      console.log('Redis Cache miss');
+    }
     // Fetch all products with related data using include
     const products = await prisma.product.findMany({
       include: {
@@ -146,6 +157,10 @@ export const getAllProducts = async (_req: Request, res: Response, _next: NextFu
     if (!products || products.length === 0) {
       res.status(404).json({ message: 'No products found' });
     }
+
+    await redisClient.set("All Products", JSON.stringify(products), {
+      EX: 600 // 10 minutes in seconds
+    });
 
     console.log(`Retrieved ${products.length} products`);
 
@@ -242,6 +257,17 @@ export const getProductByCategory = async (req: Request, res: Response, _next: N
 
     console.log(categoryName);
 
+    const cachedCategoryProducts = await redisClient.get(categoryName as string);
+
+    if (cachedCategoryProducts) {
+      // If product is found in cache, return the cached product
+      console.log('Redis Cache hit');
+      res.status(200).json(JSON.parse(cachedCategoryProducts));
+      return;
+    } else {
+      console.log('Redis Cache miss');
+    }
+
     const products = await prisma.product.findMany({
       where: {
         category: categoryName
@@ -255,6 +281,10 @@ export const getProductByCategory = async (req: Request, res: Response, _next: N
           }
         }
       }
+    });
+
+    await redisClient.set(categoryName as string, JSON.stringify(products), {
+      EX: 600 
     });
 
     if (!products || products.length === 0) {
