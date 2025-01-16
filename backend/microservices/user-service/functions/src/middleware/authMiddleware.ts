@@ -5,7 +5,7 @@ export const authMiddleware: RequestHandler = (req, _res, next) => {
   try {
     const authHeader = req.headers.authorization
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader || !authHeader.startsWith('Bearer ') || authHeader === 'Bearer ') {
       throw new Error('Authorization header is missing or invalid')
     }
 

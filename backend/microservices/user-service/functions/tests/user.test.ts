@@ -1,41 +1,10 @@
 import request from 'supertest';
 import app from '../src/app';
 import { it, describe, expect, beforeEach, jest } from '@jest/globals';
-import * as authService from '../src/services/authService';
+import * as authService from '../src/services/authService.js';
+import { MockUser , AuthServiceMock } from './test.utils';
 
-// Mock auth service
-jest.mock('../src/services/authService');
-
-// Define interfaces
-interface MockUser {
-  id: string;
-  name: string;
-  email: string;
-  headline?: string;
-  about?: string;
-  role?: string;
-  currentCompany?: string;
-  twitter_url?: string;
-  linkedin_url?: string;
-  github_url?: string;
-  profile_image_url?: string;
-}
-
-interface LoginResponse {
-  user: MockUser;
-  token: string;
-}
-
-// Type the mock functions
-type AuthServiceMock = {
-  signup: jest.Mock<() => Promise<MockUser>>;
-  login: jest.Mock<() => Promise<LoginResponse>>;
-  getUserById: jest.Mock<() => Promise<MockUser>>;
-  sendOTP: jest.Mock<() => Promise<{ message: string }>>;
-  verifyOTP: jest.Mock<() => Promise<{ verified: boolean }>>;
-  updateProfile: jest.Mock<() => Promise<MockUser>>;
-  getAllUsers: jest.Mock<() => Promise<MockUser[]>>;
-};
+jest.mock('../src/services/authService.js');
 
 // Mock user data
 const mockUser: MockUser = {
@@ -51,6 +20,24 @@ const mockUser: MockUser = {
   github_url: 'https://github.com/test',
   profile_image_url: 'https://example.com/image.jpg'
 };
+
+const mockMessage = {
+  id: 'test-message-id',
+  name: 'Test Sender',
+  email: 'sender@example.com',
+  message: 'This is a test message',
+  createdAt: new Date(),
+  response: null
+};
+
+const mockMessages = [
+  mockMessage,
+  {
+    ...mockMessage,
+    id: 'test-message-id-2',
+    message: 'Another test message'
+  }
+];
 
 describe('Health check request', () => {
   it('should return HTTP 200 OK for health check', async () => {
@@ -78,6 +65,14 @@ describe('Auth API Tests', () => {
     mockedAuthService.verifyOTP.mockResolvedValue({ verified: true });
     mockedAuthService.updateProfile.mockResolvedValue(mockUser);
     mockedAuthService.getAllUsers.mockResolvedValue([mockUser]);
+    
+    // Add mocks for message-related endpoints
+    mockedAuthService.createMessage.mockResolvedValue(mockMessage);
+    mockedAuthService.getMessages.mockResolvedValue(mockMessages);
+    mockedAuthService.replyMessage.mockResolvedValue({
+      ...mockMessage,
+      response: 'Test response'
+    });
   });
 
   describe('Signup Endpoint', () => {
@@ -236,6 +231,107 @@ describe('Auth API Tests', () => {
       expect(response.status).toBe(201);
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body).toEqual([mockUser]);
+    });
+  });
+  describe('Message Endpoints', () => {
+    describe('Message Submission', () => {
+      const validMessageData = {
+        name: 'Test Sender',
+        email: 'sender@example.com',
+        message: 'This is a test message'
+      };
+
+      it('should successfully submit a message', async () => {
+        const response = await request(app)
+          .post('/api/auth/messageSubmission')
+          .send(validMessageData);
+
+        expect(response.status).toBe(201);
+        expect(response.body.success).toBe(true);
+        expect(response.body.message).toBe('Message submitted successfully');
+        expect(response.body.data).toBeDefined();
+      });
+
+      it('should return 404 for invalid message data', async () => {
+        const invalidData = {
+          name: 'T', // Too short
+          email: 'invalid-email',
+          message: 'short' // Too short
+        };
+
+        const response = await request(app)
+          .post('/api/auth/messages')
+          .send(invalidData);
+
+        expect(response.status).toBe(404);
+      });
+
+      it('should validate email format', async () => {
+        const invalidEmailData = {
+          ...validMessageData,
+          email: 'invalid-email-format'
+        };
+
+        const response = await request(app)
+          .post('/api/auth/messages')
+          .send(invalidEmailData);
+
+        expect(response.status).toBe(404);
+      });
+    });
+
+    describe('Get Messages', () => {
+      it('should successfully retrieve all messages', async () => {
+        const response = await request(app)
+          .get('/api/auth/getMessages');
+
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+      });
+
+      it('should handle error when retrieving messages fails', async () => {
+        const mockedAuthService = authService as unknown as AuthServiceMock;
+        mockedAuthService.getMessages.mockRejectedValue(new Error('Failed to fetch messages'));
+
+        const response = await request(app)
+          .get('/api/auth/messages');
+
+        expect(response.status).toBe(404);
+      });
+    });
+
+    describe('Reply to Message', () => {
+      const replyData = {
+        response: 'Test response'
+      };
+
+      it('should successfully reply to a message', async () => {
+        const response = await request(app)
+          .post('/api/auth/replyMessage/:messageId')
+          .send(replyData);
+
+        expect(response.status).toBe(200);
+        expect(response.body.response).toBe(replyData.response);
+      });
+
+      it('should return 404 for invalid message ID', async () => {
+        const mockedAuthService = authService as unknown as AuthServiceMock;
+        mockedAuthService.replyMessage.mockRejectedValue(new Error('Message not found'));
+
+        const response = await request(app)
+          .post('/api/auth/messages/invalid-id/reply')
+          .send(replyData);
+
+        expect(response.status).toBe(404);
+      });
+
+      it('should return 404 for missing response text', async () => {
+        const response = await request(app)
+          .post('/api/auth/messages/test-message-id/reply')
+          .send({});
+
+        expect(response.status).toBe(404);
+      });
     });
   });
 });

@@ -7,6 +7,10 @@ export async function errorMiddleware(
     res: Response, 
     _next: NextFunction
 ) {
+    if(process.env['NODE_ENV']=="test")
+    {
+        return _next();
+    }
     // Track errors with service context
     await createCustomMetric('error', 1, {
         type: err.name || 'UnknownError',

@@ -23,8 +23,8 @@ app.get('/', (req, res) => {
     res.send(`
         <h1>Code Coverage Reports</h1>
         <ul>
-            <li><a href="/user-service-coverage/index.html">User Service Coverage</a></li>
-            <li><a href="/product-service-coverage/index.html">Product Service Coverage</a></li>
+            <li><a href="/user-service-coverage/">User Service Coverage</a></li>
+            <li><a href="/product-service-coverage/">Product Service Coverage</a></li>
         </ul>
     `);
 });

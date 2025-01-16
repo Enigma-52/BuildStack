@@ -3,7 +3,6 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { healthRoutes } from './routes/healthRoutes.js'
 import { errorMiddleware } from './middleware/errorMiddleware.js'
-import { metricsMiddleware } from './middleware/metricsMiddleware.js'
 import { productRoutes } from './routes/productRoutes.js';
 import { miscRoutes } from './routes/miscRoutes.js';
 import { CRroutes } from './routes/comments&ReportsRoutes.js';
@@ -19,7 +18,6 @@ app.use(cors({
   credentials: true
 }));
 app.use(helmet())
-app.use(metricsMiddleware)
 
 // Routes
 app.use('/api/health', healthRoutes)

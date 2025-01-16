@@ -3,6 +3,10 @@ import { createCustomMetric } from '../config/monitoring.js';
 
 export const monitorRoute = (operationName: string) => {
     return async (req: Request, res: Response, next: NextFunction) => {
+        if(process.env['NODE_ENV']=="test")
+            {
+                return next();
+            }
         const start = Date.now();
         
         try {
