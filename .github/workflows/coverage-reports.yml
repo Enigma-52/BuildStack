@@ -1,0 +1,31 @@
+name: Coverage Reports
+
+on: push
+
+jobs:
+  coverage-reports:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22
+
+    - name: Install Dependencies
+      run: |
+        cd backend/coverage-reports-deployment/functions
+        npm ci
+
+    - name: Install ts-node and TypeScript
+      run: |
+        cd backend/coverage-reports-deployment/functions
+        npm install -D ts-node typescript
+
+    - name: Deploy coverage reports
+      run: |
+        cd backend/coverage-reports-deployment/functions
+        npm run deploy
