@@ -1,6 +1,4 @@
-// tests/teardown.ts
 import { PrismaClient } from '@prisma/client';
-import { disconnectRedis } from '../src/config/redisClient';
 
 const prisma = new PrismaClient();
 
@@ -8,9 +6,6 @@ module.exports = async () => {
   console.log('Tearing down test database...');
   
   try {
-    // Force disconnect Redis
-    await disconnectRedis();
-    
     // Disconnect Prisma
     await prisma.$disconnect();
     
