@@ -1,5 +1,6 @@
 #!/bin/bash
 
+./env-fetch.sh
 # Color codes for better visibility
 RED='\033[0;31m'
 GREEN='\033[0;32m'

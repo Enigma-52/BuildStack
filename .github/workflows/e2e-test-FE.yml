@@ -20,23 +20,18 @@ jobs:
         cd frontend
         npm ci  # Install dependencies for the frontend
 
-    - name: Install ts-node and TypeScript
-      run: |
-        cd frontend
-        npm install -D ts-node typescript  # Ensure ts-node and TypeScript are installed
-
     - name: Start Frontend
       run: |
         cd frontend
         npm run dev &  # Start frontend in the background
 
     - name: Wait for App to Start
-      run: sleep 10  # Give the app time to start
+      run: sleep 10 
 
     - name: Run Puppeteer Test (TypeScript)
       run: |
         cd frontend
-        node --loader ts-node/esm tests/puppeteer-test.ts  # Run the Puppeteer test
+        npm run test
 
     - name: Stop React App
       run: |
