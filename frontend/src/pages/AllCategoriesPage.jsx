@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Zap, Palette, TrendingUp, Code } from 'lucide-react';
 import Navbar from "../components/navbar/Navbar";
@@ -102,7 +102,6 @@ const FloatingParticle = ({ color }) => {
     />
   );
 };
-
 export const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,24 +109,48 @@ export const useProducts = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setError(null);
+      
+      const apiUrl = import.meta.env.VITE_PRODUCT_SERVICE_URL;
+      if (!apiUrl) {
+        setError('API URL is not configured. Please check your environment variables.');
+        setLoading(false);
+        return;
+      }
+
       try {
-        setLoading(true);
-        // Replace with your actual API endpoint
-        const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
+        const response = await fetch(`${apiUrl}/api/products/getAllProducts/all`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (!response.ok) {
-          throw new Error('Failed to fetch products');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const result = await response.json();
         
-        // Extract products from the data array in the response
-        if (result.success && Array.isArray(result.data)) {
-          setProducts(result.data);
+        let data;
+        if (Array.isArray(result)) {
+          data = result;
+        } else if (result && Array.isArray(result.data)) {
+          data = result.data;
         } else {
-          throw new Error('Invalid data format received');
+          throw new Error('Invalid data format received from API');
         }
+        
+        // Transform the data to ensure categories are standardized
+        const transformedData = data.map(product => ({
+          ...product,
+          category: product.category || 'Miscellaneous'
+        }));
+        
+        setProducts(transformedData);
       } catch (err) {
-        setError(err.message);
-        console.error('Error fetching products:', err);
+        console.error('Fetch error:', err);
+        setError(`Failed to load products: ${err.message}`);
       } finally {
         setLoading(false);
       }
@@ -136,33 +159,56 @@ export const useProducts = () => {
     fetchProducts();
   }, []);
 
-  const categoryCounts = products.reduce((counts, product) => {
-    const productType = product.category || 'Miscellaneous';
-    
-    // Map product types to category names if needed
-    // Adjust this mapping based on your actual type values
-    const categoryMap = {
-      'AI': 'AI',
-      'Productivity': 'Productivity',
-      'Design': 'Design',
-      'Marketing': 'Marketing',
-      'Development': 'Development',
-      'Analytics': 'Analytics',
-      'Gaming': 'Gaming',
-      'Miscellaneous': 'Miscellaneous'
-    };
+  // Use useMemo to calculate category counts only when products change
+  const categoryCounts = useMemo(() => {
+    const counts = {};
+    const validCategories = new Set([
+      'AI',
+      'Productivity',
+      'Design',
+      'Marketing',
+      'Development',
+      'Analytics',
+      'Gaming',
+      'Miscellaneous'
+    ]);
 
-    const category = categoryMap[productType] || 'Miscellaneous';
-    counts[category] = (counts[category] || 0) + 1;
+    products.forEach(product => {
+      // Normalize the category
+      let category = product.category?.trim() || 'Miscellaneous';
+      
+      // Check if it's a valid category, if not, put in Miscellaneous
+      if (!validCategories.has(category)) {
+        category = 'Miscellaneous';
+      }
+      
+      // Increment the count
+      counts[category] = (counts[category] || 0) + 1;
+    });
+
+    // Ensure all categories exist in the output, even if count is 0
+    validCategories.forEach(category => {
+      if (!counts[category]) {
+        counts[category] = 0;
+      }
+    });
+
     return counts;
-  }, {});
+  }, [products]);
 
-  return { 
-    products, 
-    categoryCounts, 
-    loading, 
+  const totalCount = useMemo(() => products.length, [products]);
+
+  return {
+    products,
+    categoryCounts,
+    loading,
     error,
-    totalCount: products.length 
+    totalCount,
+    
+    // Add some helper methods
+    getCategoryCount: (category) => categoryCounts[category] || 0,
+    getProductsByCategory: (category) => 
+      products.filter(p => p.category === category)
   };
 };
 

@@ -240,70 +240,68 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   
 
-  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log('Loaded ENV variables 1:', import.meta.env);
-      console.log('Loaded ENV variables 2:', import.meta.env.VITE_PRODUCT_SERVICE_URL);
       setIsLoading(true);
       setError(null);
+
+      // Validate environment variable
+      const apiUrl = import.meta.env.VITE_PRODUCT_SERVICE_URL;
+      if (!apiUrl) {
+        setError('API URL is not configured. Please check your environment variables.');
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch(`${import.meta.env.VITE_PRODUCT_SERVICE_URL}/api/products/getAllProducts/all`);
-        
+        const response = await fetch(`${apiUrl}/api/products/getAllProducts/all`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (!response.ok) {
-          throw new Error('Failed to fetch products');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const { data } = await response.json();
-      
-        // Transform the data to match the ProductCard component's expectations
-        const transformedProducts = data.map(product => ({
+        const result = await response.json();
+        
+        // Handle both array and object with data property
+        let data;
+        if (Array.isArray(result)) {
+          data = result;
+        } else if (result && Array.isArray(result.data)) {
+          data = result.data;
+        } else {
+          console.error('Unexpected data format:', result);
+          throw new Error('Invalid data format received from API');
+        }
+
+        console.log('Data before transformation:', data);
+        
+        const transformedProducts = data.map(product => {
+          console.log('Processing product:', product);
+          return ({
           id: product.id,
           name: product.name,
           description: product.description,
           image: product.images?.[0]?.url || "/api/placeholder/400/300",
           category: product.category,
-          upvotes: product.upvotes,
+          upvotes: product.upvotes ?? 0,
           comments: 0, // Add if you have comments data
           tagline: product.tagline,
           websiteUrl: product.websiteUrl,
-          techStack: product.techStack,
-          pricing: product.pricing
-        }));
-  
+          techStack: product.techStack || [],
+          pricing: product.pricing || []
+        });
+        });
+
         setProducts(transformedProducts);
       } catch (err) {
-        setError('Failed to load products. Please try again later.');
-        // Fallback data
-        setProducts([
-          {
-            id: 1,
-            name: "AutoGPT Assistant",
-            description: "A powerful AI automation tool for developers and businesses.",
-            image: "/api/placeholder/400/300",
-            category: "AI Tools",
-            upvotes: 1232,
-            comments: 156,
-          },
-          {
-            id: 2,
-            name: "DevFlow Pro",
-            description: "Complete developer workflow solution with Git integration.",
-            image: "/api/placeholder/400/300",
-            category: "Developer Tools",
-            upvotes: 289,
-            comments: 34,
-          },
-          {
-            id: 3,
-            name: "MarketMaster AI",
-            description: "AI-powered marketing analytics and automation platform.",
-            image: "/api/placeholder/400/300",
-            category: "Marketing",
-            upvotes: 432,
-            comments: 56,
-          }
-        ]);
+        console.error('Fetch error:', err);
+        setError(`Failed to load products: ${err.message}`);
+        // Don't set fallback data automatically - let the UI handle the error state
       } finally {
         setIsLoading(false);
       }

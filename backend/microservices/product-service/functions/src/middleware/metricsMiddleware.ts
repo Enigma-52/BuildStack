@@ -6,6 +6,7 @@ export async function metricsMiddleware(
     res: Response, 
     next: NextFunction
 ) {
+    return next();
     if(process.env['NODE_ENV']=="test")
         {
             return next();
