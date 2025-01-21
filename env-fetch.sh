@@ -67,9 +67,9 @@ get_token() {
 install_doppler() {
     if ! command -v doppler &> /dev/null; then
         print_step "🔍 Doppler CLI not found. Installing..."
-        if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+        if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" || "$OSTYPE" == "win64" ]]; then
             print_step "🪟 Windows system detected"
-            powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/DopplerHQ/cli/master/install.ps1'))"
+            winget install doppler.doppler
         else
             print_step "🍎 macOS/Linux system detected"
             brew install doppler
