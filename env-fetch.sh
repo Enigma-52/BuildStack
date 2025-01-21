@@ -11,45 +11,122 @@ NC='\033[0m' # No Color
 # Config file to store tokens
 TOKEN_CONFIG=".doppler-tokens.conf"
 
-# Progress indicator function
-show_progress() {
-    local duration=0.1
-    local width=20
-    local progress=0
-    while [ $progress -le 100 ]; do
-        echo -ne "\r[${YELLOW}"
-        local current=$((${width} * ${progress} / 100))
-        for ((i = 0; i < current; i++)); do echo -n "▇"; done
-        for ((i = current; i < width; i++)); do echo -n " "; done
-        echo -n "${NC}] ${progress}%"
-        progress=$((progress + 5))
-        sleep $duration
+# Progress tracking variables
+TOTAL_STEPS=0
+CURRENT_STEP=0
+LAST_LINE_COUNT=0
+MESSAGE_BUFFER=""
+
+# Terminal handling
+clear_lines() {
+    local lines=$1
+    for ((i=0; i<lines; i++)); do
+        tput cuu1   # Move cursor up
+        tput el     # Clear line
     done
-    echo
 }
 
-# Enhanced echo functions
+# Save initial cursor position
+save_initial_position() {
+    tput sc
+}
+
+# Restore to initial cursor position
+restore_initial_position() {
+    tput rc
+    tput ed
+}
+
+# Calculate number of lines a message will take
+count_lines() {
+    local text="$1"
+    echo "$text" | wc -l
+}
+
+# Print message and maintain progress bar
+print_message() {
+    local message="$1"
+    local force_update="${2:-false}"
+    
+    # Add message to buffer
+    MESSAGE_BUFFER="${MESSAGE_BUFFER}${message}\n"
+    
+    # Only redraw if forced or if it's been a while since last update
+    if [[ "$force_update" == "true" ]]; then
+        redraw_screen
+    fi
+}
+
+# Redraw entire screen content
+redraw_screen() {
+    restore_initial_position
+    
+    # Print all buffered messages
+    echo -en "${MESSAGE_BUFFER}"
+    
+    # Draw progress bar at bottom
+    draw_progress_bar
+}
+
+# Initialize progress tracking
+init_progress() {
+    TOTAL_STEPS=$1
+    CURRENT_STEP=0
+    save_initial_position
+    draw_progress_bar
+}
+
+# Draw the progress bar
+draw_progress_bar() {
+    local progress=$((CURRENT_STEP * 100 / TOTAL_STEPS))
+    local width=50
+    local current=$((width * progress / 100))
+    
+    # Create progress bar string
+    local bar="["
+    for ((i = 0; i < current; i++)); do bar+="▇"; done
+    for ((i = current; i < width; i++)); do bar+=" "; done
+    bar+="]"
+    
+    # Add percentage and status
+    local status="${progress}% Complete"
+    if [ $progress -eq 100 ]; then
+        status+=" ✨"
+    fi
+    
+    # Print the bar with proper formatting
+    echo -e "\n${YELLOW}${bar}${NC} ${status}"
+}
+
+# Update progress and redraw
+update_progress() {
+    CURRENT_STEP=$((CURRENT_STEP + 1))
+    redraw_screen
+}
+
+# Enhanced echo functions with proper progress bar handling
 print_step() {
-    echo -e "\n${BLUE}${BOLD}$1${NC}"
+    print_message "\n${BLUE}${BOLD}$1${NC}" true
 }
 
 print_success() {
-    echo -e "${GREEN}✓ $1${NC}"
+    print_message "${GREEN}✓ $1${NC}" true
 }
 
 print_error() {
-    echo -e "${RED}✗ $1${NC}"
+    print_message "${RED}✗ $1${NC}" true
+}
+
+print_warning() {
+    print_message "${YELLOW}! $1${NC}" true
 }
 
 # Function to save token
 save_token() {
     local config=$1
     local token=$2
-    # Create config file if it doesn't exist
     touch "$TOKEN_CONFIG"
-    # Remove existing entry if it exists
     sed -i.bak "/^${config}=/d" "$TOKEN_CONFIG"
-    # Add new token
     echo "${config}=${token}" >> "$TOKEN_CONFIG"
     rm -f "${TOKEN_CONFIG}.bak"
     print_success "Token saved for future use"
@@ -78,6 +155,7 @@ install_doppler() {
     else
         print_success "Doppler CLI already installed"
     fi
+    update_progress
 }
 
 # Function to handle environment setup
@@ -97,9 +175,11 @@ setup_environment() {
         print_success "Using saved token for ${config}"
         token=$saved_token
     else
-        echo -e "${YELLOW}Enter token for ${config}:${NC}"
-        read token  
-        echo -e "${YELLOW}Saving token for future use...${NC}"
+        print_warning "Token required for ${config}"
+        echo -ne "${YELLOW}Enter token:${NC} "
+        read -s token
+        echo  # Add newline after silent read
+        print_message "${YELLOW}Token saved for future use...${NC}"
         save_token "$config" "$token"
     fi
     
@@ -108,44 +188,62 @@ setup_environment() {
         file_name="$dir/.env.test"
     fi
     
-    # Create directory if it doesn't exist
-    mkdir -p "$(dirname "$file_name")"
+    print_message "\n${BOLD}Configuring token...${NC}"
+    doppler configure set token "$token" --scope ./
     
-    # Proceed with environment setup regardless of file existence
-        echo -e "\n${BOLD}Configuring token...${NC}"
-        doppler configure set token "$token" --scope ./
-        show_progress
-        
-        print_step "Downloading environment variables..."
-        doppler secrets download --project buildstack --config "$config" --format env --no-file > "$file_name"
-        show_progress
-        
-        print_success "✨ ${env_name} environment setup complete!"
+    print_step "Downloading secrets for ${env_name}..."
+    if ! doppler secrets download --project buildstack --config "$config" --format env --no-file > "$file_name"; then
+        print_error "Failed to download secrets for ${env_name}"
+        return 1
+    fi
+    
+    print_success "✨ ${env_name} environment setup complete!"
+    update_progress
 }
 
-# Fancy banner
+# Clear screen and show banner
+clear
 echo -e "${BLUE}${BOLD}"
-echo "╔══════════════════════════════════════════╗"
-echo "║     🌟 Doppler Environment Fetcher 🌟    ║"
-echo "╚══════════════════════════════════════════╝${NC}"
+MESSAGE_BUFFER+="╔══════════════════════════════════════════╗\n"
+MESSAGE_BUFFER+="║     🌟 Doppler Environment Fetcher 🌟    ║\n"
+MESSAGE_BUFFER+="╚══════════════════════════════════════════╝${NC}\n"
+
+# Define environments
+declare -a environments=(
+    "Product Service:dev_product_env:./backend/microservices/product-service/functions:dev"
+    "User Service:dev_user_env:./backend/microservices/user-service/functions:dev"
+    "Frontend:dev_frontend_env:./frontend:dev"
+    "RabbitMQ:dev_rabbitmq_env:./backend/microservices/rabbitmq-service/functions:dev"
+    "Product Service Tests:dev_test_env:./backend/microservices/user-service/functions:test"
+    "User Service Tests:dev_test_env:./backend/microservices/product-service/functions:test"
+)
+
+# Calculate total steps (Doppler install + environments)
+TOTAL_TASKS=$((${#environments[@]} + 1))
+
+# Initialize progress with total number of tasks
+init_progress $TOTAL_TASKS
 
 # Install Doppler if needed
 install_doppler
 
 # Setup each environment
-setup_environment "Product Service" "dev_product_env" "./backend/microservices/product-service/functions" dev
-setup_environment "User Service" "dev_user_env" "./backend/microservices/user-service/functions" dev
-setup_environment "Frontend" "dev_frontend_env" "./frontend" dev
-setup_environment "RabbitMQ" "dev_rabbitmq_env" "./backend/microservices/rabbitmq-service/functions" dev
-setup_environment "Product Service Tests" "dev_test_env" "./backend/microservices/user-service/functions" test
-setup_environment "User Service Tests" "dev_test_env" "./backend/microservices/product-service/functions" test
+for env in "${environments[@]}"; do
+    IFS=':' read -r name config dir type <<< "$env"
+    setup_environment "$name" "$config" "$dir" "$type" || {
+        print_error "Failed to setup ${name}. Continuing with remaining environments..."
+        update_progress
+        continue
+    }
+done
 
 # Final summary
-echo -e "\n${GREEN}${BOLD}🎉 All environments have been successfully configured!${NC}"
-echo -e "\n${BOLD}📁 Environment files location:${NC}"
-echo -e "${BLUE}• Product Service:  ${NC}packages/product/.env"
-echo -e "${BLUE}• User Service: ${NC}packages/frontend/.env"
-echo -e "${BLUE}• Frontend: ${NC}packages/frontend/.env"
-echo -e "${BLUE}• RabbitMQ: ${NC}packages/rabbitmq/.env"
+print_message "\n${GREEN}${BOLD}🎉 All environments have been successfully configured!${NC}"
+print_message "\n${BOLD}📁 Environment files location:${NC}"
+print_message "${BLUE}• Product Service:  ${NC}packages/product/.env"
+print_message "${BLUE}• User Service: ${NC}packages/frontend/.env"
+print_message "${BLUE}• Frontend: ${NC}packages/frontend/.env"
+print_message "${BLUE}• RabbitMQ: ${NC}packages/rabbitmq/.env"
 
-echo -e "\n${YELLOW}${BOLD}Don't forget to add your .env files and ${TOKEN_CONFIG} to your .gitignore!${NC}"
+print_message "\n${YELLOW}${BOLD}Don't forget to add your .env files and ${TOKEN_CONFIG} to your .gitignore!${NC}"
+redraw_screen
