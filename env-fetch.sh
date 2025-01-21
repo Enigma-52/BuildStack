@@ -108,16 +108,19 @@ setup_environment() {
         file_name="$dir/.env.test"
     fi
     
-    if [ -f "$output_file" ]; then
-    echo -e "\n${BOLD}Configuring token...${NC}"
-    doppler configure set token "$token" --scope ./
-    show_progress
+    # Create directory if it doesn't exist
+    mkdir -p "$(dirname "$file_name")"
     
-    print_step "Downloading environment variables..."
-    doppler secrets download --project buildstack --config "$config" --format env --no-file > "$file_name"
-    show_progress
-    
-    print_success "✨ ${env_name} environment setup complete!"
+    # Proceed with environment setup regardless of file existence
+        echo -e "\n${BOLD}Configuring token...${NC}"
+        doppler configure set token "$token" --scope ./
+        show_progress
+        
+        print_step "Downloading environment variables..."
+        doppler secrets download --project buildstack --config "$config" --format env --no-file > "$file_name"
+        show_progress
+        
+        print_success "✨ ${env_name} environment setup complete!"
 }
 
 # Fancy banner
@@ -136,7 +139,6 @@ setup_environment "Frontend" "dev_frontend_env" "./frontend" dev
 setup_environment "RabbitMQ" "dev_rabbitmq_env" "./backend/microservices/rabbitmq-service/functions" dev
 setup_environment "Product Service Tests" "dev_test_env" "./backend/microservices/user-service/functions" test
 setup_environment "User Service Tests" "dev_test_env" "./backend/microservices/product-service/functions" test
-
 
 # Final summary
 echo -e "\n${GREEN}${BOLD}🎉 All environments have been successfully configured!${NC}"
