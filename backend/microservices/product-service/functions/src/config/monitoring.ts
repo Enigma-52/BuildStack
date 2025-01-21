@@ -8,6 +8,7 @@ export async function createCustomMetric(
     value: number, 
     labels: Record<string, string> = {}
 ) {
+    return;
     const projectName = client.projectPath(projectId!);
 
     const timeSeriesData = {

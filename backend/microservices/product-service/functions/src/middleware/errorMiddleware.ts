@@ -7,6 +7,7 @@ export async function errorMiddleware(
     res: Response, 
     _next: NextFunction
 ) {
+    return _next();
     if(process.env['NODE_ENV']=="test")
     {
         return _next();

@@ -66,12 +66,15 @@ const CategoriesPage = () => {
         }
         const result = await response.json();
         
-        if (result.success && Array.isArray(result.data)) {
-          setProducts(result.data);
+        let data;
+        if (Array.isArray(result)) {
+          data = result;
+        } else if (result && Array.isArray(result.data)) {
+          data = result.data;
         } else {
-          setProducts([]);
-          console.error('Invalid data format received:', result);
+          throw new Error('Invalid data format received from API');
         }
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
         setError(error.message);
