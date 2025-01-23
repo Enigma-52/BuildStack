@@ -25,9 +25,7 @@ const connectMongoDB = async () => {
   }
 };
 
-// Initialize connection
-// Make this export so we can properly test it
-export const initMongoDB = () => connectMongoDB();
+connectMongoDB();
 
 // Auth Log Schema remains the same...
 const authLogSchema = new mongoose.Schema({
