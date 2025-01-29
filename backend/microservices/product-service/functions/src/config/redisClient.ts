@@ -1,7 +1,6 @@
 import { createClient, RedisClientType } from 'redis';
 import { createCustomMetric } from './monitoring.js';
 
-
 let client: RedisClientType | null = null;
 
 export const getRedisClient = (): RedisClientType => {
@@ -14,7 +13,6 @@ export const getRedisClient = (): RedisClientType => {
                 port: 16703
             }
         });
-
         client.on('error', (err: Error) => console.log('Redis Client Error', err));
     }
     return client;

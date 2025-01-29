@@ -61,6 +61,7 @@ model Product {
     isApproved     Boolean?     @default(false)
     comments       Comment[] // Replace Json comments with relation
     reports        Report[] // Add reports relation
+    isFeatured     Boolean?     @default(false)
 }
 
 model Image {
